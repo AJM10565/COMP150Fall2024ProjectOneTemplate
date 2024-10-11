@@ -32,13 +32,39 @@ class Character:
         self.name = name
         self.strength = Statistic("Strength", description="Strength is a measure of physical power.")
         self.intelligence = Statistic("Intelligence", description="Intelligence is a measure of cognitive ability.")
+        self.glamour_points = 0  #initialize glamour points to zero 
         # Add more stats as needed
 
     def __str__(self):
         return f"Character: {self.name}, Strength: {self.strength}, Intelligence: {self.intelligence}"
 
     def get_stats(self):
-        return [self.strength, self.intelligence]  # Extend this list if there are more stats
+        return [self.strength, self.intelligence, self.glamour_points]  # Extend this list if there are more stats
+    
+    def collect_glamour_points(self, amount: int):
+        """Increase Barbies Glamour Points."""
+        self.glamour_points += amount
+        print(f"{self.name} collected {amount} Glamour Points. Total Glamour Points: {self.glamour_points}")
+
+class Enemy:
+    def __init__(self, name: str, health: int = 100, strength: int = 10):
+        self.name = name 
+        self.health = Statistic("Health", health, description="Enemy's health", min_value=0, max_value=100)
+        self.strength = Statistic("Strength", strength, description="Enemy's Strength")
+    
+    def __str__(self):
+        return f"Enemy: {self.name}, Health: {self.health}, Strength: {self.strength}"
+    
+    def take_damage(self, damage: int):
+        """Enemy takes damage and decreases health"""
+        self.health.modify(-damage)
+        if self.health.value <= 0:
+            print(f"{self.name} has been defeated!")
+    
+    def attack(self, target):
+        """Enemy attacks a target (character). """
+        print(f"{self.name} attacks {target.name} for {self.strength.value} damage!")
+        target.take_damage(self.strength.value)
 
 
 class Event:
