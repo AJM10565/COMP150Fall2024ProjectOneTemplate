@@ -30,8 +30,9 @@ class Statistic:
 class Character:
     def __init__(self, name: str = "Bob"):
         self.name = name
+        self.health = Statistic("Health", 100, description="Tracks remaining health", min_value=0, max_value=100)
         self.strength = Statistic("Strength", description="Strength is a measure of physical power.")
-        self.intelligence = Statistic("Intelligence", description="Intelligence is a measure of cognitive ability.")
+        self.intelligence = Statistic("Intelligence", description="Barbie's sparkling genius!")
         self.glamour_points = 0  #initialize glamour points to zero 
         # Add more stats as needed
 
@@ -44,7 +45,21 @@ class Character:
     def collect_glamour_points(self, amount: int):
         """Increase Barbies Glamour Points."""
         self.glamour_points += amount
-        print(f"{self.name} collected {amount} Glamour Points. Total Glamour Points: {self.glamour_points}")
+        print(f"{self.name} just had a total glamour boost! They collected {amount} Glamour Points. Total Glamour Points: {self.glamour_points}")
+
+# rushi 10/11
+    def take_damage(self, damage: int):
+        self.health.modify(-damage)
+        print(f"Oh no!💔 {self.name} took {damage} damage. Remaining health: {self.health.value}")
+        if self.health.value <= 0:
+            print(f"{self.name} has been totes defeated! Time for a relaxing day to recover...")
+# rushi 10/11
+    def check_stats(self):
+        print(f"Stats for {self.name}:")
+        print(f"Health: {self.health.value}")
+        print(f"Strength: {self.strength.value}")
+        print(f"Intelligence: {self.intelligence.value}")
+        print(f"Glamour Points: {self.glamour_points}")
 
 class Enemy:
     def __init__(self, name: str, health: int = 100, strength: int = 10):
@@ -109,14 +124,40 @@ class Game:
         self.party = characters
         self.locations = locations
         self.continue_playing = True
-
+# rushi 10/11
     def start(self):
         while self.continue_playing:
-            location = random.choice(self.locations)
-            event = location.get_event()
-            event.execute(self.party, self.parser)
-            if self.check_game_over():
+            print("🎉 Welcome to Barbie's Adventure! 🎉")
+            print("What would you like to do?")
+            print("1. Check Player Stats")
+            print("2. Gain Glamour Points ✨")
+            print("3. Simulate a Fight")
+            print("4. Exit Game 😔")
+
+            choice = int(input("Enter your number!: "))
+
+            if choice == 1:
+                for character in self.party:
+                    character.check_stats()
+            elif choice == 2:
+                amount = int(input("Enter the amount of glamour points to gain: "))
+                for character in self.party:
+                    character.gain_glamour(amount)
+            elif choice == 3:
+                enemy = Enemy(name="Glamazon", health=80, strength=15)
+                print(f" {enemy.name} appeared! 🌟")
+                damage = enemy.strength.value
+                for character in self.party:
+                    character.take_damage(damage)
+                    if character.health.value <= 0:
+                        print(f"{character.name} lost all of their sparkle! 🚫")
+                print("The battle has ended!")
+            elif choice == 4:
+                # Exit game
+                print("Thanks for playing! 💖 See you next time!")
                 self.continue_playing = False
+            else:
+                print("That's not quite right. Please try again.")
         print("Game Over.")
 
     def check_game_over(self):
