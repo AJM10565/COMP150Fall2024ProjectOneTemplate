@@ -41,7 +41,7 @@ class Character:
 
     def get_stats(self):
         return [self.strength, self.intelligence, self.glamour_points]  # Extend this list if there are more stats
-    
+    #dalila 10/11
     def gain_glamour(self, amount: int):
         """Increase Barbies Glamour Points."""
         self.glamour_points += amount
@@ -60,7 +60,7 @@ class Character:
         print(f"Strength: {self.strength.value}")
         print(f"Intelligence: {self.intelligence.value}")
         print(f"Glamour Points: {self.glamour_points}")
-
+#dalila 10/11
 class Enemy:
     def __init__(self, name: str, health: int = 100, strength: int = 10):
         self.name = name 
