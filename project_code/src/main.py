@@ -42,7 +42,7 @@ class Character:
     def get_stats(self):
         return [self.strength, self.intelligence, self.glamour_points]  # Extend this list if there are more stats
     
-    def collect_glamour_points(self, amount: int):
+    def gain_glamour(self, amount: int):
         """Increase Barbies Glamour Points."""
         self.glamour_points += amount
         print(f"{self.name} just had a total glamour boost! They collected {amount} Glamour Points. Total Glamour Points: {self.glamour_points}")
@@ -124,8 +124,19 @@ class Game:
         self.party = characters
         self.locations = locations
         self.continue_playing = True
-# rushi 10/11
-    def start(self):
+
+    def get_valid_input(self, prompt: str, valid_choices: List[int]) -> int: #rushi 10/12
+        while True:
+            try:
+                choice = int(input(prompt))
+                if choice in valid_choices:
+                    return choice
+                else:
+                    print(f"Pretty please, enter a valid choice: {valid_choices}")
+            except ValueError:
+                print("Not quite right! Please enter a number. ♡ ")
+
+    def start(self): # rushi 10/11
         while self.continue_playing:
             print("🎉 Welcome to Barbie's Adventure! 🎉")
             print("What would you like to do?")
@@ -133,16 +144,18 @@ class Game:
             print("2. Gain Glamour Points ✨")
             print("3. Simulate a Fight")
             print("4. Exit Game 😔")
-
-            choice = int(input("Enter your number!: "))
+            # add manage inventory option number 5 right here
+            choice = self.get_valid_input("Enter your number!: ", [1, 2, 3, 4, 5])
 
             if choice == 1:
                 for character in self.party:
                     character.check_stats()
+
             elif choice == 2:
                 amount = int(input("Enter the amount of glamour points to gain: "))
                 for character in self.party:
                     character.gain_glamour(amount)
+
             elif choice == 3:
                 enemy = Enemy(name="Glamazon", health=80, strength=15)
                 print(f" {enemy.name} appeared! 🌟")
@@ -152,6 +165,7 @@ class Game:
                     if character.health.value <= 0:
                         print(f"{character.name} lost all of their sparkle! 🚫")
                 print("The battle has ended!")
+                
             elif choice == 4:
                 # Exit game
                 print("Thanks for playing! 💖 See you next time!")
