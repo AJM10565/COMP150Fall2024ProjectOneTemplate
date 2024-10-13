@@ -26,6 +26,22 @@ class Statistic:
     def modify(self, amount: int):
         self.value = max(self.min_value, min(self.max_value, self.value + amount))
 
+class Item: # rushi 10/13
+    def __init__(self, name: str, item_type: str, effect: str, effect_value: int):
+        self.name = name
+        self.item_type = item_type
+        self.effect = effect
+        self.effect_value = effect_value
+
+    def describe(self):
+        return f"{self.name} ({self.item_type}): {self.effect} by {self.effect_value}!" # gives the item's name, type, and what effect it has
+
+    def use(self, character):
+        if self.effect == "increase_glamour":
+            character.gain_glamour(self.effect_value)
+        elif self.effect == "heal": # how much health the item restores
+            character.health.modify(self.effect_value)
+            print(f"Bandage! ❤️‍🩹 {character.name} healed for {self.effect_value} health points!")
 
 class Character:
     def __init__(self, name: str = "Bob"):
@@ -34,7 +50,7 @@ class Character:
         self.strength = Statistic("Strength", description="Strength is a measure of physical power.")
         self.intelligence = Statistic("Intelligence", description="Barbie's sparkling genius!")
         self.glamour_points = 0  #initialize glamour points to zero 
-        # Add more stats as needed
+        self.inventory = []
 
     def __str__(self):
         return f"Character: {self.name}, Strength: {self.strength}, Intelligence: {self.intelligence}"
@@ -52,7 +68,7 @@ class Character:
         self.health.modify(-damage)
         print(f"Oh no!💔 {self.name} took {damage} damage. Remaining health: {self.health.value}")
         if self.health.value <= 0:
-            print(f"{self.name} has been totes defeated! Time for a relaxing day to recover...")
+            print(f"{self.name} has totes been defeated! Time for a relaxing day to recover...")
 # rushi 10/11
     def check_stats(self):
         print(f"Stats for {self.name}:")
@@ -60,6 +76,20 @@ class Character:
         print(f"Strength: {self.strength.value}")
         print(f"Intelligence: {self.intelligence.value}")
         print(f"Glamour Points: {self.glamour_points}")
+# rushi 10/13
+    def add_item(self, item: Item):
+        self.inventory.append(item)
+        print(f"{self.name} acquired {item.name}!")
+# rushi 10/13
+    def use_item(self, item_name: str):
+        for item in self.inventory:
+            if item.name == item_name:
+                item.use(self)
+                self.inventory.remove(item)
+                print(f"{self.name} used {item.name}.")
+                return
+        print(f"{item_name} not found in their purse!")
+
 #dalila 10/11
 class Enemy:
     def __init__(self, name: str, health: int = 100, strength: int = 10):
@@ -71,13 +101,11 @@ class Enemy:
         return f"Enemy: {self.name}, Health: {self.health}, Strength: {self.strength}"
     
     def take_damage(self, damage: int):
-        """Enemy takes damage and decreases health"""
         self.health.modify(-damage)
         if self.health.value <= 0:
             print(f"{self.name} has been defeated!")
     
     def attack(self, target):
-        """Enemy attacks a target (character). """
         print(f"{self.name} attacks {target.name} for {self.strength.value} damage!")
         target.take_damage(self.strength.value)
 
@@ -136,7 +164,21 @@ class Game:
             except ValueError:
                 print("Not quite right! Please enter a number. ♡ ")
 
-    def start(self): # rushi 10/11
+    def start(self):
+        items = [ # rushi 10/13
+            Item(name="Glitter Heels", item_type="Accessory", effect="increase_glamour", effect_value=10),
+            Item(name="Magic Wand", item_type="Weapon", effect="increase_intelligence", effect_value=15),
+            Item(name="Glamourous Tiara", item_type="Accessory", effect="increase_glamour", effect_value=15),
+            Item(name="Beauty Potion", item_type="Consumable", effect="heal", effect_value=30),
+            Item(name="Fabulous Sunglasses", item_type="Accessory", effect="increase_charm", effect_value=7),
+            Item(name="Dreamy Backpack", item_type="Accessory", effect="increase_inventory_space", effect_value=3),
+            Item(name="Powerful Perfume", item_type="Consumable", effect="increase_glamour", effect_value=12),
+            Item(name="Fashion Magazine", item_type="Item", effect="increase_intelligence", effect_value=8),
+        ]
+
+        for item in items:
+            self.party[0].add_item(item)
+        # rushi 10/11
         while self.continue_playing:
             print("🎉 Welcome to Barbie's Adventure! 🎉")
             print("What would you like to do?")
