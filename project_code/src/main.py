@@ -42,6 +42,33 @@ class Item: # rushi 10/13
         elif self.effect == "heal": # how much health the item restores
             character.health.modify(self.effect_value)
             print(f"Bandage! ❤️‍🩹 {character.name} healed for {self.effect_value} health points!")
+#Dalila 10/14
+class Inventory:
+    def __init__(self):
+        self.items = []
+
+    def add_item(self, item: Item):
+        """Add an item to the inventory"""
+        self.items.append(item)
+        print (f"{item.name} has been added to your inventory.")
+    
+    def remove_item(self, item_name: str):
+        """Remove an item from the inventory by name."""
+        for item in self.items:
+            if item.name == item_name:
+                self.items.remove(item)
+                print(f"{item_name} has been removed from your inventory.")
+                return
+        print(f"{item_name} not found in your inventory!")
+
+    def show_inventory(self):
+        """Display all items in the inventory with descriptions."""
+        if not self.items:
+            print("Your inventory is empty!")
+        else:
+            print("Inventory contains the following items:")
+            for item in self.items:
+                print(f"- {item.describe()}")
 
 class Character:
     def __init__(self, name: str = "Bob"):
@@ -50,7 +77,7 @@ class Character:
         self.strength = Statistic("Strength", description="Strength is a measure of physical power.")
         self.intelligence = Statistic("Intelligence", description="Barbie's sparkling genius!")
         self.glamour_points = 0  #initialize glamour points to zero 
-        self.inventory = []
+        self.inventory = Inventory() #Dalila 10/14
 
     def __str__(self):
         return f"Character: {self.name}, Strength: {self.strength}, Intelligence: {self.intelligence}"
@@ -89,6 +116,13 @@ class Character:
                 print(f"{self.name} used {item.name}.")
                 return
         print(f"{item_name} not found in their purse!")
+#dalila 10/14
+    def remove_from_inventory(self, item_name: str):
+        """Remove an item from the player's inventory."""
+        self.inventory.remove_item(item_name)
+
+    def view_inventory(self):
+        """Display the player's inventory."""
 
 #dalila 10/11
 class Enemy:
