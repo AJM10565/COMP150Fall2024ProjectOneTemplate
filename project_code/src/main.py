@@ -48,9 +48,11 @@ class Inventory:
         self.items = []
 
     def add_item(self, item: Item):
-        """Add an item to the inventory"""
-        self.items.append(item)
-        print (f"{item.name} has been added to your inventory.")
+        if item in self.items: # rushi 10/14
+            print(f"{item.name} is already in your inventory! No duplicates allowed.")
+        else:
+            self.items.append(item)
+            print (f"{item.name} has been added to your inventory.")
     
     def remove_item(self, item_name: str):
         """Remove an item from the inventory by name."""
@@ -62,9 +64,8 @@ class Inventory:
         print(f"{item_name} not found in your inventory!")
 
     def show_inventory(self):
-        """Display all items in the inventory with descriptions."""
         if not self.items:
-            print("Your inventory is empty!")
+            print("Your inventory is empty! Fill it with some goodies! 💄")
         else:
             print("Inventory contains the following items:")
             for item in self.items:
@@ -118,7 +119,6 @@ class Character:
         print(f"{item_name} not found in their purse!")
 #dalila 10/14
     def remove_from_inventory(self, item_name: str):
-        """Remove an item from the player's inventory."""
         self.inventory.remove_item(item_name)
 
     def view_inventory(self):
@@ -142,6 +142,27 @@ class Enemy:
     def attack(self, target):
         print(f"{self.name} attacks {target.name} for {self.strength.value} damage!")
         target.take_damage(self.strength.value)
+
+    def basic_combat_test(): # rushi 10/14
+        print("Starting the fabulous face-off! \n")
+        barbie = Character(name="Barbie")
+        glamazon = Enemy(name="Glamazon", health=80, strength=15)
+        print(barbie)
+        print(glamazon)
+        print("\n--- Round 1: Enemy takes the first move! 💥 ---")
+        glamazon.attack(barbie)
+        barbie.check_stats()
+        print("\n--- Round 2: Barbie uses her glamour attack! ---")
+        barbie.gain_glamour(20) 
+        glamazon.take_damage(20)
+        print(glamazon)
+        if glamazon.health.value > 0:
+            print("\n--- Round 3: Enemy fights back! ⚔️ ---")
+            glamazon.attack(barbie)
+        print("\n--- Final Stats: Who wore the crown best? 👑 ---")
+        barbie.check_stats()
+        print(glamazon)
+    basic_combat_test()
 
 
 class Event:
