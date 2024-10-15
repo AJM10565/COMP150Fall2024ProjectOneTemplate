@@ -218,6 +218,45 @@ class Game:
         self.party = characters
         self.locations = locations
         self.continue_playing = True
+    
+    #dalila 10/15
+    def battle(self, player: Character, enemy: Enemy):
+        print(f"{player.name} has encountered {enemy.name}!")
+
+        while player.health.value > 0 and enemy.health.value > 0: 
+            print(" /nWhat will you do? ")
+            print("1. Attack")
+            print("2. Use Item")
+            print("3. Run")
+            
+            choice = input("Enter your choice: ")
+
+            if choice == "1":
+               print(f"{player.name} attacks {enemy.name}!")
+               player.attack(enemy)
+               if  enemy.health.value <= 0:
+                   print(f"{enemy.name} has been defeated 🎉")
+                   break
+            
+            elif choice == "2":
+                player.view.inventory()
+                item_name = input("Enter the name of the item to use: ")
+                player.use_item(item_name)
+
+            elif choice == "3":
+                if random.random > 0.5:
+                    print(f"{player.name} successfully ran away")
+                    break 
+                else:
+                    print(f"{player.name} failed to run away! ")
+            
+            if enemy.health.value > 0:
+                print(f"{enemy.name} strikes back!")
+                enemy.attack(player)
+
+            if player.health.value <= 0:
+                print(f"{player.name} has been defeated! 💔 Game Over.")
+
 
     def get_valid_input(self, prompt: str, valid_choices: List[int]) -> int: #rushi 10/12
         while True:
@@ -286,6 +325,8 @@ class Game:
         print("An enemy approaches! 🌟")
         chosen_enemy = self.parser.select_enemy(enemies)
         print(f"You chose to fight {chosen_enemy.name}! 💥")
+
+        self.battle(self.party[0], chosen_enemy)
 
         for character in self.party:
             print(f"{character.name} attacks {chosen_enemy.name}!")
