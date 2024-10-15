@@ -122,7 +122,11 @@ class Character:
         self.inventory.remove_item(item_name)
 
     def view_inventory(self):
-        """Display the player's inventory."""
+        self.inventory.show_inventory() # rushi 10/15  
+        # rushi 10/15
+    def attack(self, target):
+        print(f"{self.name} attacks {target.name} for {self.strength.value} damage!")
+        target.take_damage(self.strength.value)
 
 #dalila 10/11
 class Enemy:
@@ -145,23 +149,30 @@ class Enemy:
 
     def basic_combat_test(): # rushi 10/14
         print("Starting the fabulous face-off! \n")
+
         barbie = Character(name="Barbie")
         glamazon = Enemy(name="Glamazon", health=80, strength=15)
+
         print(barbie)
         print(glamazon)
+
         print("\n--- Round 1: Enemy takes the first move! 💥 ---")
         glamazon.attack(barbie)
         barbie.check_stats()
+
         print("\n--- Round 2: Barbie uses her glamour attack! ---")
         barbie.gain_glamour(20) 
         glamazon.take_damage(20)
         print(glamazon)
+
         if glamazon.health.value > 0:
             print("\n--- Round 3: Enemy fights back! ⚔️ ---")
             glamazon.attack(barbie)
+
         print("\n--- Final Stats: Who wore the crown best? 👑 ---")
         barbie.check_stats()
         print(glamazon)
+
     basic_combat_test()
 
 
@@ -242,7 +253,7 @@ class Game:
             print("3. Simulate a Fight")
             print("4. Exit Game 😔")
             # add manage inventory option number 5 right here
-            choice = self.get_valid_input("Enter your number!: ", [1, 2, 3, 4, 5])
+            choice = self.get_valid_input("Enter your number!: ", [1, 2, 3, 4])
 
             if choice == 1:
                 for character in self.party:
@@ -252,16 +263,9 @@ class Game:
                 amount = int(input("Enter the amount of glamour points to gain: "))
                 for character in self.party:
                     character.gain_glamour(amount)
-
+            # rushi 10/15
             elif choice == 3:
-                enemy = Enemy(name="Glamazon", health=80, strength=15)
-                print(f" {enemy.name} appeared! 🌟")
-                damage = enemy.strength.value
-                for character in self.party:
-                    character.take_damage(damage)
-                    if character.health.value <= 0:
-                        print(f"{character.name} lost all of their sparkle! 🚫")
-                print("The battle has ended!")
+                self.start_combat()
                 
             elif choice == 4:
                 # Exit game
@@ -271,6 +275,33 @@ class Game:
                 print("That's not quite right. Please try again.")
         print("Game Over.")
 
+    def start_combat(self): # rushi 10/15
+        enemies = [
+            Enemy(name="Glamazon", health=80, strength=15),
+            Enemy(name="Fashion Police", health=60, strength=10),
+            Enemy(name="Mean Girl", health=70, strength=12),
+            Enemy(name="Bad Hair Day", health=50, strength=8)
+        ]
+
+        print("An enemy approaches! 🌟")
+        chosen_enemy = self.parser.select_enemy(enemies)
+        print(f"You chose to fight {chosen_enemy.name}! 💥")
+
+        for character in self.party:
+            print(f"{character.name} attacks {chosen_enemy.name}!")
+            character.attack(chosen_enemy)
+            if chosen_enemy.health.value <= 0:
+                print(f"Victory! {chosen_enemy.name} has been defeated! 🎉")
+                return 
+
+            print(f"{chosen_enemy.name} fights back!")
+            chosen_enemy.attack(character)
+
+            if character.health.value <= 0:
+                print(f"{character.name} lost all their sparkle! 🚫")
+                return
+
+        print("The fight is over. Rest up, warrior!")
     def check_game_over(self):
         return len(self.party) == 0
 
@@ -293,6 +324,13 @@ class UserInputParser:
             print(f"{idx + 1}. {stat.name} ({stat.value})")
         choice = int(self.parse("Enter the number of the stat to use: ")) - 1
         return stats[choice]
+    # rushi 10/15
+    def select_enemy(self, enemies: List[Enemy]) -> Enemy:
+        print("Choose an enemy to fight:")
+        for idx, enemy in enumerate(enemies):
+            print(f"{idx + 1}. {enemy.name} (Health: {enemy.health.value}, Strength: {enemy.strength.value})")
+        choice = int(self.parse("Enter the number of the enemy: ")) - 1
+        return enemies[choice]
 
 
 def load_events_from_json(file_path: str) -> List[Event]:
