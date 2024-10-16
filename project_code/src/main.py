@@ -134,7 +134,15 @@ class Enemy:
         self.name = name 
         self.health = Statistic("Health", health, description="Enemy's health", min_value=0, max_value=100)
         self.strength = Statistic("Strength", strength, description="Enemy's Strength")
-    
+    #Dalila 10/16
+    def balance_combat(player: Character, enemy: Enemy):
+        if enemy.difficulty == 'easy':
+            player.strenth += 10
+            enemy.strength -= 5
+        elif enemy.difficulty == 'hard':
+            enemy.strength += 5
+            player.strength -= 5
+
     def __str__(self):
         return f"Enemy: {self.name}, Health: {self.health}, Strength: {self.strength}"
     
