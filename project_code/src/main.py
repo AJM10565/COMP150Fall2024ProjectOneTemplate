@@ -91,6 +91,7 @@ class Character:
         self.glamour_points += amount
         print(f"{self.name} just had a total glamour boost! They collected {amount} Glamour Points. Total Glamour Points: {self.glamour_points}")
 
+
 # rushi 10/11
     def take_damage(self, damage: int):
         self.health.modify(-damage)
@@ -106,14 +107,14 @@ class Character:
         print(f"Glamour Points: {self.glamour_points}")
 # rushi 10/13
     def add_item(self, item: Item):
-        self.inventory.append(item)
+        self.inventory.add_item(item)
         print(f"{self.name} acquired {item.name}!")
 # rushi 10/13
     def use_item(self, item_name: str):
-        for item in self.inventory:
+        for item in self.inventory.items:
             if item.name == item_name:
                 item.use(self)
-                self.inventory.remove(item)
+                self.inventory.remove_item(item)
                 print(f"{self.name} used {item.name}.")
                 return
         print(f"{item_name} not found in their purse!")
@@ -130,18 +131,20 @@ class Character:
 
 #dalila 10/11
 class Enemy:
-    def __init__(self, name: str, health: int = 100, strength: int = 10):
+    def __init__(self, name: str, health: int = 100, strength: int = 10, difficulty: str = "easy"):
         self.name = name 
         self.health = Statistic("Health", health, description="Enemy's health", min_value=0, max_value=100)
         self.strength = Statistic("Strength", strength, description="Enemy's Strength")
-    #Dalila 10/16
-    def balance_combat(player: Character, enemy: Enemy):
-        if enemy.difficulty == 'easy':
-            player.strenth += 10
-            enemy.strength -= 5
-        elif enemy.difficulty == 'hard':
-            enemy.strength += 5
-            player.strength -= 5
+        self.difficulty = difficulty
+
+    #Dalila 10/16 and rushi 10/16
+    def balance_combat(self, player: Character):
+        if self.difficulty == 'easy':
+            player.strength.modify(10)
+            self.strength.modify(-5)
+        elif self.difficulty == 'hard':
+            self.strength.modify(5)
+            player.strength.modify(-5)
 
     def __str__(self):
         return f"Enemy: {self.name}, Health: {self.health}, Strength: {self.strength}"
@@ -247,12 +250,12 @@ class Game:
                    break
             
             elif choice == "2":
-                player.view.inventory()
+                player.view_inventory() # rushi 10/16
                 item_name = input("Enter the name of the item to use: ")
                 player.use_item(item_name)
 
             elif choice == "3":
-                if random.random > 0.5:
+                if random.random() > 0.5:
                     print(f"{player.name} successfully ran away")
                     break 
                 else:
