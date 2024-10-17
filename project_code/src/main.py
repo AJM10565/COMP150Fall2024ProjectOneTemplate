@@ -34,6 +34,13 @@ class Character:
         self.intelligence = Statistic("Intelligence", description="Intelligence is a measure of cognitive ability.")
         # Add more stats as needed
 
+class jedi(Character):
+    def __init__(self, name: str):
+        super().__init__(name)
+        self.force_sensitivity = Statistic("Force Sensitivity", 60, description="Force Sensitivity is a measure of proficiency in force strength.")
+        self.mind_tricks = Statistic("Mind tricks", 60, description="Mind tricks is a measure of jedi mind control")
+        self.lightsaber_proficiency = Statistic("Lightsaber Proficiency", 80, description="Lightsaber proficiency is a measure of skill with a lightsaber")
+
     def __str__(self):
         return f"Character: {self.name}, Strength: {self.strength}, Intelligence: {self.intelligence}"
 
