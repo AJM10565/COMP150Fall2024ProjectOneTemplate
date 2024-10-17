@@ -33,6 +33,7 @@ class Character:
         self.strength = Statistic("Strength", description="Strength is a measure of physical power.")
         self.intelligence = Statistic("Intelligence", description="Intelligence is a measure of cognitive ability.")
         # Add more stats as needed
+        #we added a new subclass and talked about our plan for the future in the ic
 
 class jedi(Character):
     def __init__(self, name: str):
