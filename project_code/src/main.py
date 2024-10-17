@@ -128,7 +128,7 @@ class Character:
     def attack(self, target):
         print(f"{self.name} attacks {target.name} for {self.strength.value} damage!")
         target.take_damage(self.strength.value)
-
+        
 #dalila 10/11
 class Enemy:
     def __init__(self, name: str, health: int = 100, strength: int = 10, difficulty: str = "easy"):
