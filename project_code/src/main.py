@@ -39,8 +39,33 @@ class jedi(Character):
     def __init__(self, name: str):
         super().__init__(name)
         self.force_sensitivity = Statistic("Force Sensitivity", 60, description="Force Sensitivity is a measure of proficiency in force strength.")
-        self.mind_tricks = Statistic("Mind tricks", 60, description="Mind tricks is a measure of jedi mind control")
-        self.lightsaber_proficiency = Statistic("Lightsaber Proficiency", 80, description="Lightsaber proficiency is a measure of skill with a lightsaber")
+        self.mind_tricks = Statistic("Mind tricks", 60, description="Mind tricks is a measure of jedi mind control.")
+        self.lightsaber_proficiency = Statistic("Lightsaber Proficiency", 80, description="Lightsaber proficiency is a measure of skill with a lightsaber.")
+        self.stats.extend([self.force_sensitivity, self.mind_tricks, self.lightsaber_proficiency])
+
+#added a bounty hunter subclass
+class BountyHunter(Character):
+    def __init__(self, name: str):
+        super().__init__(name)
+        self.dexterity = Statistic("Dexterity", 65, description="Agility and precision.")
+        self.blaster_proficiency = Statistic("Blaster Proficiency", 70, description="Skill with ranged blaster weapons.")
+        self.piloting = Statistic("Piloting", 60, description="Skill in piloting ships and vehicles.")
+        self.stats.extend([self.dexterity, self.blaster_proficiency, self.piloting])
+
+
+class Droid(Character):
+    def __init__(self, name: str = "Bob"):
+        super().__init__(name)
+        self.processing = Statistic("Processing", 85, description="Ability to processess information effectively.")
+        self.hacking = Statistic("Hacking", 70, description="Ability to hack gateways and doors.")
+        self.stats.extend([self.processing, self.hacking])
+
+
+# Example of how to create and print these characters
+# jedi_character = Jedi(name="Obi-Wan Kenobi")
+# bounty_hunter_character = BountyHunter(name="Boba Fett")
+
+
 
     def __str__(self):
         return f"Character: {self.name}, Strength: {self.strength}, Intelligence: {self.intelligence}"
