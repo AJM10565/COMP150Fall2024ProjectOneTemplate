@@ -79,6 +79,9 @@ class Character:
         self.intelligence = Statistic("Intelligence", description="Barbie's sparkling genius!")
         self.glamour_points = 0  #initialize glamour points to zero 
         self.inventory = Inventory() #Dalila 10/14
+        self.active_quests = []  # Track ongoing quests
+        self.completed_quests = []  # Track completed quests
+
 
     def __str__(self):
         return f"Character: {self.name}, Strength: {self.strength}, Intelligence: {self.intelligence}"
@@ -90,7 +93,6 @@ class Character:
         """Increase Barbies Glamour Points."""
         self.glamour_points += amount
         print(f"{self.name} just had a total glamour boost! They collected {amount} Glamour Points. Total Glamour Points: {self.glamour_points}")
-
 
 # rushi 10/11
     def take_damage(self, damage: int):
@@ -128,6 +130,34 @@ class Character:
     def attack(self, target):
         print(f"{self.name} attacks {target.name} for {self.strength.value} damage!")
         target.take_damage(self.strength.value)
+    
+    def complete_quest(self, quest): # rushi 10/17
+        if quest in self.active_quests and not quest.is_completed:
+            quest.complete()
+            self.active_quests.remove(quest)
+            self.completed_quests.append(quest)
+
+            if isinstance(quest.rewards, int):  # Glamour points reward
+                self.gain_glamour(quest.rewards)
+            elif isinstance(quest.rewards, str):  # Item reward
+                self.inventory.add_item(Item(quest.rewards))
+
+    def view_active_quests(self): # rushi 10/17
+        """Display active quests."""
+        if self.active_quests:
+            print("Active Quests:")
+            for quest in self.active_quests:
+                print(quest)
+        else:
+            print("No active quests.")
+
+    def view_completed_quests(self): # rushi 10/17
+        if self.completed_quests:
+            print("Completed Quests:")
+            for quest in self.completed_quests:
+                print(quest)
+        else:
+            print("No completed quests.")
 
 #dalila 10/11
 class Enemy:
@@ -356,6 +386,21 @@ class Game:
         print("The fight is over. Rest up, warrior!")
     def check_game_over(self):
         return len(self.party) == 0
+
+class Quest: # rushi 10/17
+    def __init__(self, name, description, rewards):
+        self.name = name
+        self.description = description
+        self.rewards = rewards
+        self.is_completed = False
+
+    def complete(self):
+        """Mark the quest as completed."""
+        self.is_completed = True
+        print(f"Quest '{self.name}' completed! You earned: {self.rewards}")
+
+    def __str__(self):
+        return f"Quest: {self.name}\nDescription: {self.description}\nReward: {self.rewards}"
 
 
 class UserInputParser:
