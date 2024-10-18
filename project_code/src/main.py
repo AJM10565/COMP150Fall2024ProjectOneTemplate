@@ -20,6 +20,10 @@ class Statistic:
         self.min_value = min_value
         self.max_value = max_value
 
+
+    def __str__(self):
+        return f"{self.name}: {self.value}"  # Display the correct value here
+
     def __str__(self):
         return f"{self.name}: {self.value}"
 
@@ -28,11 +32,11 @@ class Statistic:
 
 
 class Character:
-    def __init__(self, name: str = "Bob"):
+    def __init__(self, name: str = "Bob", strength_value: int = 10, intelligence_value: int = 10):
         self.name = name
         self.stats = []
-        self.strength = Statistic("Strength", 10, description="Strength is a measure of physical power.")
-        self.intelligence = Statistic("Intelligence", 10 description="Intelligence is a measure of cognitive ability.")
+        self.strength = Statistic("Strength", description="Strength is a measure of physical power.")
+        self.intelligence = Statistic("Intelligence", description="Intelligence is a measure of cognitive ability.")
         self.stats.extend([self.strength, self.intelligence])
         # Add more stats as needed
         #we added a new subclass and talked about our plan for the future in the ic
@@ -43,7 +47,7 @@ class Character:
 #comment
 class jedi(Character):
     def __init__(self, name: str):
-        super().__init__(name)
+        super().__init__(name, strength_value=60, intelligence_value=80)
         self.force_sensitivity = Statistic("Force Sensitivity", 60, description="Force Sensitivity is a measure of proficiency in force strength.")
         self.mind_tricks = Statistic("Mind tricks", 60, description="Mind tricks is a measure of jedi mind control.")
         self.lightsaber_proficiency = Statistic("Lightsaber Proficiency", 80, description="Lightsaber proficiency is a measure of skill with a lightsaber.")
@@ -52,7 +56,7 @@ class jedi(Character):
 #added a bounty hunter subclass
 class BountyHunter(Character):
     def __init__(self, name: str):
-        super().__init__(name)
+        super().__init__(name, strength_value=50, intelligence_value=50)
         self.dexterity = Statistic("Dexterity", 65, description="Agility and precision.")
         self.blaster_proficiency = Statistic("Blaster Proficiency", 70, description="Skill with ranged blaster weapons.")
         self.piloting = Statistic("Piloting", 60, description="Skill in piloting ships and vehicles.")
@@ -61,7 +65,7 @@ class BountyHunter(Character):
 
 class Droid(Character):
     def __init__(self, name: str = "Bob"):
-        super().__init__(name)
+        super().__init__(name, strength_value=30, intelligence_value=80)
         self.processing = Statistic("Processing", 85, description="Ability to processess information effectively.")
         self.hacking = Statistic("Hacking", 70, description="Ability to hack gateways and doors.")
         self.stats.extend([self.processing, self.hacking])
