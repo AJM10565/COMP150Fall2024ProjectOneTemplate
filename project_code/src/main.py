@@ -159,6 +159,7 @@ class Character:
         else:
             print("No completed quests.")
 
+
 #dalila 10/11
 class Enemy:
     def __init__(self, name: str, health: int = 100, strength: int = 10, difficulty: str = "easy"):
@@ -258,7 +259,44 @@ class Game:
         self.parser = parser
         self.party = characters
         self.locations = locations
+
+        # rushi 10/18
+        self.npcs = [
+            NPC(name="Midge", dialogue="Hello, darling! Ready for a new adventure? 👭", quests=[], store_items=[]),
+            NPC(name="Mermaid", dialogue="Welcome to my underwater kingdom! 🧜‍♀️ Care to explore?", quests=[], store_items=[]),
+            NPC(name="Fairy Godmother", dialogue="I have some magical items for you! 🪄", quests=[], store_items=[]),
+        ]
+
         self.continue_playing = True
+
+    def interact_with_npc(self): # rushi 10/18
+        print("Who would you like to talk to?")
+        for idx, npc in enumerate(self.npcs):
+            print(f"{idx + 1}. {npc.name}")
+
+        choice = int(input("Enter the number of the NPC to talk to: ")) - 1
+        if 0 <= choice < len(self.npcs):
+            npc = self.npcs[choice]
+            npc.talk()
+
+        print("What would you like to do?")
+        print("1. Accept a quest")
+        print("2. Buy an item")
+        print("3. Leave")
+
+        action = input("Enter your choice: ")
+
+        if action == "1":
+            quest = npc.offer_quest()
+            if quest:
+                self.party[0].active_quests.append(quest)  # Assign quest to player
+        elif action == "2":
+            npc.sell_items(self.party[0])
+        elif action == "3":
+            print("You left the conversation.")
+        else:
+            print("Not quite right!")
+
     
     #dalila 10/15
     def battle(self, player: Character, enemy: Enemy):
@@ -286,7 +324,7 @@ class Game:
 
             elif choice == "3":
                 if random.random() > 0.5:
-                    print(f"{player.name} successfully ran away")
+                    print(f"{player.name} successfully ran away 🏃‍♀️")
                     break 
                 else:
                     print(f"{player.name} failed to run away! ")
@@ -332,7 +370,8 @@ class Game:
             print("2. Gain Glamour Points ✨")
             print("3. Simulate a Fight")
             print("4. Exit Game 😔")
-            # add manage inventory option number 5 right here
+            print("5. Manage Inventory 👜")            
+            
             choice = self.get_valid_input("Enter your number!: ", [1, 2, 3, 4])
 
             if choice == 1:
@@ -351,9 +390,37 @@ class Game:
                 # Exit game
                 print("Thanks for playing! 💖 See you next time!")
                 self.continue_playing = False
+
+            elif choice == 5: # rushi 10/18
+                self.manage_inventory()
+
             else:
                 print("That's not quite right. Please try again.")
         print("Game Over.")
+
+    def manage_inventory(self):
+        player = self.party[0]
+        while True:
+            print("\nInventory Management:")
+            player.view_inventory()
+
+            print("1. Use an item")
+            print("2. Remove an item")
+            print("3. Exit Inventory Management")
+
+            choice = self.get_valid_input("Enter your choice: ", [1, 2, 3])
+
+            if choice == 1:
+                item_name = input("Enter the name of the item to use: ")
+                player.use_item(item_name)
+
+            elif choice == 2:
+                item_name = input("Enter the name of the item to remove: ")
+                player.remove_from_inventory(item_name)
+
+            elif choice == 3:
+                print("Exiting inventory management.")
+                break
 
     def start_combat(self): # rushi 10/15
         enemies = [
@@ -395,12 +462,57 @@ class Quest: # rushi 10/17
         self.is_completed = False
 
     def complete(self):
-        """Mark the quest as completed."""
         self.is_completed = True
-        print(f"Quest '{self.name}' completed! You earned: {self.rewards}")
+        print(f"Quest '{self.name}' completed! ✩ You earned: {self.rewards}")
 
     def __str__(self):
         return f"Quest: {self.name}\nDescription: {self.description}\nReward: {self.rewards}"
+
+class NPC: # rushi 10/18
+    def __init__(self, name: str, dialogue: str, quests: List[Quest] = None, store_items: List[Item] = None):
+        self.name = name
+        self.dialogue = dialogue
+        self.quests = quests or []
+        self.store_items = store_items or []
+
+    def interact(self, player: Character):
+        print(f"{self.name}: {self.dialogue}")
+        print("1. Accept Quest")
+        print("2. Buy Items 🛒")
+        print("3. Leave")
+        
+        choice = input("What would you like to do? ")
+
+        if choice == "1":
+            self.offer_quest(player)
+        elif choice == "2":
+            self.sell_items(player)
+        else:
+            print(f"{self.name}: Come back anytime, darling! 👋")
+
+    def offer_quest(self, player: Character):
+        if self.quests:
+            print("Available Quests:")
+            for idx, quest in enumerate(self.quests):
+                print(f"{idx + 1}. {quest.name}: {quest.description}")
+            choice = int(input("Enter the number of the quest to accept: ")) - 1
+            selected_quest = self.quests.pop(choice)
+            player.active_quests.append(selected_quest)
+            print(f"{player.name} accepted the quest: {selected_quest.name}")
+        else:
+            print(f"{self.name}: Sorry, no quests available right now. 🤷‍♀️")
+
+    def sell_items(self, player: Character):
+        if self.store_items:
+            print("Items for Sale:")
+            for idx, item in enumerate(self.store_items):
+                print(f"{idx + 1}. {item.describe()}")
+            choice = int(input("Enter the number of the item to buy: ")) - 1
+            selected_item = self.store_items.pop(choice)
+            player.add_item(selected_item)
+            print(f"{player.name} bought {selected_item.name}.")
+        else:
+            print(f"{self.name}: Sorry, I'm all out of stock. 😔")
 
 
 class UserInputParser:
