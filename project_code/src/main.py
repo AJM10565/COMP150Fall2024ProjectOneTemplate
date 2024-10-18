@@ -128,7 +128,52 @@ class Character:
     def attack(self, target):
         print(f"{self.name} attacks {target.name} for {self.strength.value} damage!")
         target.take_damage(self.strength.value)
+
+    def accept_quest(self, quest: str):
+        print(f"{self.name} has accepted the quest: {quest}")
         
+class NPC:
+    def __init__(self, name: str, role: str):
+        self.name = name 
+        self.role = role 
+        self.inventory = Inventory() if self.role == "merchant" else None
+        self.quest = None 
+    
+    def offer_quest(self, quest: str):
+        if self.role == "quest_giver":
+            self.quest = quest
+            print(f"{self.name}: 'I have a quest for you: {self.quest}. Will you accept it' ")
+            return self.quest
+        else:
+            print(f"{self.name} doesn't give quests.")
+
+    def sell_items(self):
+        if self.role == "merchant":
+            print(f"{self.name} is selling the following items:")
+            self.inventory.show_inventory()
+        else:
+            print(f"{self.name} doesn't sell items.")
+        
+    def interact(self, player: Character):
+        print(f"{self.name}: 'Hi {player.name}, what would you like to do?'")
+        print("1. Talk")
+        if self.role == "merchant":
+            print("2. Buy Items")
+        if self.role == "quest_giver":
+            print("3. Accept quest")
+
+        choice = input("Enter your choice: ")
+
+        if choice == "1":
+            self.talk()
+        elif choice == "2" and self.role == "merchant":
+            self.sell_items
+        elif choice == "3" and self.role == "quest_giver":
+            quest = self.offer_quest("Defeat the Glamazon")    
+            player.accept_quest(quest)
+        else: 
+            print("Invalid Choice") 
+
 #dalila 10/11
 class Enemy:
     def __init__(self, name: str, health: int = 100, strength: int = 10, difficulty: str = "easy"):
