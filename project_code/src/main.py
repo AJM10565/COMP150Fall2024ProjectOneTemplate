@@ -72,9 +72,6 @@ class Droid(Character):
 
 
 
-
-
-
 class Event:
     def __init__(self, data: dict):
         self.primary_attribute = data['primary_attribute']
@@ -134,13 +131,30 @@ class Game:
 class UserInputParser:
     def parse(self, prompt: str) -> str:
         return input(prompt)
+    
+    def select_party_member(self,party: List[Character], num_options: int = 3) -> Character:
+        #selects a random subset of the party to display as options 
+        if len(party) <= num_options: 
+            displayed_party = party 
+        else: 
+            displayed_party = random.sample(party, num_options)
 
-    def select_party_member(self, party: List[Character]) -> Character:
+        #Displays options
         print("Choose a party member:")
-        for idx, member in enumerate(party):
+        for idx, member in enumerate(displayed_party):
             print(f"{idx + 1}. {member.name}")
+        
+        # Let the user choose from the displayed subset
         choice = int(self.parse("Enter the number of the chosen party member: ")) - 1
-        return party[choice]
+        return displayed_party[choice]
+
+
+    # def select_party_member(self, party: List[Character]) -> Character:
+    #     print("Choose a party member:")
+    #     for idx, member in enumerate(party):
+    #         print(f"{idx + 1}. {member.name}")
+    #     choice = int(self.parse("Enter the number of the chosen party member: ")) - 1
+    #     return party[choice]
 
     def select_stat(self, character: Character) -> Statistic:
         print(f"Choose a stat for {character.name}:")
@@ -166,6 +180,7 @@ def start_game():
         jedi("Obi-wan"),
         BountyHunter("Han Solo"),
         BountyHunter("Chewbacca"),
+        BountyHunter("Lando Calrissian"),
         Character("Princess Leia"),
         Droid("C3PO"),
         Droid("R2-D2"),
