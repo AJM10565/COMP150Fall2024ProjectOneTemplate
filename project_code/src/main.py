@@ -30,10 +30,15 @@ class Statistic:
 class Character:
     def __init__(self, name: str = "Bob"):
         self.name = name
+        self.stats = []
         self.strength = Statistic("Strength", description="Strength is a measure of physical power.")
         self.intelligence = Statistic("Intelligence", description="Intelligence is a measure of cognitive ability.")
+        self.stats.extend([self.strength, self.intelligence])
         # Add more stats as needed
         #we added a new subclass and talked about our plan for the future in the ic
+
+    def get_stats(self):
+        return self.stats
 
 class jedi(Character):
     def __init__(self, name: str):
@@ -158,7 +163,18 @@ def load_events_from_json(file_path: str) -> List[Event]:
 
 def start_game():
     parser = UserInputParser()
-    characters = [Character(f"Character_{i}") for i in range(3)]
+
+    #Creating a character list 
+    characters = [
+        jedi("Luke"),
+        jedi("Obi-wan"),
+        BountyHunter("Han Solo"),
+        BountyHunter("Chewbacca"),
+        Character("Princess Leia"),
+        Droid("C3PO"),
+        Droid("R2-D2"),
+        ]
+
 
     # Load events from the JSON file
     events = load_events_from_json('project_code/location_events/location_1.json')
