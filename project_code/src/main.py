@@ -43,7 +43,7 @@ class Character:
 
     def get_stats(self):
         return self.stats
-
+#another comment
 #comment
 class jedi(Character):
     def __init__(self, name: str):
