@@ -31,8 +31,8 @@ class Character:
     def __init__(self, name: str = "Bob"):
         self.name = name
         self.stats = []
-        self.strength = Statistic("Strength", description="Strength is a measure of physical power.")
-        self.intelligence = Statistic("Intelligence", description="Intelligence is a measure of cognitive ability.")
+        self.strength = Statistic("Strength", 10, description="Strength is a measure of physical power.")
+        self.intelligence = Statistic("Intelligence", 10 description="Intelligence is a measure of cognitive ability.")
         self.stats.extend([self.strength, self.intelligence])
         # Add more stats as needed
         #we added a new subclass and talked about our plan for the future in the ic
@@ -40,6 +40,7 @@ class Character:
     def get_stats(self):
         return self.stats
 
+#comment
 class jedi(Character):
     def __init__(self, name: str):
         super().__init__(name)
