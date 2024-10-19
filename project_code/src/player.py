@@ -34,3 +34,34 @@ class Player:
         print(f"Character: {self.character.name}")
         print(f"Level: {self.level}, XP: {self.xp}/{self.xp_to_next_level}")
         print(f"Health: {self.character.health}, Attack: {self.character.attack}, Defense: {self.character.defense}")
+
+# creating tests to verify that a player can gain points without leveling up
+import unittest
+
+class PlayerTest(unittest.TestCase):
+    
+    def setUp(self):
+        """Set up unit test with a player and a character."""
+        self.character = Character("Test Vampire", 100, 15, 10)
+        self.player = Player("Klaus", self.character)
+    
+    def test_gain_xp_no_level_up(self):
+        """Test gaining points without leveling up."""
+        self.player.gain_xp(30)
+        self.assertEqual(self.player.xp, 30)
+        self.assertEqual(self.player.level, 1)
+        self.assertEqual(self.player.character.health, 100)
+
+# test leveling up after gaining points
+    def test_gain_xp_and_level_up(self):
+        """Test gaining enough points to level up."""
+        self.player.gain_xp(65)
+        self.assertEqual(self.player.level, 2)  # should level up
+        self.assertEqual(self.player.xp, 0)  # points reset after level up
+        self.assertEqual(self.player.xp_to_next_level, 130)  # points required increases
+        self.assertEqual(self.player.character.health, 120)  # health increases
+        self.assertEqual(self.player.character.attack, 19)   # attack increases
+        self.assertEqual(self.player.character.defense, 14)  # defense increases
+
+test_gain_xp_no_level_up
+test_gain_xp_and_level_up
