@@ -217,6 +217,26 @@ class Enemy:
 
     basic_combat_test()
 
+class Raquelle(Enemy): # rushi 10/21
+    def __init__(self):
+        super().__init__(name="Raquelle", health=120, strength=20, difficulty="hard")
+        self.special_ability_used = False
+
+    def attack(self, target: Character):
+        if not self.special_ability_used and random.random() < 0.3:
+            self.use_special_ability(target)
+        else:
+            super().attack(target)
+
+    def use_special_ability(self, target: Character):
+        print(f"The {self.name} unleashes her Glamour Blast! 💥")
+        damage = 30
+        target.take_damage(damage)
+        print(f"{target.name} took {damage} damage from the Glamour Blast!")
+        self.special_ability_used = True
+
+    def __str__(self):
+        return f"{super().__str__()}, Special Ability: Glamour Blast (30 damage, used once)"
 
 class Event:
     def __init__(self, data: dict):
@@ -252,7 +272,6 @@ class Location:
 
     def get_event(self) -> Event:
         return random.choice(self.events)
-
 
 class Game:
     def __init__(self, parser, characters: List[Character], locations: List[Location]):
@@ -297,7 +316,11 @@ class Game:
         else:
             print("Not quite right!")
 
-    
+    def start_final_battle(self): # rushi 10/21
+        final_boss = Raquelle()
+        print("🎉 You've reached the final boss: Raquelle! 🎉")
+        self.battle(self.party[0], final_boss)
+
     #dalila 10/15
     def battle(self, player: Character, enemy: Enemy):
         print(f"{player.name} has encountered {enemy.name}!")
