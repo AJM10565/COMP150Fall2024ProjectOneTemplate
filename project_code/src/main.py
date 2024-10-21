@@ -40,7 +40,7 @@ class Character:
         self.stats.extend([self.strength, self.intelligence])
         # Add more stats as needed
         #we added a new subclass and talked about our plan for the future in the ic
-
+the
     def get_stats(self):
         return self.stats
 #another comment
