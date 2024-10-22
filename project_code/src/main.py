@@ -29,15 +29,79 @@ class Statistic:
 class Character:
     def __init__(self, name: str, health: int = 100, strength: int = 10):
         self.name = name
-        self.strength = Statistic("Strength", description="Strength is a measure of physical power.")
-        self.intelligence = Statistic("Intelligence", description="Intelligence is a measure of cognitive ability.")
-        # Add more stats as needed
+        self.health = health
+        self.strength = Statistic("Strength", value=strength, description="Strength is a measure of physical power.")
+        self.krabby_patties = 0
+        self.weapon = "None"
+
+    def collect_krabby_patties(self, amount: int):
+        self.krabby_patties += amount
+        print(f"{self.name} collected {amount} Krabby Patties! Total: {self.krabby_patties}")
+
+    def spend_krabby_patties(self, amount: int):
+        if self.krabby_patties >= amount:
+            self.krabby_patties -= amount
+            return True
+        else:
+            print(f"Not enough Krabby Patties! {self.name} has {self.krabby_patties}, but {amount} is needed.")
+            return False
 
     def __str__(self):
-        return f"Character: {self.name}, Strength: {self.strength}, Intelligence: {self.intelligence}"
+        return f"Character: {self.name}, Health: {self.health}, Strength: {self.strength}, Krabby Patties: {self.krabby_patties}, Weapon: {self.weapon}"
 
-    def get_stats(self):
-        return [self.strength, self.intelligence]  # Extend this list if there are more stats
+
+class WeaponShop:
+    def __init__(self):
+        self.weapons = {
+            "Spatula": 5,
+            "Karen": 10,
+            "Golden Spatula": 20
+        }
+
+    def display_weapons(self):
+        print("Weapons available for purchase:")
+        for weapon, cost in self.weapons.items():
+            print(f"{weapon}: {cost} Krabby Patties")
+
+    def purchase_weapon(self, character: Character):
+        self.display_weapons()
+        weapon_choice = input("Which weapon would you like to buy? ")
+        if weapon_choice in self.weapons:
+            cost = self.weapons[weapon_choice]
+            if character.spend_krabby_patties(cost):
+                character.weapon = weapon_choice
+                print(f"{character.name} purchased {weapon_choice}!")
+            else:
+                print("Transaction failed. Not enough Krabby Patties.")
+        else:
+            print("Invalid choice.")
+
+
+class UpgradeShop:
+    def __init__(self):
+        self.upgrades = {
+            "Strength Upgrade": 5,
+            "Health Upgrade": 5
+        }
+
+    def display_upgrades(self):
+        print("Upgrades available for purchase:")
+        for upgrade, cost in self.upgrades.items():
+            print(f"{upgrade}: {cost} Krabby Patties")
+
+    def purchase_upgrade(self, character: Character):
+        self.display_upgrades()
+        upgrade_choice = input("Which upgrade would you like to buy? ")
+        if upgrade_choice == "Strength Upgrade":
+            if character.spend_krabby_patties(self.upgrades[upgrade_choice]):
+                character.strength.modify(5)
+                print(f"{character.name}'s strength increased to {character.strength.value}!")
+        elif upgrade_choice == "Health Upgrade":
+            if character.spend_krabby_patties(self.upgrades[upgrade_choice]):
+                character.health += 10
+                print(f"{character.name}'s health increased to {character.health}!")
+        else:
+            print("Invalid choice.")
 
 
 class Event:
@@ -108,7 +172,55 @@ class Game:
                 self.ask_second_riddle()  # Proceed to a second riddle
             if self.check_game_over():
                 self.continue_playing = False
+        self.visit_shops()  # Allow player to visit shops before final boss
+        self.final_encounter()  # Fight Mr. Krabs after all events
         print("Game Over.")
+
+    def collect_krabby_patties(self):
+        for character in self.party:
+            amount = random.randint(1, 5)  # Randomly collect between 1 and 5 Krabby Patties
+            character.collect_krabby_patties(amount)
+
+    def ask_second_riddle(self):
+        second_riddle = {
+            "riddle_question": "What is always in front of you but can’t be seen?",
+            "riddle_options": [
+                "The future",
+                "A wall",
+                "Your nose"
+            ],
+            "correct_answer": 0  # First option is the correct answer
+        }
+        
+        print(second_riddle['riddle_question'])
+        user_choice = self.parser.select_riddle_option(second_riddle['riddle_options'])
+        
+        if second_riddle['riddle_options'].index(user_choice) == second_riddle['correct_answer']:
+            print("You solved the second riddle! You may proceed.")
+            self.correct_answers += 1  # Increment correct answer count
+            self.ask_third_riddle()  # Proceed to the third riddle
+        else:
+            print("Wrong answer! You cannot proceed.")
+
+    def ask_third_riddle(self):
+        third_riddle = {
+            "riddle_question": "I speak without a mouth and hear without ears. I have no body, but I come alive with the wind. What am I?",
+            "riddle_options": [
+                "An echo",
+                "A cloud",
+                "A shadow"
+            ],
+            "correct_answer": 0  # First option is the correct answer
+        }
+
+        print(third_riddle['riddle_question'])
+        user_choice = self.parser.select_riddle_option(third_riddle['riddle_options'])
+
+        if third_riddle['riddle_options'].index(user_choice) == third_riddle['correct_answer']:
+            print("You solved the third riddle! You may proceed.")
+            self.correct_answers += 1  # Increment correct answer count
+        else:
+            print("Wrong answer! You cannot proceed.")
 
     def check_game_over(self):
         return self.correct_answers >= 3  # End game after 3 correct answers
@@ -165,31 +277,33 @@ class Parser:
         return party[0]  # Simplified for now; could allow selection based on user input
 
     def select_stat(self, character: Character) -> Statistic:
-        print(f"Choose a stat for {character.name}:")
-        stats = character.get_stats()
-        for idx, stat in enumerate(stats):
-            print(f"{idx + 1}. {stat.name} ({stat.value})")
-        choice = int(self.parse("Enter the number of the stat to use: ")) - 1
-        return stats[choice]
+        return character.strength  # Simplified; could allow user to choose between stats
+
+    def select_riddle_option(self, options: List[str]) -> str:
+        print(f"Options: {', '.join(options)}")
+        return input("Choose your answer: ")
 
 
-def load_events_from_json(file_path: str) -> List[Event]:
-    with open(file_path, 'r') as file:
-        data = json.load(file)
-    return [Event(event_data) for event_data in data]
+def main():
+    parser = Parser()
 
+    # Example character setup
+    spongebob = Character(name="SpongeBob", health=100, strength=10)
 
-def start_game():
-    parser = UserInputParser()
-    characters = [Character(f"Character_{i}") for i in range(3)]
+    # Example location setup with events
+    location1 = Location(events=[
+        Event({
+            'primary_attribute': 'Strength',
+            'secondary_attribute': 'Agility',
+            'riddle_question': 'What has to be broken before you can use it?',
+            'riddle_options': ['Egg', 'Window', 'Lock'],
+            'correct_answer': 0
+        })
+    ])
 
-    # Load events from the JSON file
-    events = load_events_from_json('project_code/location_events/location_1.json')
-
-    locations = [Location(events)]
-    game = Game(parser, characters, locations)
+    game = Game(parser, [spongebob], [location1])
     game.start()
 
 
-if __name__ == '__main__':
-    start_game()
+if __name__ == "__main__":
+    main()
