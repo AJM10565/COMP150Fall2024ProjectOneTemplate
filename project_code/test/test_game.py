@@ -28,6 +28,8 @@ class TestStatistic(unittest.TestCase):
         self.strength.modify(-1000)
         self.assertEqual(self.strength.value, self.strength.min_value)
 
+
+
 class TestCharacter(unittest.TestCase):
 
     def setUp(self):
