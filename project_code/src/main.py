@@ -395,7 +395,7 @@ class Game:
             print("4. Exit Game 😔")
             print("5. Manage Inventory 👜")            
             
-            choice = self.get_valid_input("Enter your number!: ", [1, 2, 3, 4])
+            choice = self.get_valid_input("Enter your number!: ", [1, 2, 3, 4, 5]) # rushi 10/22
 
             if choice == 1:
                 for character in self.party:
@@ -497,6 +497,9 @@ class NPC: # rushi 10/18
         self.dialogue = dialogue
         self.quests = quests or []
         self.store_items = store_items or []
+
+    def talk(self): # rushi 10/22
+        print(self.dialogue)
 
     def interact(self, player: Character):
         print(f"{self.name}: {self.dialogue}")
