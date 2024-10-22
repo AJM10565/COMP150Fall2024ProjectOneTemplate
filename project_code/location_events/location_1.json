@@ -25,5 +25,18 @@
     "fail": {
       "message": "That method proves ineffective, what else could you try?"
     }
+  },
+  {
+    "passing_attributes": {
+      "Mind Tricks": "You trick the troopers that they never saw you, and they walk away",
+      "Dexterity": "You quickly grab one of the troopers guns and turn it against him, taken off guard your party takes out the troopers."
+    },
+    "partial_pass_attributes": {
+      "Intelligence": "You try to reason with the troopers, but it doesn't seem to be working"
+    },
+    "prompt_text": "While traveling you are suddenly ambushed by troopers who end up behind you. What do you do?",
+    "fail": {
+      "message": "The troopers take you captive, and you get blasted."
+    }
   }
 ]

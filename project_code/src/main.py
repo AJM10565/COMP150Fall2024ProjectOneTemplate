@@ -49,7 +49,7 @@ class jedi(Character):
     def __init__(self, name: str):
         super().__init__(name, strength_value=60, intelligence_value=80)
         self.force_sensitivity = Statistic("Force Sensitivity", 60, description="Force Sensitivity is a measure of proficiency in force strength.")
-        self.mind_tricks = Statistic("Mind tricks", 60, description="Mind tricks is a measure of jedi mind control.")
+        self.mind_tricks = Statistic("Mind Tricks", 60, description="Mind tricks is a measure of jedi mind control.")
         self.lightsaber_proficiency = Statistic("Lightsaber Proficiency", 80, description="Lightsaber proficiency is a measure of skill with a lightsaber.")
         self.stats.extend([self.force_sensitivity, self.mind_tricks, self.lightsaber_proficiency])
 
