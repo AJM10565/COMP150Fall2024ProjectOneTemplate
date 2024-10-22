@@ -136,7 +136,9 @@ def start_game():
         "pearl": ("Pearl Krabs", 100, 12),
         "plankton": ("Plankton", 80, 8),
         "squidward": ("Squidward Tentacles", 90, 10)
+        "mrkrabs": ("Mr. Krabs", 150, 20)  # Added Mr. Krabs to the list of characters
     }
+
     characters = []
     for key, (name, health, strength) in characters_dict.items():
         # print(f"{key.capitalize()}: {name} (Health: {health}, Strength: {strength})")
