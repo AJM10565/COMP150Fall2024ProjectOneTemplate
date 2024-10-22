@@ -1,3 +1,8 @@
+from src.character.witch import Witch
+from src.character.vampire import Vampire
+from src.character.werewolf import Werewolf
+from src.character import Character
+
 # This file will contain the Player class and the progression system logic (XP, leveling up, etc.)
 class Player:
     def __init__(self, name, character):
@@ -52,7 +57,6 @@ class PlayerTest(unittest.TestCase):
         self.assertEqual(self.player.level, 1)
         self.assertEqual(self.player.character.health, 100)
 
-# test leveling up after gaining points
     def test_gain_xp_and_level_up(self):
         """Test gaining enough points to level up."""
         self.player.gain_xp(65)
@@ -62,6 +66,5 @@ class PlayerTest(unittest.TestCase):
         self.assertEqual(self.player.character.health, 120)  # health increases
         self.assertEqual(self.player.character.attack, 19)   # attack increases
         self.assertEqual(self.player.character.defense, 14)  # defense increases
-
-test_gain_xp_no_level_up
-test_gain_xp_and_level_up
+if __name__ == '__main__':
+    unittest.main()
