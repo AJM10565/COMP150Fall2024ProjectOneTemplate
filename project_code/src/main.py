@@ -284,27 +284,15 @@ def load_events_from_json(file_path: str) -> List[Event]:
 def start_game():
     parser = UserInputParser()
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 7388b75 (tuesday edits)
     characters_dict = {
         "spongebob": ("SpongeBob SquarePants", 120, 15),
         "patrick": ("Patrick Star", 150, 10),
         "pearl": ("Pearl Krabs", 100, 12),
         "plankton": ("Plankton", 80, 8),
-<<<<<<< HEAD
-        "squidward": ("Squidward Tentacles", 90, 10)
+        "squidward": ("Squidward Tentacles", 90, 10),
         "mrkrabs": ("Mr. Krabs", 150, 20)  # Added Mr. Krabs to the list of characters
     }
-=======
-    characters_dict = {"spongebob": ("SpongeBob SquarePants", 120, 15), "patrick": ("Patrick Star", 150, 10),"pearl": ("Pearl Krabs", 100, 12),"plankton": ("Plankton", 80, 8),"squidward": ("Squidward Tentacles", 90, 10), "mrkrabs": ("Mr. Krabs", 150, 20)}  # Added Mr. Krabs to the list of characters}
->>>>>>> c794c95 (Professor miller edits)
-=======
-        "squidward": ("Squidward Tentacles", 90, 10),
-        "mrkrabs": ("Mr. Krabs", 150, 20)
-    }
->>>>>>> 7388b75 (tuesday edits)
+
 
     characters = []
     for key, (name, health, strength) in characters_dict.items():
