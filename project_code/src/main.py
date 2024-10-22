@@ -28,10 +28,14 @@ class Statistic:
 
 
 class Character:
-    def __init__(self, name: str = "Bob"):
+    def __init__(self, name: str = "Bob", health: int = 100, strength: int = 10, intelligence: int = 10):
         self.name = name
+        self.health = Statistic("Health", description="Health is a measure of vitality.")
+        self.health.value = health
         self.strength = Statistic("Strength", description="Strength is a measure of physical power.")
-        self.intelligence = Statistic("Intelligence", description="Intelligence is a measure of cognitive ability.")
+        self.strength.value = strength
+        self.intelligence = Statistic("Intelligence", description="Intelligence is a measure of mental acuity.")
+        self.intelligence.value = intelligence
         # Add more stats as needed
 
     def __str__(self):
@@ -125,7 +129,19 @@ def load_events_from_json(file_path: str) -> List[Event]:
 
 def start_game():
     parser = UserInputParser()
-    characters = [Character(f"Character_{i}") for i in range(3)]
+
+    characters_dict = {
+        "spongebob": ("SpongeBob SquarePants", 120, 15),
+        "patrick": ("Patrick Star", 150, 10),
+        "pearl": ("Pearl Krabs", 100, 12),
+        "plankton": ("Plankton", 80, 8),
+        "squidward": ("Squidward Tentacles", 90, 10)
+    }
+    characters = []
+    for key, (name, health, strength) in characters_dict.items():
+        # print(f"{key.capitalize()}: {name} (Health: {health}, Strength: {strength})")
+        characters.append(Character(name, health, strength))
+
 
     # Load events from the JSON file
     events = load_events_from_json('project_code/location_events/location_1.json')

@@ -9,6 +9,7 @@ class Character:
         return f"{self.name} the {self.character_class} (Health: {self.health}, Strength: {self.strength})"
 
 
+
 class MrKrabs:
     def __init__(self):
         self.name = "Mr. Krabs"
