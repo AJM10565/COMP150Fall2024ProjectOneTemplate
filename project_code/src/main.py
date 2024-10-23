@@ -279,11 +279,20 @@ class Game:
         self.party = characters
         self.locations = locations
 
+        self.quest_pool = [ # rushi 10/23
+            "Glamazon Prime: Deliver Style, Not Boxes 📦",
+            "Mall Madness: Help Midge Snag the Best Sales 🛍️",
+            "Pearl Panic: Recover the Lost Sea Treasure 🐚",
+            "Seashell Symphony: Assemble the Band for the Ocean Festival 🎶",
+            "Pumpkin Problems: Find a New Ride Before Midnight 🎃",
+            "Wand Workshop: Collect Magic Dust for Spell Repairs ✨",
+        ]
+
         # rushi 10/18
         self.npcs = [
-            NPC(name="Midge", dialogue="Hello, darling! Ready for a new adventure? 👭", quests=[], store_items=[]),
-            NPC(name="Mermaid", dialogue="Welcome to my underwater kingdom! 🧜‍♀️ Care to explore?", quests=[], store_items=[]),
-            NPC(name="Fairy Godmother", dialogue="I have some magical items for you! 🪄", quests=[], store_items=[]),
+            NPC(name="Midge", dialogue="Hello, darling! Ready for a new adventure? 👭", quests=[self.quest_pool[0], self.quest_pool[1]], store_items=[]),
+            NPC(name="Mermaid", dialogue="Welcome to my underwater kingdom! 🧜‍♀️ Care to explore?", quests=[self.quest_pool[2], self.quest_pool[3]], store_items=[]),
+            NPC(name="Fairy Godmother", dialogue="I have some magical items for you! 🪄", quests=[self.quest_pool[4], self.quest_pool[5]], store_items=[]),
         ]
 
         self.continue_playing = True
@@ -293,26 +302,29 @@ class Game:
         for idx, npc in enumerate(self.npcs):
             print(f"{idx + 1}. {npc.name}")
 
-        choice = int(input("Enter the number of the NPC to talk to: ")) - 1
-        if 0 <= choice < len(self.npcs):
+        try:
+            choice = int(input("Enter the number of the NPC to talk to: ")) - 1
             npc = self.npcs[choice]
-            npc.talk()
+        except (IndexError, ValueError):
+            print("You must be thinking of someone else...")
+            return
 
         print("What would you like to do?")
         print("1. Accept a quest")
         print("2. Buy an item")
         print("3. Leave")
 
-        action = input("Enter your choice: ")
+        action = input("Enter your choice: ").strip()
 
         if action == "1":
             quest = npc.offer_quest()
             if quest:
-                self.party[0].active_quests.append(quest)  # Assign quest to player
+                self.party[0].active_quests.append(quest)
+                print(f"Quest '{quest}' added to your active quests!")
         elif action == "2":
             npc.sell_items(self.party[0])
         elif action == "3":
-            print("You left the conversation.")
+            print("You waved goodbye to {npc.name}.")
         else:
             print("Not quite right!")
 
@@ -337,7 +349,7 @@ class Game:
                print(f"{player.name} attacks {enemy.name}!")
                player.attack(enemy)
                if  enemy.health.value <= 0:
-                   print(f"{enemy.name} has been defeated 🎉")
+                   print(f"{enemy.name} has been defeated 🎉 'Raquelle? More like Wreck-elle!'") # rushi 10/23
                    break
             
             elif choice == "2":
@@ -350,7 +362,7 @@ class Game:
                     print(f"{player.name} successfully ran away 🏃‍♀️")
                     break 
                 else:
-                    print(f"{player.name} failed to run away! ")
+                    print(f"{player.name} tripped on her heels and couldn't escape! Oops! 👠") # rushi 10/23
             
             if enemy.health.value > 0:
                 print(f"{enemy.name} strikes back!")
@@ -392,7 +404,7 @@ class Game:
             print("1. Check Player Stats")
             print("2. Gain Glamour Points ✨")
             print("3. Simulate a Fight")
-            print("4. Exit Game 😔")
+            print("4. Exit Game 😔 (Already? We were just getting started!)") # rushi 10/23
             print("5. Manage Inventory 👜")            
             
             choice = self.get_valid_input("Enter your number!: ", [1, 2, 3, 4, 5]) # rushi 10/22
@@ -440,6 +452,7 @@ class Game:
             elif choice == 2:
                 item_name = input("Enter the name of the item to remove: ")
                 player.remove_from_inventory(item_name)
+                print("Gotta stay organized! A cluttered purse is a cluttered mind, darling. ✨") # rushi 10/23
 
             elif choice == 3:
                 print("Exiting inventory management.")
@@ -526,7 +539,7 @@ class NPC: # rushi 10/18
             player.active_quests.append(selected_quest)
             print(f"{player.name} accepted the quest: {selected_quest.name}")
         else:
-            print(f"{self.name}: Sorry, no quests available right now. 🤷‍♀️")
+            print(f"{self.name}: Bummer, babe! No quests available right now. 🤷‍♀️")
 
     def sell_items(self, player: Character):
         if self.store_items:
