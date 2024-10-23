@@ -25,8 +25,33 @@
     "partial_pass": {
       "message": "You managed to solve the riddle or push the door, but not both. You made some progress, but the door remains closed."
     }
-  }
-
-
-
-]
+  },
+  {
+      "primary_attribute": "Agility",
+      "secondary_attribute": "Strength",
+      "prompt_text": "A ferocious monster stands before you, growling menacingly. Will you try to dodge its attacks or fight back?",
+      "pass": {
+        "message": "You closely dodge the monster's attacks and escape unscathed, or you fought bravely and defeated the creature."
+      },
+      "fail": {
+        "message": "The monster lands a heavy blow on you. You suffer damage and must retreat or find another strategy."
+      },
+      "partial_pass": {
+        "message": "You managed to dodge some of the monster's attacks but took a hit. You're still in the fight, but injured."
+      }
+    },
+    {
+      "primary_attribute": "Agility",
+      "secondary_attribute": "Intelligence",
+      "prompt_text": "You encounter a deep pit filled with stakes. It's too wide to jump easily. What will you do?",
+      "pass": {
+        "message": "With quick reflexes, you make a perfect leap across the pit or use your wit to construct a bridge. You proceed safely."
+      },
+      "fail": {
+        "message": "You misjudged the jump and fell into the pit, suffering damage. You'll need to find another way out."
+      },
+      "partial_pass": {
+        "message": "You barely made the jump but took some damage. You're injured but manage to pull yourself up."
+      }
+    }
+  ]
