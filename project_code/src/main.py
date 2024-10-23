@@ -76,7 +76,6 @@ class Droid(Character):
 # bounty_hunter_character = BountyHunter(name="Boba Fett")
 
 
-
 class Event:
     def __init__(self, data: dict):
         self.primary_attribute = data['primary_attribute']
@@ -105,12 +104,90 @@ class Event:
             print(self.fail_message)
 
 
+class StatisticGrantEvent(Event):
+    def __init__(self, data: dict):
+        super().__init__(data)
+        self.stat_to_grant = data['stat_to_grant']  # The existing stat to add from the subclass
+    
+    def resolve_choice(self, character: Character, chosen_stat: Statistic):
+        super().resolve_choice(character, chosen_stat)
+        # If the event is passed, try to grant the new stat
+        if self.status == EventStatus.PASS:
+            self.grant_existing_stat(character)
+
+    def grant_existing_stat(self, character: Character):
+        # Check if the stat to be granted already exists in the character
+        if any(stat.name == self.stat_to_grant for stat in character.stats):
+            print(f"{character.name} already has the stat: {self.stat_to_grant}")
+            return
+        
+        # Check if the stat exists in the character's subclass
+        stat_to_add = self.get_stat_from_subclass(character, self.stat_to_grant)
+        
+        if stat_to_add:
+            character.stats.append(stat_to_add)
+            print(f"{character.name} gained a new stat: {stat_to_add.name} with value {stat_to_add.value}")
+        else:
+            print(f"Stat {self.stat_to_grant} not found in {character.name}'s class.")
+    
+    def get_stat_from_subclass(self, character: Character, stat_name: str) -> Optional[Statistic]:
+        """
+        This method tries to find the specified stat from the character's subclass.
+        Returns the matching Statistic object or None if not found.
+        """
+        subclass_stats = []
+        
+        # Check for Jedi subclass
+        if isinstance(character, jedi):
+            subclass_stats = [
+                character.force_sensitivity,
+                character.mind_tricks,
+                character.lightsaber_proficiency
+            ]
+        # Check for BountyHunter subclass
+        elif isinstance(character, BountyHunter):
+            subclass_stats = [
+                character.dexterity,
+                character.blaster_proficiency,
+                character.piloting
+            ]
+        # Check for Droid subclass
+        elif isinstance(character, Droid):
+            subclass_stats = [
+                character.processing,
+                character.hacking
+            ]
+        
+        # Find and return the stat from the subclass
+        for stat in subclass_stats:
+            if stat.name == stat_name:
+                return stat
+        
+        return None
+
+
+# class Location:
+#     def __init__(self, events: List[Event]):
+#         self.events = events
+
+#     def get_event(self) -> Event:
+#         return random.choice(self.events)
+    
 class Location:
     def __init__(self, events: List[Event]):
         self.events = events
+        self.used_events = []  # Keep track of used events
 
     def get_event(self) -> Event:
-        return random.choice(self.events)
+        if len(self.events) == 0:
+            # Reset used events if all have been used
+            self.events, self.used_events = self.used_events, []
+        
+        event = random.choice(self.events)  # Randomly choose an event
+        self.events.remove(event)  # Remove it from the available events
+        self.used_events.append(event)  # Track that this event has been used
+        return event
+
 
 
 class Game:
@@ -170,10 +247,23 @@ class UserInputParser:
         return stats[choice]
 
 
+# def load_events_from_json(file_path: str) -> List[Event]:
+#     with open(file_path, 'r') as file:
+#         data = json.load(file)
+#     return [Event(event_data) for event_data in data]
+
 def load_events_from_json(file_path: str) -> List[Event]:
     with open(file_path, 'r') as file:
         data = json.load(file)
-    return [Event(event_data) for event_data in data]
+
+    events = []
+    for event_data in data:
+        if event_data.get('stat_to_grant'):  # If the event has a stat to grant, it's a StatisticGrantEvent
+            events.append(StatisticGrantEvent(event_data))
+        else:
+            events.append(Event(event_data))
+    return events
+
 
 
 def start_game():
