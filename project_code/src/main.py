@@ -229,9 +229,6 @@ class UserInputParser:
             except ValueError:
                 print("Please enter a valid number.")
         
-        # Let the user choose from the displayed subset
-        choice = int(self.parse("Enter the number of the chosen party member: ")) - 1
-        return displayed_party[choice]
 
 
 
@@ -281,11 +278,13 @@ def start_game():
         Droid("C3PO"),
         Droid("R2-D2"),
         ]
+    
+    selected_characters = random.sample(characters, 3)
 
     events = load_events_from_json('project_code/location_events/location_1.json')
     
     locations = [Location(events)]
-    game = Game(parser, characters, locations)
+    game = Game(parser, selected_characters, locations)
     game.start()
 
 
