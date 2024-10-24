@@ -18,6 +18,7 @@
     }
   },
   {
+    "id": "hidden_knowledge",
     "prompt_text": "An ancient artifact lies buried in the sands of Jedha. Do you attempt to unearth it using your knowledge or brute strength?",
     "passing_attributes": {
       "Intelligence": "You cleverly analyze the surroundings and recover the artifact without damage.",
@@ -36,6 +37,7 @@
     }
   },
   {
+    "id": "ancient_insight",
     "prompt_text": "A group of scavengers on Jedha offers to trade supplies, but they seem untrustworthy. Do you negotiate or prepare for a possible attack?",
     "passing_attributes": {
       "Intelligence": "You outsmart the scavengers and secure a good deal.",
@@ -54,6 +56,7 @@
     }
   },
   {
+    "id": "secured_supplies",
     "prompt_text": "You've discovered a hidden chamber within the Temple of the Kyber. It contains powerful relics, but the energy is unstable. Do you attempt to stabilize the energy field or take a relic quickly?",
     "passing_attributes": {
       "Force Sensitivity": "You stabilize the energy field, allowing you to safely take a relic.",
@@ -72,6 +75,7 @@
     }
   },
   {
+    "id": "relic_gain",
     "prompt_text": "The Temple's defenses activate as you explore deeper. Do you try to disable them or find a way around?",
     "passing_attributes": {
       "Hacking": "You successfully disable the temple's defenses.",
@@ -87,6 +91,25 @@
       "pass": ["deeper_access"],
       "partial_pass": ["combat_escape"],
       "fail": ["overwhelmed"]
+    }
+  },
+  {
+    "id": "deeper_access",
+    "prompt_text": "You venture deeper into the Temple of the Kyber and discover a hidden archive. Do you study the ancient texts or search for hidden compartments?",
+    "passing_attributes": {
+      "Intelligence": "You decipher the ancient texts, gaining invaluable knowledge about the Force.",
+      "Dexterity": "You skillfully find hidden compartments containing lost artifacts."
+    },
+    "partial_pass_attributes": {
+      "Force Sensitivity": "You sense the presence of the Force but can't pinpoint its source."
+    },
+    "fail": {
+      "message": "You disturb a protective spell and unleash an ancient guardian!"
+    },
+    "outcomes": {
+      "pass": ["knowledge_gain"],
+      "partial_pass": ["mystical_warning"],
+      "fail": ["guardian_attack"]
     }
   }
 ]
