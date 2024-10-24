@@ -1,6 +1,6 @@
 # COMP150 Fall 2024 Project One Template
 
-This is a template for the first project in the COMP150 Fall 2024 course. The goal of this project is to create a simplified Dungeons & Dragons text-based game in Python.
+This is a template for the first project in the COMP150 Fall 2024 course. The goal of this project is to create a simplified Dungeons & Dragons text-based game in Python. This is a commit
 
 ## How to Run the Project
 
