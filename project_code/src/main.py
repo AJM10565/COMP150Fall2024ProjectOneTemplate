@@ -24,9 +24,6 @@ class Statistic:
     def __str__(self):
         return f"{self.name}: {self.value}"  # Display the correct value here
 
-    def __str__(self):
-        return f"{self.name}: {self.value}"
-
     def modify(self, amount: int):
         self.value = max(self.min_value, min(self.max_value, self.value + amount))
 
@@ -45,7 +42,7 @@ class Character:
         return self.stats
 
 #jedi subclass
-class jedi(Character):
+class Jedi(Character):
     def __init__(self, name: str):
         super().__init__(name, strength_value=60, intelligence_value=80)
         self.force_sensitivity = Statistic("Force Sensitivity", 60, description="Force Sensitivity is a measure of proficiency in force strength.")
@@ -140,7 +137,7 @@ class StatisticGrantEvent(Event):
         subclass_stats = []
         
         # Check for Jedi subclass
-        if isinstance(character, jedi):
+        if isinstance(character, Jedi):
             subclass_stats = [
                 character.force_sensitivity,
                 character.mind_tricks,
@@ -168,12 +165,6 @@ class StatisticGrantEvent(Event):
         return None
 
 
-# class Location:
-#     def __init__(self, events: List[Event]):
-#         self.events = events
-
-#     def get_event(self) -> Event:
-#         return random.choice(self.events)
     
 class Location:
     def __init__(self, events: List[Event]):
@@ -233,12 +224,6 @@ class UserInputParser:
         return displayed_party[choice]
 
 
-    # def select_party_member(self, party: List[Character]) -> Character:
-    #     print("Choose a party member:")
-    #     for idx, member in enumerate(party):
-    #         print(f"{idx + 1}. {member.name}")
-    #     choice = int(self.parse("Enter the number of the chosen party member: ")) - 1
-    #     return party[choice]
 
     def select_stat(self, character: Character) -> Statistic:
         print(f"Choose a stat for {character.name}:")
@@ -249,10 +234,7 @@ class UserInputParser:
         return stats[choice]
 
 
-# def load_events_from_json(file_path: str) -> List[Event]:
-#     with open(file_path, 'r') as file:
-#         data = json.load(file)
-#     return [Event(event_data) for event_data in data]
+
 
 def load_events_from_json(file_path: str) -> List[Event]:
     with open(file_path, 'r') as file:
@@ -260,7 +242,7 @@ def load_events_from_json(file_path: str) -> List[Event]:
 
     events = []
     for event_data in data:
-        if event_data.get('stat_to_grant'):  # If the event has a stat to grant, it's a StatisticGrantEvent
+        if event_data.get('stat_to_grant'):  
             events.append(StatisticGrantEvent(event_data))
         else:
             events.append(Event(event_data))
@@ -273,8 +255,8 @@ def start_game():
 
     #Creating a character list 
     characters = [
-        jedi("Luke"),
-        jedi("Obi-wan"),
+        Jedi("Luke"),
+        Jedi("Obi-wan"),
         BountyHunter("Han Solo"),
         BountyHunter("Chewbacca"),
         BountyHunter("Lando Calrissian"),
@@ -283,13 +265,11 @@ def start_game():
         Droid("R2-D2"),
         ]
 
-
-    # Load events from the JSON file
     events = load_events_from_json('project_code/location_events/location_1.json')
-
-    locations = [Location(events)]
-    game = Game(parser, characters, locations)
-    game.start()
+    
+locations = [Location(events)]
+game = Game(parser, characters, locations)
+game.start()
 
 
 if __name__ == '__main__':

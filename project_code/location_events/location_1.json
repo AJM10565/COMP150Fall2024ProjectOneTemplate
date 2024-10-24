@@ -43,9 +43,7 @@
             "message": "You manage to gain some insight but no new abilities."
         },
         "stat_to_grant": "Force Sensitivity"
-    }
-]
-[
+    },
   {
     "passing_attributes": {
       "Lightsaber Proficiency": "You deflected the blaster shots back at the stormtroopers and took them all out, allowing you to continue.",
