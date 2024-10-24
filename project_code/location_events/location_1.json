@@ -38,5 +38,33 @@
     "fail": {
       "message": "The troopers take you captive, and you get blasted."
     }
+  },
+  {
+    "passing_attributes": {
+      "Force Sensitivty": "You sense the force of your enemys and are able to predict their every move.",
+      "Piloting": "You manuver around an asteriod belt and make swift work of the tie fighters.",
+      "Processing": "With quick processing you are able to lock onto the tie fighters and take out your enemys."
+    },
+    "partial_pass_attributes": {
+      "Intelligence": "You attempt to get to the Falcon but realise you are too far away and make a run for it further into the compound."
+    },
+    "prompt_text": "While searching the compound you enter a hangerbay and spot the Milenium Falcon. You enter the aircraft and travel out the compound. Suddenly! you get spotted by a group of Tie-figlters! What do you do...?",
+    "fail": {
+      "message": "The Tie-fighters shoot the Melenium Falcon and your thruster is destroyed so you run away and land back in the compoud."
+    }
+  },
+  {
+    "passing_attributes": {
+      "Force Sensitivty": "You sense the force of your enemys and are able to predict their every move.",
+      "Piloting": "You manuver around an asteriod belt and make swift work of the tie fighters.",
+      "Processing": "With quick processing you are able to lock onto the tie fighters and take out your enemys."
+    },
+    "partial_pass_attributes": {
+      "Intelligence": "You attempt to get to the Falcon but realise you are too far away and make a run for it further into the compound."
+    },
+    "prompt_text": "While searching the compound you enter a hangerbay and spot the Milenium Falcon. You enter the aircraft and travel out the compound. Suddenly! you get spotted by a group of Tie-figlters! What do you do...?",
+    "fail": {
+      "message": "The Tie-fighters shoot the Melenium Falcon and your thruster is destroyed so you run away and land back in the compoud."
+    }
   }
 ]
