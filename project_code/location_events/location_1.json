@@ -1,5 +1,4 @@
 [{
-  "type": "Event",
   "primary_attribute": "Intelligence",
   "secondary_attribute": "Strength",
   "prompt_text": "A mysterious door blocks your path, with a riddle inscribed. What will you do?",
@@ -14,7 +13,6 @@
   }
 },
   {
-    "type": "Event",
     "primary_attribute": "Intelligence",
     "secondary_attribute": "Strength",
     "prompt_text": "A mysterious door blocks your path, with a riddle inscribed. What will you do?",
@@ -22,26 +20,23 @@
       "message": "You solved the riddle and pushed the door open. You may proceed."
     },
     "fail": {
-      "message": "You failed to solve the riddle and push the door open. You must find another way."
-    },
-    "partial_pass": {
-      "message": "You managed to solve the riddle or push the door, but not both. You made some progress, but the door remains closed."
+      "message": "That method proves ineffective, what else could you try?"
     }
   },
-    {
-        "type": "StatisticGrantEvent",
-        "primary_attribute": "Strength",
-        "secondary_attribute": "Intelligence",
-        "prompt_text": "A mysterious force is sensed. If you focus and pass the test, you'll gain a new skill.",
-        "pass": {
-            "message": "You successfully focus and unlock a new Force ability!"
-        },
-        "fail": {
-            "message": "You are overwhelmed and fail to unlock anything."
-        },
-        "partial_pass": {
-            "message": "You manage to gain some insight but no new abilities."
-        },
-        "stat_to_grant": "Force Sensitivity"
+  {
+    "passing_attributes": {
+      "Mind Tricks": "You trick the troopers that they never saw you, and they walk away",
+      "Dexterity": "You quickly grab one of the troopers guns and turn it against him, taken off guard your party takes out the troopers."
+    },
+    "partial_pass_attributes": {
+      "Intelligence": "You try to reason with the troopers, but it doesn't seem to be working"
+    },
+    "prompt_text": "While traveling you are suddenly ambushed by troopers who end up behind you. What do you do?",
+    "fail": {
+      "message": "The troopers take you captive, and you get blasted."
     }
+  }
+
+
+
 ]

@@ -43,13 +43,13 @@ class Character:
 
     def get_stats(self):
         return self.stats
-#another comment
-#comment
+
+#jedi subclass
 class jedi(Character):
     def __init__(self, name: str):
         super().__init__(name, strength_value=60, intelligence_value=80)
         self.force_sensitivity = Statistic("Force Sensitivity", 60, description="Force Sensitivity is a measure of proficiency in force strength.")
-        self.mind_tricks = Statistic("Mind tricks", 60, description="Mind tricks is a measure of jedi mind control.")
+        self.mind_tricks = Statistic("Mind Tricks", 60, description="Mind tricks is a measure of jedi mind control.")
         self.lightsaber_proficiency = Statistic("Lightsaber Proficiency", 80, description="Lightsaber proficiency is a measure of skill with a lightsaber.")
         self.stats.extend([self.force_sensitivity, self.mind_tricks, self.lightsaber_proficiency])
 
@@ -62,7 +62,7 @@ class BountyHunter(Character):
         self.piloting = Statistic("Piloting", 60, description="Skill in piloting ships and vehicles.")
         self.stats.extend([self.dexterity, self.blaster_proficiency, self.piloting])
 
-
+#droid subclass
 class Droid(Character):
     def __init__(self, name: str = "Bob"):
         super().__init__(name, strength_value=30, intelligence_value=80)
@@ -78,12 +78,10 @@ class Droid(Character):
 
 class Event:
     def __init__(self, data: dict):
-        self.primary_attribute = data['primary_attribute']
-        self.secondary_attribute = data['secondary_attribute']
+        self.passing_attributes = data['passing_attributes']
+        self.partial_pass_attributes = data['partial_pass_attributes']
         self.prompt_text = data['prompt_text']
-        self.pass_message = data['pass']['message']
         self.fail_message = data['fail']['message']
-        self.partial_pass_message = data['partial_pass']['message']
         self.status = EventStatus.UNKNOWN
 
     def execute(self, party: List[Character], parser):
@@ -93,12 +91,16 @@ class Event:
         self.resolve_choice(character, chosen_stat)
 
     def resolve_choice(self, character: Character, chosen_stat: Statistic):
-        if chosen_stat.name == self.primary_attribute:
+        """This will check if the stat selected pass, partial pass, or fails the event"""
+        #pass
+        if chosen_stat.name in self.passing_attributes:
             self.status = EventStatus.PASS
-            print(self.pass_message)
-        elif chosen_stat.name == self.secondary_attribute:
+            print(self.passing_attributes[chosen_stat.name])
+        #partial pass
+        elif chosen_stat.name in self.partial_pass_attributes:
             self.status = EventStatus.PARTIAL_PASS
-            print(self.partial_pass_message)
+            print(self.partial_pass_attributes[chosen_stat.name])
+        #fail
         else:
             self.status = EventStatus.FAIL
             print(self.fail_message)
