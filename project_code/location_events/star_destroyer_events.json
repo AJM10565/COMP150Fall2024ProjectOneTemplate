@@ -1,42 +1,189 @@
 [
     {
-      "prompt_text": "You have infiltrated the corridors of the Star Destroyer. A patrol droid approaches. Do you disable it or try to bypass it?",
+      "prompt_text": "You arrive in the Star Destroyer's engineering bay. A reactor is overheating. Do you attempt to fix the issue, or ignore it and explore further?",
       "passing_attributes": {
-        "Hacking": "You successfully hack into the droid and disable it from a distance.",
-        "Dexterity": "You quickly duck into a side corridor, avoiding detection."
+        "Hacking": "You successfully stabilize the reactor, which opens access to the control room.",
+        "Processing": "You fix the issue with droid-like precision, opening access to the reactor core."
       },
       "partial_pass_attributes": {
-        "Processing": "You manage to confuse the droid for a moment, but it's still on alert."
+        "Intelligence": "You slow down the overheating, but it's only temporary. You can either leave the area or rush to the control room for more permanent repairs."
       },
       "fail": {
-        "message": "The droid sounds an alarm and you're surrounded by troopers."
+        "message": "You fail to fix the reactor, causing an alarm that blocks access to other parts of the ship. Guards are headed your way!"
+      },
+      "outcomes": {
+        "pass": ["control_room", "reactor_core"],
+        "partial_pass": ["control_room", "escape"],
+        "fail": ["combat", "escape"]
       }
     },
     {
-      "prompt_text": "In the hangar bay of the Star Destroyer, you come across an inactive TIE fighter. Do you attempt to steal it?",
+      "prompt_text": "You've entered the control room. You can access important systems here. Do you disable ship communications or attempt to scramble navigation systems?",
       "passing_attributes": {
-        "Piloting": "You expertly power up the TIE fighter and make a clean getaway.",
-        "Hacking": "You override the TIE fighter's security systems and take control."
+        "Hacking": "You scramble the navigation systems, causing the Star Destroyer to drift off course.",
+        "Force Sensitivity": "You sense the right moment to disrupt communications, preventing them from sending distress signals."
       },
       "partial_pass_attributes": {
-        "Intelligence": "You begin powering up the TIE fighter, but it's slow and security may notice."
+        "Blaster Proficiency": "You disable a few key systems with blaster fire, but you've made a lot of noise!"
       },
       "fail": {
-        "message": "You fail to start the TIE fighter and are caught by security forces."
+        "message": "Your attempt fails, and a squad of stormtroopers rushes in. You need to fight or flee!"
+      },
+      "outcomes": {
+        "pass": ["detention_block", "hangar"],
+        "partial_pass": ["detention_block", "combat"],
+        "fail": ["combat", "escape"]
       }
     },
     {
-      "prompt_text": "You are trapped in the Star Destroyer's detention block. An officer approaches, unaware of your presence. Do you confront or deceive him?",
+      "prompt_text": "You find yourself near the armory. Rows of weapons line the walls. Do you take weapons or set explosives?",
       "passing_attributes": {
-        "Mind Tricks": "You use a Jedi mind trick to convince the officer to release you.",
-        "Strength": "You overpower the officer, taking their key card."
+        "Blaster Proficiency": "You arm yourself with a powerful blaster, ready for combat ahead.",
+        "Hacking": "You set explosives on a delay, hoping to destroy this section of the ship later."
       },
       "partial_pass_attributes": {
-        "Blaster Proficiency": "You manage to shoot a security camera, but the officer is still a threat."
+        "Strength": "You manage to grab some weapons, but the area is now swarming with guards."
       },
       "fail": {
-        "message": "The officer calls for reinforcements, and you are captured."
+        "message": "You fail to arm yourself or set explosives before a security droid spots you. Combat is inevitable!"
+      },
+      "outcomes": {
+        "pass": ["hangar", "bridge"],
+        "partial_pass": ["combat", "detention_block"],
+        "fail": ["combat", "escape"]
       }
+    },
+    {
+      "prompt_text": "You've reached the detention block. A Rebel prisoner is being held here. Do you attempt a rescue, or leave and explore other parts of the ship?",
+      "passing_attributes": {
+        "Mind Tricks": "You use a Jedi mind trick to free the prisoner without alerting the guards.",
+        "Dexterity": "You sneak past the guards and unlock the prisoner's cell."
+      },
+      "partial_pass_attributes": {
+        "Strength": "You overpower a few guards but raise an alarm in the process."
+      },
+      "fail": {
+        "message": "You are caught by guards, forcing you into a fight."
+      },
+      "outcomes": {
+        "pass": ["hangar", "escape_pod"],
+        "partial_pass": ["combat", "hangar"],
+        "fail": ["combat", "escape"]
+      }
+    },
+    {
+      "prompt_text": "You enter the hangar. TIE fighters are stationed here, but stormtroopers patrol the area. Do you attempt to steal a ship or hide in the cargo?",
+      "passing_attributes": {
+        "Piloting": "You successfully steal a TIE fighter and fly out of the hangar, escaping the Star Destroyer.",
+        "Force Sensitivity": "You sense the right moment to slip into the cargo hold, hiding from the stormtroopers."
+      },
+      "partial_pass_attributes": {
+        "Dexterity": "You manage to avoid detection, but you can't find a clear way out yet."
+      },
+      "fail": {
+        "message": "You are spotted trying to steal a ship, and stormtroopers open fire."
+      },
+      "outcomes": {
+        "pass": ["escape"],
+        "partial_pass": ["cargo_hold", "combat"],
+        "fail": ["combat", "escape"]
+      }
+    },
+    {
+      "prompt_text": "You find yourself at the bridge. You have a chance to disable the Star Destroyer entirely or take control of its systems. Do you attempt either?",
+      "passing_attributes": {
+        "Hacking": "You shut down all systems, rendering the Star Destroyer helpless in space.",
+        "Piloting": "You seize control of the ship and set a new course for a Rebel base."
+      },
+      "partial_pass_attributes": {
+        "Blaster Proficiency": "You take out some of the key officers but fail to gain full control."
+      },
+      "fail": {
+        "message": "You fail to take control, and alarms blare across the ship. Reinforcements are on the way!"
+      },
+      "outcomes": {
+        "pass": ["escape", "destroy_star_destroyer"],
+        "partial_pass": ["escape", "combat"],
+        "fail": ["combat", "escape"]
+      }
+    },
+{
+        "prompt_text": "You arrive at Reactor Core Alpha. Security is tight here. Do you attempt to sneak past the guards or create a distraction?",
+        "passing_attributes": {
+        "Stealth": "You successfully sneak past the guards and reach the reactor core.",
+        "Hacking": "You create a distraction by triggering false alarms in another section of the ship."
+        },
+        "partial_pass_attributes": {
+        "Blaster Proficiency": "You engage in a quick firefight and manage to take out the guards, but reinforcements are on the way."
+        },
+        "fail": {
+        "message": "You are spotted by guards and forced into a heavy firefight. Alarms go off across the ship!"
+        },
+        "outcomes": {
+        "pass": ["plant_bomb_alpha"],
+        "partial_pass": ["combat", "plant_bomb_alpha"],
+        "fail": ["combat", "escape"]
+        }
+    },
+    {
+        "prompt_text": "You’ve reached Reactor Core Beta. The area is full of maintenance droids. Do you disable the droids or try to blend in?",
+        "passing_attributes": {
+        "Hacking": "You disable the maintenance droids, clearing the way to the reactor.",
+        "Disguise": "You manage to blend in with maintenance personnel and walk undetected to the reactor core."
+        },
+        "partial_pass_attributes": {
+        "Strength": "You destroy a few of the droids, but the noise attracts attention from nearby stormtroopers."
+        },
+        "fail": {
+        "message": "The droids detect your presence and alert the guards. A squad of stormtroopers is en route!"
+        },
+        "outcomes": {
+        "pass": ["plant_bomb_beta"],
+        "partial_pass": ["combat", "plant_bomb_beta"],
+        "fail": ["combat", "escape"]
+        }
+    },
+    {
+        "prompt_text": "You arrive at Reactor Core Gamma, the most secure core on the ship. The area is heavily patrolled. Do you hack the security systems or fight your way through?",
+        "passing_attributes": {
+        "Hacking": "You hack the security systems, shutting down surveillance and alarms in the area.",
+        "Blaster Proficiency": "You take out the patrol guards swiftly, clearing your path to the reactor core."
+        },
+        "partial_pass_attributes": {
+        "Force Sensitivity": "You sense an opportunity to slip through unnoticed, but not without alerting some guards."
+        },
+        "fail": {
+        "message": "You are overwhelmed by patrols and forced into combat. Backup is on the way!"
+        },
+        "outcomes": {
+        "pass": ["plant_bomb_gamma"],
+        "partial_pass": ["combat", "plant_bomb_gamma"],
+        "fail": ["combat", "escape"]
+        }
+    },
+    {
+        "prompt_text": "You’ve planted the third bomb! Now, you must escape the Star Destroyer. Do you head for the hangar to steal a ship or find an escape pod?",
+        "passing_attributes": {
+        "Piloting": "You successfully steal a TIE fighter and make your getaway.",
+        "Dexterity": "You find an escape pod and launch it just as the bombs go off."
+        },
+        "partial_pass_attributes": {
+        "Blaster Proficiency": "You take out a few stormtroopers but need to fight your way to the escape pod."
+        },
+        "fail": {
+        "message": "You’re trapped by guards and running out of time. The Star Destroyer is seconds from blowing up!"
+        },
+        "outcomes": {
+        "pass": ["game_end_success"],
+        "partial_pass": ["combat", "game_end_success"],
+        "fail": ["game_end_failure"]
+        }
+    },
+    {
+        "prompt_text": "You successfully set the bombs, and as you make your escape, the Star Destroyer explodes behind you. You've completed the mission!",
+        "outcomes": {
+        "success": ["The mission is complete. The Rebel Alliance is safe, and the Empire has lost one of its key warships."],
+        "failure": ["You were caught before escaping, and the mission failed. The Empire's grip tightens..."]
+        }
     }
-  ]
-  
+]

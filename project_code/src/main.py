@@ -79,6 +79,7 @@ class Event:
         self.partial_pass_attributes = data['partial_pass_attributes']
         self.prompt_text = data['prompt_text']
         self.fail_message = data['fail']['message']
+        self.outcomes = data['outcomes']
         self.status = EventStatus.UNKNOWN
 
     def execute(self, party: List[Character], parser):
@@ -101,6 +102,17 @@ class Event:
         else:
             self.status = EventStatus.FAIL
             print(self.fail_message)
+
+        return self.get_next_location()
+    
+    def get_next_location(self):
+        """Determine the next location based on the event's status."""
+        if self.status == EventStatus.PASS:
+            return random.choice(self.outcomes["pass"])
+        elif self.status == EventStatus.PARTIAL_PASS:
+            return random.choice(self.outcomes["partial_pass"])
+        else:
+            return random.choice(self.outcomes["fail"])
 
 
 
@@ -199,9 +211,13 @@ class UserInputParser:
 
 
 def load_events_from_json(file_path: str) -> List[Event]:
-    with open(file_path, 'r') as file:
-        data = json.load(file)
-    return [Event(event_data) for event_data in data]
+    try:
+        with open(file_path, 'r') as file:
+            data = json.load(file)
+        return [Event(event_data) for event_data in data]
+    except FileNotFoundError:
+        print(f"Error: The file {file_path} was not found.")
+        return []
 
 
 
@@ -232,7 +248,7 @@ def start_game():
     ]
 
 
-    game = Game(parser, characters, locations)
+    game = Game(parser, selected_characters, locations)
     game.start()
 
 

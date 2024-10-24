@@ -1,42 +1,92 @@
 [
-    {
-      "prompt_text": "You find yourself in the ancient Temple of the Kyber, but Imperial forces are searching the area. Do you try to outwit them or hide?",
-      "passing_attributes": {
-        "Mind Tricks": "You use a mind trick to make the Imperials forget they saw you.",
-        "Dexterity": "You skillfully hide behind debris, avoiding the search."
-      },
-      "partial_pass_attributes": {
-        "Intelligence": "You manage to evade them, but they become suspicious."
-      },
-      "fail": {
-        "message": "The Imperials spot you and capture you for questioning."
-      }
+  {
+    "prompt_text": "You find yourself in the Temple of the Kyber, but Imperial forces are searching the area. Do you try to outwit them or hide?",
+    "passing_attributes": {
+      "Mind Tricks": "You use a mind trick to make the Imperials forget they saw you.",
+      "Dexterity": "You skillfully hide behind debris, avoiding the search."
     },
-    {
-      "prompt_text": "An ancient artifact lies buried in the sands of Jedha. Do you attempt to unearth it using your knowledge or brute strength?",
-      "passing_attributes": {
-        "Intelligence": "You cleverly analyze the surroundings and recover the artifact without damage.",
-        "Strength": "You use your physical power to pull the artifact from the ground."
-      },
-      "partial_pass_attributes": {
-        "Dexterity": "You uncover part of the artifact, but it's stuck."
-      },
-      "fail": {
-        "message": "Your efforts fail, and the artifact remains buried."
-      }
+    "partial_pass_attributes": {
+      "Intelligence": "You manage to evade them, but they become suspicious."
     },
-    {
-      "prompt_text": "A group of scavengers on Jedha offers to trade supplies, but they seem untrustworthy. Do you negotiate or prepare for a possible attack?",
-      "passing_attributes": {
-        "Intelligence": "You outsmart the scavengers and secure a good deal.",
-        "Blaster Proficiency": "You stay prepared and dissuade them from any hostile action."
-      },
-      "partial_pass_attributes": {
-        "Force Sensitivity": "You sense their intent but aren't quick enough to act."
-      },
-      "fail": {
-        "message": "The scavengers deceive you, and you lose valuable supplies."
-      }
+    "fail": {
+      "message": "The Imperials spot you and capture you for questioning."
+    },
+    "outcomes": {
+      "pass": ["hidden_knowledge"],
+      "partial_pass": ["suspicious_pursuit"],
+      "fail": ["interrogation"]
     }
-  ]
-  
+  },
+  {
+    "prompt_text": "An ancient artifact lies buried in the sands of Jedha. Do you attempt to unearth it using your knowledge or brute strength?",
+    "passing_attributes": {
+      "Intelligence": "You cleverly analyze the surroundings and recover the artifact without damage.",
+      "Strength": "You use your physical power to pull the artifact from the ground."
+    },
+    "partial_pass_attributes": {
+      "Dexterity": "You uncover part of the artifact, but it's stuck."
+    },
+    "fail": {
+      "message": "Your efforts fail, and the artifact remains buried."
+    },
+    "outcomes": {
+      "pass": ["ancient_insight"],
+      "partial_pass": ["time_delay"],
+      "fail": ["lost_time"]
+    }
+  },
+  {
+    "prompt_text": "A group of scavengers on Jedha offers to trade supplies, but they seem untrustworthy. Do you negotiate or prepare for a possible attack?",
+    "passing_attributes": {
+      "Intelligence": "You outsmart the scavengers and secure a good deal.",
+      "Blaster Proficiency": "You stay prepared and dissuade them from any hostile action."
+    },
+    "partial_pass_attributes": {
+      "Force Sensitivity": "You sense their intent but aren't quick enough to act."
+    },
+    "fail": {
+      "message": "The scavengers deceive you, and you lose valuable supplies."
+    },
+    "outcomes": {
+      "pass": ["secured_supplies"],
+      "partial_pass": ["fewer_supplies"],
+      "fail": ["supply_loss"]
+    }
+  },
+  {
+    "prompt_text": "You've discovered a hidden chamber within the Temple of the Kyber. It contains powerful relics, but the energy is unstable. Do you attempt to stabilize the energy field or take a relic quickly?",
+    "passing_attributes": {
+      "Force Sensitivity": "You stabilize the energy field, allowing you to safely take a relic.",
+      "Hacking": "You override the energy systems to stabilize them temporarily."
+    },
+    "partial_pass_attributes": {
+      "Intelligence": "You manage to take a relic, but the energy field fluctuates dangerously."
+    },
+    "fail": {
+      "message": "The energy field destabilizes, and you are knocked back by a surge."
+    },
+    "outcomes": {
+      "pass": ["relic_gain"],
+      "partial_pass": ["energy_fluctuation"],
+      "fail": ["knocked_back"]
+    }
+  },
+  {
+    "prompt_text": "The Temple's defenses activate as you explore deeper. Do you try to disable them or find a way around?",
+    "passing_attributes": {
+      "Hacking": "You successfully disable the temple's defenses.",
+      "Dexterity": "You manage to navigate through the defenses without triggering them."
+    },
+    "partial_pass_attributes": {
+      "Blaster Proficiency": "You shoot some of the defenses but set off an alarm."
+    },
+    "fail": {
+      "message": "You trigger the defenses and are forced to escape before being overwhelmed."
+    },
+    "outcomes": {
+      "pass": ["deeper_access"],
+      "partial_pass": ["combat_escape"],
+      "fail": ["overwhelmed"]
+    }
+  }
+]
