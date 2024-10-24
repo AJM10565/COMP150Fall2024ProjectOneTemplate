@@ -1,4 +1,5 @@
 [{
+  "type": "Event",
   "primary_attribute": "Intelligence",
   "secondary_attribute": "Strength",
   "prompt_text": "A mysterious door blocks your path, with a riddle inscribed. What will you do?",
@@ -13,12 +14,61 @@
   }
 },
   {
+    "type": "Event",
     "primary_attribute": "Intelligence",
     "secondary_attribute": "Strength",
     "prompt_text": "A mysterious door blocks your path, with a riddle inscribed. What will you do?",
     "pass": {
       "message": "You solved the riddle and pushed the door open. You may proceed."
     },
+    "fail": {
+      "message": "You failed to solve the riddle and push the door open. You must find another way."
+    },
+    "partial_pass": {
+      "message": "You managed to solve the riddle or push the door, but not both. You made some progress, but the door remains closed."
+    }
+  },
+    {
+        "type": "StatisticGrantEvent",
+        "primary_attribute": "Strength",
+        "secondary_attribute": "Intelligence",
+        "prompt_text": "A mysterious force is sensed. If you focus and pass the test, you'll gain a new skill.",
+        "pass": {
+            "message": "You successfully focus and unlock a new Force ability!"
+        },
+        "fail": {
+            "message": "You are overwhelmed and fail to unlock anything."
+        },
+        "partial_pass": {
+            "message": "You manage to gain some insight but no new abilities."
+        },
+        "stat_to_grant": "Force Sensitivity"
+    }
+]
+[
+  {
+    "passing_attributes": {
+      "Lightsaber Proficiency": "You deflected the blaster shots back at the stormtroopers and took them all out, allowing you to continue.",
+      "Blaster Proficiency": "Your party opens fire on the troopers, luckily their aim isn't too hot and you take them all out."
+    },
+    "partial_pass_attributes": {
+      "Force Sensitvity": "You push all the troopers to the ground, but they are quickly getting up to regroup, what do you do?"
+    },
+    "prompt_text": "Your party turns a corner to find a platoon of stormtroopers down the hall, who turn your way and take aim, what will you use to help?",
+    "fail": {
+      "message": "The party gets blasted, and you retreat back around the corner."
+    }
+  },
+  {
+    "passing_attributes": {
+      "Hacking": "Hacking the doors control panel makes them swing open, and your party can continue.",
+      "Lightsaber Proficiency": "You cut a hole through the door, and you're allowed to pass through.",
+      "Intelligence": " You use your intellect to decipher the codes and open the door."
+    },
+    "partial_pass_attributes": {
+      "Processing": " the find that the door is very advanced, and needs decrypting to open, what do you do?"
+    },
+    "prompt_text": "Your party comes across a locked armored door with a control panel, what do you do?",
     "fail": {
       "message": "That method proves ineffective, what else could you try?"
     }
@@ -36,7 +86,4 @@
       "message": "The troopers take you captive, and you get blasted."
     }
   }
-
-
-
 ]
