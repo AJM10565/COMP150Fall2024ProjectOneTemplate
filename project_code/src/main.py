@@ -267,9 +267,9 @@ def start_game():
 
     events = load_events_from_json('project_code/location_events/location_1.json')
     
-locations = [Location(events)]
-game = Game(parser, characters, locations)
-game.start()
+    locations = [Location(events)]
+    game = Game(parser, characters, locations)
+    game.start()
 
 
 if __name__ == '__main__':
