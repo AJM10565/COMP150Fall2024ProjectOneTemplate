@@ -1,0 +1,42 @@
+[
+    {
+      "prompt_text": "You have infiltrated the corridors of the Star Destroyer. A patrol droid approaches. Do you disable it or try to bypass it?",
+      "passing_attributes": {
+        "Hacking": "You successfully hack into the droid and disable it from a distance.",
+        "Dexterity": "You quickly duck into a side corridor, avoiding detection."
+      },
+      "partial_pass_attributes": {
+        "Processing": "You manage to confuse the droid for a moment, but it's still on alert."
+      },
+      "fail": {
+        "message": "The droid sounds an alarm and you're surrounded by troopers."
+      }
+    },
+    {
+      "prompt_text": "In the hangar bay of the Star Destroyer, you come across an inactive TIE fighter. Do you attempt to steal it?",
+      "passing_attributes": {
+        "Piloting": "You expertly power up the TIE fighter and make a clean getaway.",
+        "Hacking": "You override the TIE fighter's security systems and take control."
+      },
+      "partial_pass_attributes": {
+        "Intelligence": "You begin powering up the TIE fighter, but it's slow and security may notice."
+      },
+      "fail": {
+        "message": "You fail to start the TIE fighter and are caught by security forces."
+      }
+    },
+    {
+      "prompt_text": "You are trapped in the Star Destroyer's detention block. An officer approaches, unaware of your presence. Do you confront or deceive him?",
+      "passing_attributes": {
+        "Mind Tricks": "You use a Jedi mind trick to convince the officer to release you.",
+        "Strength": "You overpower the officer, taking their key card."
+      },
+      "partial_pass_attributes": {
+        "Blaster Proficiency": "You manage to shoot a security camera, but the officer is still a threat."
+      },
+      "fail": {
+        "message": "The officer calls for reinforcements, and you are captured."
+      }
+    }
+  ]
+  

@@ -1,0 +1,42 @@
+[
+    {
+      "prompt_text": "You find yourself in the ancient Temple of the Kyber, but Imperial forces are searching the area. Do you try to outwit them or hide?",
+      "passing_attributes": {
+        "Mind Tricks": "You use a mind trick to make the Imperials forget they saw you.",
+        "Dexterity": "You skillfully hide behind debris, avoiding the search."
+      },
+      "partial_pass_attributes": {
+        "Intelligence": "You manage to evade them, but they become suspicious."
+      },
+      "fail": {
+        "message": "The Imperials spot you and capture you for questioning."
+      }
+    },
+    {
+      "prompt_text": "An ancient artifact lies buried in the sands of Jedha. Do you attempt to unearth it using your knowledge or brute strength?",
+      "passing_attributes": {
+        "Intelligence": "You cleverly analyze the surroundings and recover the artifact without damage.",
+        "Strength": "You use your physical power to pull the artifact from the ground."
+      },
+      "partial_pass_attributes": {
+        "Dexterity": "You uncover part of the artifact, but it's stuck."
+      },
+      "fail": {
+        "message": "Your efforts fail, and the artifact remains buried."
+      }
+    },
+    {
+      "prompt_text": "A group of scavengers on Jedha offers to trade supplies, but they seem untrustworthy. Do you negotiate or prepare for a possible attack?",
+      "passing_attributes": {
+        "Intelligence": "You outsmart the scavengers and secure a good deal.",
+        "Blaster Proficiency": "You stay prepared and dissuade them from any hostile action."
+      },
+      "partial_pass_attributes": {
+        "Force Sensitivity": "You sense their intent but aren't quick enough to act."
+      },
+      "fail": {
+        "message": "The scavengers deceive you, and you lose valuable supplies."
+      }
+    }
+  ]
+  

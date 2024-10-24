@@ -103,84 +103,22 @@ class Event:
             print(self.fail_message)
 
 
-class StatisticGrantEvent(Event):
-    def __init__(self, data: dict):
-        super().__init__(data)
-        self.stat_to_grant = data['stat_to_grant']  # The existing stat to add from the subclass
-    
-    def resolve_choice(self, character: Character, chosen_stat: Statistic):
-        super().resolve_choice(character, chosen_stat)
-        # If the event is passed, try to grant the new stat
-        if self.status == EventStatus.PASS:
-            self.grant_existing_stat(character)
-
-    def grant_existing_stat(self, character: Character):
-        # Check if the stat to be granted already exists in the character
-        if any(stat.name == self.stat_to_grant for stat in character.stats):
-            print(f"{character.name} already has the stat: {self.stat_to_grant}")
-            return
-        
-        # Check if the stat exists in the character's subclass
-        stat_to_add = self.get_stat_from_subclass(character, self.stat_to_grant)
-        
-        if stat_to_add:
-            character.stats.append(stat_to_add)
-            print(f"{character.name} gained a new stat: {stat_to_add.name} with value {stat_to_add.value}")
-        else:
-            print(f"Stat {self.stat_to_grant} not found in {character.name}'s class.")
-    
-    def get_stat_from_subclass(self, character: Character, stat_name: str) -> Optional[Statistic]:
-        """
-        This method tries to find the specified stat from the character's subclass.
-        Returns the matching Statistic object or None if not found.
-        """
-        subclass_stats = []
-        
-        # Check for Jedi subclass
-        if isinstance(character, Jedi):
-            subclass_stats = [
-                character.force_sensitivity,
-                character.mind_tricks,
-                character.lightsaber_proficiency
-            ]
-        # Check for BountyHunter subclass
-        elif isinstance(character, BountyHunter):
-            subclass_stats = [
-                character.dexterity,
-                character.blaster_proficiency,
-                character.piloting
-            ]
-        # Check for Droid subclass
-        elif isinstance(character, Droid):
-            subclass_stats = [
-                character.processing,
-                character.hacking
-            ]
-        
-        # Find and return the stat from the subclass
-        for stat in subclass_stats:
-            if stat.name == stat_name:
-                return stat
-        
-        return None
 
 
-    
 class Location:
-    def __init__(self, events: List[Event]):
+    def __init__(self, name: str, events: List[Event]):
+        self.name = name
         self.events = events
-        self.used_events = []  # Keep track of used events
-
+        self.used_events = []   # Keep track of used events
+    
     def get_event(self) -> Event:
         if len(self.events) == 0:
-            # Reset used events if all have been used
+            #Rest used events if all have been used
             self.events, self.used_events = self.used_events, []
-        
         event = random.choice(self.events)  # Randomly choose an event
         self.events.remove(event)  # Remove it from the available events
         self.used_events.append(event)  # Track that this event has been used
         return event
-
 
 
 class Game:
@@ -188,20 +126,30 @@ class Game:
         self.parser = parser
         self.party = characters
         self.locations = locations
-        self.continue_playing = True
+        self.current_location = locations[0]  # Start at the first location (Jedha)
+        self.unlocked_star_destroyer = False
 
     def start(self):
-        while self.continue_playing:
-            location = random.choice(self.locations)
-            event = location.get_event()
+        while True:
+            event = self.current_location.get_event()
             event.execute(self.party, self.parser)
+            if self.check_location_cleared():
+                self.transition_to_star_destroyer()
             if self.check_game_over():
-                self.continue_playing = False
+                break
         print("Game Over.")
+
+    def check_location_cleared(self):
+        # If all events in the current location are completed
+        return len(self.current_location.events) == 0 and self.current_location.name == "Jedha"
+
+    def transition_to_star_destroyer(self):
+        print("You've cleared all events on Jedha. You can now board the Star Destroyer.")
+        self.current_location = self.locations[1]  # Move to the Star Destroyer
 
     def check_game_over(self):
         return len(self.party) == 0
-
+    
 
 class UserInputParser:
     def parse(self, prompt: str) -> str:
@@ -253,14 +201,7 @@ class UserInputParser:
 def load_events_from_json(file_path: str) -> List[Event]:
     with open(file_path, 'r') as file:
         data = json.load(file)
-
-    events = []
-    for event_data in data:
-        if event_data.get('stat_to_grant'):  
-            events.append(StatisticGrantEvent(event_data))
-        else:
-            events.append(Event(event_data))
-    return events
+    return [Event(event_data) for event_data in data]
 
 
 
@@ -281,12 +222,20 @@ def start_game():
     
     selected_characters = random.sample(characters, 3)
 
-    events = load_events_from_json('project_code/location_events/location_1.json')
+
+    jedha_events = load_events_from_json('project_code/location_events/jedha_events.json')
+    star_destroyer_events = load_events_from_json('project_code/location_events/star_destroyer_events.json')
     
-    locations = [Location(events)]
-    game = Game(parser, selected_characters, locations)
+    locations = [
+        Location("Jedha", jedha_events),
+        Location("Star Destroyer", star_destroyer_events)
+    ]
+
+
+    game = Game(parser, characters, locations)
     game.start()
 
 
 if __name__ == '__main__':
     start_game()
+

@@ -1,5 +1,5 @@
 [
-  {
+  {  
     "passing_attributes": {
       "Lightsaber Proficiency": "You deflected the blaster shots back at the stormtroopers and took them all out, allowing you to continue.",
       "Blaster Proficiency": "Your party opens fire on the troopers, luckily their aim isn't too hot and you take them all out."
@@ -68,3 +68,5 @@
     }
   }
 ]
+
+
