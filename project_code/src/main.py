@@ -218,6 +218,16 @@ class UserInputParser:
         print("Choose a party member:")
         for idx, member in enumerate(displayed_party):
             print(f"{idx + 1}. {member.name}")
+
+        while True:
+            try:
+                choice = int(self.parse("Enter the number of the chosen party member: ")) - 1
+                if 0 <= choice < len(displayed_party):
+                    return displayed_party[choice]
+                else:
+                    print("Invalid selection. Please choose again.")
+            except ValueError:
+                print("Please enter a valid number.")
         
         # Let the user choose from the displayed subset
         choice = int(self.parse("Enter the number of the chosen party member: ")) - 1
@@ -230,9 +240,16 @@ class UserInputParser:
         stats = character.get_stats()
         for idx, stat in enumerate(stats):
             print(f"{idx + 1}. {stat.name} ({stat.value})")
-        choice = int(self.parse("Enter the number of the stat to use: ")) - 1
-        return stats[choice]
-
+        # Loop until a valid input is entered
+        while True:
+            try:
+                choice = int(self.parse("Enter the number of the stat to use: ")) - 1
+                if 0 <= choice < len(stats):
+                    return stats[choice]
+                else:
+                    print(f"Invalid selection. Please choose a number between 1 and {len(stats)}.")
+            except ValueError:
+                print("Invalid input. Please enter a valid number.")
 
 
 
