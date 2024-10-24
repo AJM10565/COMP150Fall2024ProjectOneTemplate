@@ -223,10 +223,13 @@ class Raquelle(Enemy): # rushi 10/21
         self.special_ability_used = False
 
     def attack(self, target: Character):
-        if not self.special_ability_used and random.random() < 0.3:
+        self.passive_ability()
+        if not self.special_ability_used and self.special_ability_cooldown == 0: # rushi 10/24
             self.use_special_ability(target)
+            self.special_ability_cooldown = 3 
         else:
             super().attack(target)
+            self.special_ability_cooldown = max(0, self.special_ability_cooldown - 1)
 
     def use_special_ability(self, target: Character):
         print(f"The {self.name} unleashes her Glamour Blast! 💥")
@@ -237,6 +240,12 @@ class Raquelle(Enemy): # rushi 10/21
 
     def __str__(self):
         return f"{super().__str__()}, Special Ability: Glamour Blast (30 damage, used once)"
+
+    def passive_ability(self): # rushi 10/24
+        if self.health < 100:
+            heal = 5
+            self.health += heal
+            print(f"{self.name} heals {heal} health due to her Vanity Aura!")
 
 class Event:
     def __init__(self, data: dict):
