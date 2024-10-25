@@ -87,23 +87,30 @@ class Event:
         character = parser.select_party_member(party)
         chosen_stat = parser.select_stat(character)
         self.resolve_choice(character, chosen_stat)
+        outcome = self.resolve_choice(character, chosen_stat)
+        # Print based on the outcome
+        if outcome == EventStatus.FAIL:
+            print(self.fail_message)
+        elif outcome == EventStatus.PARTIAL_PASS:
+            print(self.partial_pass_attributes[chosen_stat.name])
+        else:
+            print(self.passing_attributes[chosen_stat.name])
+        
+        # Return the outcome's value (either "pass", "partial_pass", or "fail")
+        return outcome.value
 
-    def resolve_choice(self, character: Character, chosen_stat: Statistic):
-        """This will check if the stat selected pass, partial pass, or fails the event"""
-        #pass
+    def resolve_choice(self, character: Character, chosen_stat: Statistic) -> EventStatus:
+        """This will check if the stat selected pass, partial pass, or fails the event."""
+        # Check for pass, partial pass, or fail based on the chosen stat
         if chosen_stat.name in self.passing_attributes:
             self.status = EventStatus.PASS
-            print(self.passing_attributes[chosen_stat.name])
-        #partial pass
         elif chosen_stat.name in self.partial_pass_attributes:
             self.status = EventStatus.PARTIAL_PASS
-            print(self.partial_pass_attributes[chosen_stat.name])
-        #fail
         else:
             self.status = EventStatus.FAIL
-            print(self.fail_message)
 
-        return self.get_next_location()
+        # Return the status, which will help `execute` print the correct messages
+        return self.status
     
     def get_next_location(self):
         """Determine the next location based on the event's status."""
@@ -134,22 +141,27 @@ class Location:
 
 
 class Game:
-    def __init__(self, parser, characters: List[Character], locations: List[Location]):
+    def __init__(self, parser, characters: List[Character], locations: List[Location], max_failures):
         self.parser = parser
         self.party = characters
         self.locations = locations
         self.current_location = locations[0]  # Start at the first location (Jedha)
         self.unlocked_star_destroyer = False
+        self.fail_count = 0
+        self.max_failures = max_failures
+        self.is_game_over = False
 
     def start(self):
-        while True:
+        while not self.is_game_over:
             event = self.current_location.get_event()
-            event.execute(self.party, self.parser)
-            if self.check_location_cleared():
+            event_result = event.execute(self.party, self.parser)
+
+            # Resolve the event's outcome
+            self.resolve_event(event_result)
+
+            # Check if location is cleared and transition if needed
+            if self.check_location_cleared() and not self.is_game_over:
                 self.transition_to_star_destroyer()
-            if self.check_game_over():
-                break
-        print("Game Over.")
 
     def check_location_cleared(self):
         # If all events in the current location are completed
@@ -159,8 +171,20 @@ class Game:
         print("You've cleared all events on Jedha. You can now board the Star Destroyer.")
         self.current_location = self.locations[1]  # Move to the Star Destroyer
 
-    def check_game_over(self):
-        return len(self.party) == 0
+    def resolve_event(self, event_result: str):
+        """Increment failure count if the event fails and end the game if max failures are reached."""
+        if event_result == "fail":
+            self.fail_count += 1
+            print(f"Failure count: {self.fail_count}/{self.max_failures}")
+
+            # Check if the failure threshold is reached
+            if self.fail_count >= self.max_failures:
+                self.end_game()
+
+    def end_game(self):
+        """End the game if the failure threshold is met."""
+        self.is_game_over = True
+        print("Game Over: You've failed too many events.")
     
 
 class UserInputParser:
@@ -248,7 +272,7 @@ def start_game():
     ]
 
 
-    game = Game(parser, selected_characters, locations)
+    game = Game(parser, selected_characters, locations, max_failures = 3)
     game.start()
 
 
