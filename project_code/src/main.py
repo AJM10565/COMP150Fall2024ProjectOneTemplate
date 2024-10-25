@@ -137,3 +137,68 @@ def start_game():
 
 if __name__ == '__main__':
     start_game()
+
+# Unit Test for Statistic.modify method
+strength = Statistic("Strength", value=50)
+strength.modify(10)
+assert strength.value == 60, "Strength should be 60 after increasing by 10"
+strength.modify(-70)
+assert strength.value == 0, "Strength should not go below 0"
+strength.modify(200)
+assert strength.value == 100, "Strength should not exceed 100"
+
+# Test Statistic __str__ method
+assert str(strength) == "Strength: 100", f"Expected 'Strength: 100', got {str(strength)}"
+
+# Unit Test for Character creation and get_stats method
+character = Character("Alice")
+assert character.name == "Alice", "Character name should be 'Alice'"
+stats = character.get_stats()
+assert len(stats) == 2, "Character should have 2 stats"
+assert stats[0].name == "Strength", "First stat should be 'Strength'"
+assert stats[1].name == "Intelligence", "Second stat should be 'Intelligence'"
+
+# Test Event execution for pass, partial pass, and fail
+event_data = {
+    'primary_attribute': 'Strength',
+    'secondary_attribute': 'Intelligence',
+    'prompt_text': 'You encounter a challenge.',
+    'pass': {'message': 'You passed!'},
+    'fail': {'message': 'You failed!'},
+    'partial_pass': {'message': 'Partial success.'}
+}
+event = Event(event_data)
+
+# Mock parser
+parser = MagicMock()
+
+# Unit Test for passing scenarios
+parser.select_party_member.return_value = character
+parser.select_stat.return_value = character.strength  # choosing Strength (primary attribute)
+event.execute([character], parser)
+assert event.status == EventStatus.PASS, "Event status should be PASS"
+print("PASS: You passed!")
+
+# Test partial pass scenario
+parser.select_stat.return_value = character.intelligence  # choosing Intelligence (secondary attribute)
+event.execute([character], parser)
+assert event.status == EventStatus.PARTIAL_PASS, "Event status should be PARTIAL_PASS"
+print("PARTIAL_PASS: Partial success.")
+
+# Test fail scenario
+character.strength.name = "Luck"  # non-matching attribute
+parser.select_stat.return_value = character.strength
+event.execute([character], parser)
+assert event.status == EventStatus.FAIL, "Event status should be FAIL"
+print("FAIL: You failed!")
+
+# Test Game start and end flow
+characters = [Character("Char1"), Character("Char2")]
+location = Location([event])
+
+game = Game(parser, characters, [location])
+
+# Mock event execution to stop game loop
+event.execute = lambda x, y: setattr(game, 'continue_playing', False)
+game.start()
+print("Game Over.")
