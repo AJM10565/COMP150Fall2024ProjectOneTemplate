@@ -3,6 +3,8 @@ import sys
 import random
 from typing import List, Optional
 from enum import Enum
+from src.character import Character
+
 
 
 class EventStatus(Enum):
@@ -26,19 +28,6 @@ class Statistic:
     def modify(self, amount: int):
         self.value = max(self.min_value, min(self.max_value, self.value + amount))
 
-
-class Character:
-    def __init__(self, name: str = "Bob"):
-        self.name = name
-        self.strength = Statistic("Strength", description="Strength is a measure of physical power.")
-        self.intelligence = Statistic("Intelligence", description="Intelligence is a measure of cognitive ability.")
-        # Add more stats as needed
-
-    def __str__(self):
-        return f"Character: {self.name}, Strength: {self.strength}, Intelligence: {self.intelligence}"
-
-    def get_stats(self):
-        return [self.strength, self.intelligence]  # Extend this list if there are more stats
 
 
 class Event:
