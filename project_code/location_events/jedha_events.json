@@ -14,7 +14,7 @@
     },
     "outcomes": {
       "pass": ["hidden_knowledge"],
-      "partial_pass": ["suspicious_pursuit"],
+      "partial_pass": ["hidden_location"],
       "fail": ["interrogation"]
     }
   },
@@ -35,7 +35,7 @@
     "outcomes": {
       "pass": ["deeper_access"],
       "partial_pass": ["ancient_insight"],
-      "fail": ["lost_time"]
+      "fail": ["secured_supplies"]
     }
   },
   {
@@ -53,7 +53,7 @@
     },
     "outcomes": {
       "pass": ["secured_supplies"],
-      "partial_pass": ["fewer_supplies"],
+      "partial_pass": ["deeper_access"],
       "fail": ["Beginning"]
     }
   },
@@ -72,7 +72,7 @@
     },
     "outcomes": {
       "pass": ["relic_gain"],
-      "partial_pass": ["energy_fluctuation"],
+      "partial_pass": ["gathering_info"],
       "fail": ["anciet_insight"]
     }
   },
@@ -91,7 +91,7 @@
     },
     "outcomes": {
       "pass": ["docking_area"],
-      "partial_pass": ["combat_escape"],
+      "partial_pass": ["captured_on_shuttle"],
       "fail": ["interrogation"]
     }
   },
@@ -129,7 +129,7 @@
     },
     "outcomes": {
       "pass": ["deeper_access"],
-      "partial_pass": ["mystical_warning"],
+      "partial_pass": ["deeper_access"],
       "fail": ["Beginning"]
     }
   },
@@ -179,14 +179,14 @@
       "Hacking": "You find a maintenance hatch and access the Star Destroyer through the service tunnels."
     },
     "partial_pass_attributes": {
-      "Strength": "You manage to pry open the hatch, but it makes a loud noise."
+      "Strength": "You manage to pry open the hatch, but it makes a loud noise as you make your escape you hear some plans."
     },
     "fail": {
       "message": "A patrol finds you trying to board, and you must fight your way out. You end up defeating you enemys but they push you deeper into the temple"
     },
     "outcomes": {
       "pass": ["onboard_shuttle"],
-      "partial_pass": ["noise_alert"],
+      "partial_pass": ["intel_gathered"],
       "fail": ["deeper_access"]
     }
   },
@@ -205,7 +205,7 @@
     },
     "outcomes": {
       "pass": ["successful_launch"],
-      "partial_pass": ["alarms_triggered"],
+      "partial_pass": ["stormtrooper_chase"],
       "fail": ["captured_on_shuttle"]
     }
   },
@@ -220,12 +220,12 @@
       "Blaster Proficiency": "You engage in a dogfight with nearby TIE fighters but manage to evade them."
     },
     "fail": {
-      "message": "Your approach is detected, and the Star Destroyer's defenses activate against you."
+      "message": "Your approach is detected, and the Star Destroyer's defenses activate against you. You return back to the dock to land and attempt a new plan."
     },
     "outcomes": {
       "pass": ["docked_inside"],
-      "partial_pass": ["near_miss"],
-      "fail": ["detected_in_airspace"]
+      "partial_pass": ["docked_inside"],
+      "fail": ["onboard_shuttle"]
     }
   },
   {
@@ -241,10 +241,10 @@
     "fail": {
       "message": "You are spotted immediately, and alarms begin to sound."
     },
-    "outcomes": {
-      "pass": ["mission_commenced"],
-      "partial_pass": ["resistance_encounter"],
-      "fail": ["alarms_triggered"]
+     "outcomes": {
+      "pass": ["successful_launch"],
+      "partial_pass": ["gathering_info"],
+      "fail": ["stormtrooper_chase"]
     }
   },
   {
@@ -266,6 +266,27 @@
       "partial_pass": ["gathering_info"],
       "fail": ["stormtrooper_chase"]
     }
-  }  
+  },
+  {
+    "id": "stormtrooper_chase",
+    "prompt_text": "You are being chased by a group of stormtroopers what will you do!?",
+    "passing_attributes": {
+      "lightsaber_proficiency": "You fight off the guards with your lightsaber skills and enter the docking area ",
+      "Strength": "You use your strength to overwhelm the stoormtroopers and enter the docking area.",
+      "Blaster Proficiency": "You shoot the stormtroopers and enter a new docking area."
+    },
+    "partial_pass_attributes": {
+      "Mind Tricks": "You use a mind trick to manipulate a guard, but they see past the tick and incapacitate to bring to their superior on the star destroyer.",
+      "processing": "You process the surrounding area quickly and find a new route to reach an empty empirial shuttle"
+    },
+    "fail": {
+      "message": "You are spotted immediately and stormed off the ship as stormtroopers chase you!"
+    },
+    "outcomes": {
+      "pass": ["successful_launch"],
+      "partial_pass": ["onboard_shuttle"],
+      "fail": ["captured_on_shuttle"]
+    }
+  }
 ]
     
