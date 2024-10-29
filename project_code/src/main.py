@@ -136,11 +136,14 @@ class Character:
             quest.complete()
             self.active_quests.remove(quest)
             self.completed_quests.append(quest)
+            self._handle_rewards(quest.rewards)
 
-            if isinstance(quest.rewards, int):  # Glamour points reward
-                self.gain_glamour(quest.rewards)
-            elif isinstance(quest.rewards, str):  # Item reward
-                self.inventory.add_item(Item(quest.rewards))
+    def _handle_rewards(self, reward): # rushi 10/29
+        """Handle quest rewards (either glamour points or items)."""
+        if isinstance(reward, int):
+            self.gain_glamour(reward)
+        elif isinstance(reward, str):
+            self.add_item(Item(reward))
 
     def view_active_quests(self): # rushi 10/17
         """Display active quests."""
@@ -181,6 +184,8 @@ class Enemy:
         return f"Enemy: {self.name}, Health: {self.health}, Strength: {self.strength}"
     
     def take_damage(self, damage: int):
+        if damage < 0: # rushi 10/29
+            raise ValueError("Damage can't be negative!")
         self.health.modify(-damage)
         if self.health.value <= 0:
             print(f"{self.name} has been defeated!")
