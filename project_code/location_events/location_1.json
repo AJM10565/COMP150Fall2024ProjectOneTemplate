@@ -1,57 +1,122 @@
-[{
-  "primary_attribute": "Intelligence",
-  "secondary_attribute": "Strength",
-  "prompt_text": "A mysterious door blocks your path, with a riddle inscribed. What will you do?",
-  "pass": {
-    "message": "You solved the riddle and pushed the door open. You may proceed."
-  },
-  "fail": {
-    "message": "You failed to solve the riddle and push the door open. You must find another way."
-  },
-  "partial_pass": {
-    "message": "You managed to solve the riddle or push the door, but not both. You made some progress, but the door remains closed."
-  }
-},
+[
   {
     "primary_attribute": "Intelligence",
     "secondary_attribute": "Strength",
     "prompt_text": "A mysterious door blocks your path, with a riddle inscribed. What will you do?",
-    "pass": {
-      "message": "You solved the riddle and pushed the door open. You may proceed."
+    "context": [
+      "The air is damp and cold. You feel a strange presence around the door.",
+      "The riddle on the door glows faintly as you approach it, whispering secrets.",
+      "A soft hum resonates from behind the door, growing louder with each step you take."
+    ],
+    "requirements": {
+      "min_level": 3,
+      "required_items": ["Ancient Key"],
+      "alternate_items": ["Magic Amulet"]
     },
-    "fail": {
-      "message": "You failed to solve the riddle and push the door open. You must find another way."
+    "unexpected_obstacles": [
+      {
+        "description": "A hidden trap is triggered, sending darts flying at you!",
+        "hp_change": -15,
+        "status_effects": ["Poisoned"]
+      },
+      {
+        "description": "The door releases a cloud of gas that makes it hard to see.",
+        "status_effects": ["Blinded"],
+        "hp_change": -5
+      }
+    ],
+    "outcomes": {
+      "pass": {
+        "message": "You solved the riddle and pushed the door open. You may proceed.",
+        "hp_change": 0,
+        "xp_gain": 50,
+        "item_reward": "Mystic Scroll",
+        "gold_gain": 20
+      },
+      "fail": {
+        "message": "You failed to solve the riddle and push the door open. You must find another way.",
+        "hp_change": -10,
+        "xp_gain": 0,
+        "hidden_paths": ["Side passage leading to an underground tunnel"]
+      },
+      "partial_pass": {
+        "message": "You managed to solve the riddle or push the door, but not both. You made some progress, but the door remains closed.",
+        "hp_change": -5,
+        "xp_gain": 10,
+        "status_effects": ["Confusion"]
+      }
     },
-    "partial_pass": {
-      "message": "You managed to solve the riddle or push the door, but not both. You made some progress, but the door remains closed."
-    }
+    "choices": [
+      {
+        "text": "Try to solve the riddle",
+        "required_attribute": "Intelligence",
+        "success_rate": 0.7
+      },
+      {
+        "text": "Force the door open with strength",
+        "required_attribute": "Strength",
+        "success_rate": 0.4
+      }
+    ]
   },
   {
-      "primary_attribute": "Agility",
-      "secondary_attribute": "Strength",
-      "prompt_text": "A ferocious monster stands before you, growling menacingly. Will you try to dodge its attacks or fight back?",
+    "primary_attribute": "Agility",
+    "secondary_attribute": "Strength",
+    "prompt_text": "A ferocious monster stands before you, growling menacingly. Will you try to dodge its attacks or fight back?",
+    "context": [
+      "The monster's growl echoes through the forest, sending chills down your spine.",
+      "You hear the crunch of its claws on the ground as it approaches.",
+      "The monster's eyes glow in the darkness, unblinking as it sizes you up."
+    ],
+    "requirements": {
+      "min_level": 2,
+      "required_items": ["Iron Sword"],
+      "alternate_items": ["Enchanted Dagger"]
+    },
+    "unexpected_obstacles": [
+      {
+        "description": "As you prepare to fight, the ground beneath you begins to shake, throwing you off balance!",
+        "hp_change": -10,
+        "status_effects": ["Disoriented"]
+      },
+      {
+        "description": "The monster summons a swarm of biting insects, making it hard to focus.",
+        "status_effects": ["Distracted"],
+        "hp_change": -5
+      }
+    ],
+    "outcomes": {
       "pass": {
-        "message": "You closely dodge the monster's attacks and escape unscathed, or you fought bravely and defeated the creature."
+        "message": "You closely dodge the monster's attacks and escape unscathed, or you fought bravely and defeated the creature.",
+        "hp_change": 0,
+        "xp_gain": 75,
+        "item_reward": "Beast Fang",
+        "gold_gain": 30
       },
       "fail": {
-        "message": "The monster lands a heavy blow on you. You suffer damage and must retreat or find another strategy."
+        "message": "The monster lands a heavy blow on you. You suffer damage and must retreat or find another strategy.",
+        "hp_change": -20,
+        "xp_gain": 0,
+        "status_effects": ["Bleeding"]
       },
       "partial_pass": {
-        "message": "You managed to dodge some of the monster's attacks but took a hit. You're still in the fight, but injured."
+        "message": "You managed to dodge some of the monster's attacks but took a hit. You're still in the fight, but injured.",
+        "hp_change": -10,
+        "xp_gain": 30,
+        "hidden_paths": ["A small cave entrance nearby"]
       }
     },
-    {
-      "primary_attribute": "Agility",
-      "secondary_attribute": "Intelligence",
-      "prompt_text": "You encounter a deep pit filled with stakes. It's too wide to jump easily. What will you do?",
-      "pass": {
-        "message": "With quick reflexes, you make a perfect leap across the pit or use your wit to construct a bridge. You proceed safely."
+    "choices": [
+      {
+        "text": "Attempt to dodge",
+        "required_attribute": "Agility",
+        "success_rate": 0.6
       },
-      "fail": {
-        "message": "You misjudged the jump and fell into the pit, suffering damage. You'll need to find another way out."
-      },
-      "partial_pass": {
-        "message": "You barely made the jump but took some damage. You're injured but manage to pull yourself up."
+      {
+        "text": "Fight back with all your might",
+        "required_attribute": "Strength",
+        "success_rate": 0.5
       }
-    }
-  ]
+    ]
+  }
+]
