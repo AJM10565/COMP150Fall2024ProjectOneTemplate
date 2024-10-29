@@ -75,6 +75,7 @@ class Droid(Character):
 
 class Event:
     def __init__(self, data: dict):
+        self.name = data.get("id", "unknown_event")
         self.passing_attributes = data['passing_attributes']
         self.partial_pass_attributes = data['partial_pass_attributes']
         self.prompt_text = data['prompt_text']
@@ -86,7 +87,6 @@ class Event:
         print(self.prompt_text)
         character = parser.select_party_member(party)
         chosen_stat = parser.select_stat(character)
-        self.resolve_choice(character, chosen_stat)
         outcome = self.resolve_choice(character, chosen_stat)
         # Print based on the outcome
         if outcome == EventStatus.FAIL:
@@ -150,36 +150,35 @@ class Game:
         self.fail_count = 0
         self.max_failures = max_failures
         self.is_game_over = False
+        self.completed_docked_inside = False
 
     def start(self):
         while not self.is_game_over:
             event = self.current_location.get_event()
             event_result = event.execute(self.party, self.parser)
-
-            # Resolve the event's outcome
-            self.resolve_event(event_result)
-
+            self.resolve_event(event_result, event)
             # Check if location is cleared and transition if needed
             if self.check_location_cleared() and not self.is_game_over:
                 self.transition_to_star_destroyer()
-
-    def check_location_cleared(self):
-        # If all events in the current location are completed
-        return len(self.current_location.events) == 0 and self.current_location.name == "Jedha"
 
     def transition_to_star_destroyer(self):
         print("You've cleared all events on Jedha. You can now board the Star Destroyer.")
         self.current_location = self.locations[1]  # Move to the Star Destroyer
 
-    def resolve_event(self, event_result: str):
+    def resolve_event(self, event_result: str, event: Event):
         """Increment failure count if the event fails and end the game if max failures are reached."""
-        if event_result == "fail":
+        if event_result == EventStatus.FAIL.value:
             self.fail_count += 1
             print(f"Failure count: {self.fail_count}/{self.max_failures}")
-
-            # Check if the failure threshold is reached
-            if self.fail_count >= self.max_failures:
+            if self.fail_count >= self.max_failures:    # Check if the failure threshold is reached
                 self.end_game()
+
+        if event.name == "docked_inside" and event_result == "pass":
+            self.completed_docked_inside = True
+
+    def check_location_cleared(self):
+        # Location is cleared if "docked_inside" has been passed
+        return self.completed_docked_inside and self.current_location.name == "Jedha"
 
     def end_game(self):
         """End the game if the failure threshold is met."""

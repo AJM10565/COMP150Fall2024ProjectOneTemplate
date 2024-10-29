@@ -49,7 +49,7 @@
       "Force Sensitivity": "You sense their intent but aren't quick enough to act."
     },
     "fail": {
-      "message": "The scavengers deceive you, and you lose valuable supplies."
+      "message": "The scavengers deceive you, and you lose valuable supplies and return to the entrence of the temple."
     },
     "outcomes": {
       "pass": ["secured_supplies"],
@@ -73,7 +73,7 @@
     "outcomes": {
       "pass": ["relic_gain"],
       "partial_pass": ["energy_fluctuation"],
-      "fail": ["anciet insight"]
+      "fail": ["anciet_insight"]
     }
   },
   {
@@ -246,6 +246,26 @@
       "partial_pass": ["resistance_encounter"],
       "fail": ["alarms_triggered"]
     }
-  }
+  },
+  {
+    "id": "captured_on_shuttle",
+    "prompt_text": "You have been captured on the shuttle and they plan to take you to the main cell on the star destroyer!",
+    "passing_attributes": {
+      "lightsaber_proficiency": "You use your lightsaber to defeat the guards and take their suits to blend in on the star destroyer.",
+      "Hacking": "You hack the ship and lock out the guards before they reach you.",
+      "Blaster Proficiency": "You shoot the guards and end up leaving to the star destroyer before more guards are alerted."
+    },
+    "partial_pass_attributes": {
+      "Mind Tricks": "You use a mind trick to manipulate a guard, but they see past the tick and incapacitate to bring to their superior on the star destroyer."
+    },
+    "fail": {
+      "message": "You are spotted immediately and stormed off the ship as stormtroopers chase you!"
+    },
+    "outcomes": {
+      "pass": ["successful_launch"],
+      "partial_pass": ["gathering_info"],
+      "fail": ["stormtrooper_chase"]
+    }
+  }  
 ]
     
