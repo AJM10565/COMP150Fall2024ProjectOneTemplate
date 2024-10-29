@@ -313,12 +313,56 @@ class Game:
         print("- Secret underwater herbs and spices")
         print("- And most importantly... a sprinkle of friendship!")
         print("\nMr. Krabs whispers: 'Use it wisely, me boy!'")
+    def display_defeat_dialogue(self):
+        print("\nMr. Krabs stands over you, a smirk on his face.")
+        print("Mr. Krabs: 'Ye thought ye could take me secret formula? Ha! Not a chance, me boy!'")
+        print("Mr. Krabs: 'This formula is me life! No one shall take it from me, not even a sponge like ye!'")
+        print("Mr. Krabs: 'Now get back to work, or I'll have ye scrubbing the floors!'")
+
+    
+    def talk_to_mr_krabs(self):
+        print("\nYou approach Mr. Krabs, who is guarding the secret Krabby Patty formula.")
+        print("Mr. Krabs: 'What do ye want, ye sneaky sponge? Ye ain't here for friendly chit-chat!'")
         
+        while True:
+            print("\nChoose your response:")
+            print("1. 'I want the secret formula, Krabs!'")
+            print("2. 'You should share the formula with me!'")
+            print("3. 'What if I told you I was going to betray you?'")
+            print("4. 'Just wanted to say hi!'")
+
+            choice = input("Enter your choice (1-4): ")
+
+            if choice == "1":
+                print("Mr. Krabs: 'Ye'll have to pry it from me cold, dead claws!'")
+                break
+            elif choice == "2":
+                print("Mr. Krabs: 'Ain't no way I'm sharing me formula! It's me life!'")
+                break
+            elif choice == "3":
+                print("Mr. Krabs: 'Betray me? Ye're a fool to think I'd let that happen! I trust no one!'")
+                break
+            elif choice == "4":
+                print("Mr. Krabs: 'Well, ain't ye a friendly little sponge. But enough of that! What do ye really want?'")
+                continue
+            else:
+                print("Invalid choice. Please choose a valid response.")
+
+        print("\nMr. Krabs readies himself for battle, knowing you are up to something.")
+
     def final_encounter(self):
         print("\n🦀 FINAL BOSS BATTLE: Mr. Krabs 🦀")
+        
+        # Call the dialogue with Mr. Krabs
+        self.talk_to_mr_krabs()
+        
         print("Now it's time to battle Mr. Krabs!")
         player = self.party[0]
+
         krabs_health = 150
+        krabs_base_damage = 10
+        krabs_damage_range = 15
+
         while krabs_health > 0 and player.health > 0:
             print(f"\nMr. Krabs has {krabs_health} health. You have {player.health} health.")
             print("Where would you like to attack Mr. Krabs?")
@@ -329,11 +373,11 @@ class Game:
             attack_choice = input("Enter your choice (1-3): ")
             
             if attack_choice == "1":
-                damage = random.randint(10, 20) + player.strength.value
+                damage = random.randint(15, 25) + player.strength.value
                 krabs_health -= damage
                 print(f"You dealt {damage} damage to Mr. Krabs!")
             elif attack_choice in ["2", "3"]:
-                damage = random.randint(1, 5) + player.strength.value
+                damage = random.randint(5, 10) + player.strength.value
                 krabs_health -= damage
                 print(f"You dealt {damage} damage to Mr. Krabs!")
             else:
@@ -341,12 +385,13 @@ class Game:
                 continue
 
             if krabs_health > 0:
-                krabs_damage = random.randint(1, 5)
+                krabs_damage = krabs_base_damage + random.randint(0, krabs_damage_range)
                 player.health -= krabs_damage
                 print(f"Mr. Krabs hit you for {krabs_damage} damage!")
 
         if player.health <= 0:
             print(f"\n💔 {player.name} has been defeated by Mr. Krabs!")
+            self.display_defeat_dialogue()  # Call the defeat dialogue here
             print("Game Over! Better luck next time!")
         elif krabs_health <= 0:
             print("\n🎉 Victory! You've defeated Mr. Krabs!")
@@ -358,6 +403,8 @@ class Game:
             print(f"Weapon Used: {player.weapon}")
             print(f"Total Riddles Solved: {len(self.used_riddles)}")
             print("\nThanks for playing! The End! 🎮")
+
+
 
 
 
