@@ -16,29 +16,29 @@ Answer riddles to collect Krabby Patties.
 - **Example**:
   - **Riddle**: "What has to be broken before you can use it?"
   - **Options**:
-    - Egg
-    - Window
-    - Lock
-  - **Correct Answer**: Egg (Solve it to earn random Krabby Patties!)
+    1. Egg
+    2. Window
+    3. Lock
+  - **Correct Answer**: 1 (Solve it to earn random Krabby Patties!) Type (1-3)
 
 ### Visit Shops
 Spend Krabby Patties on upgrades like health and strength or on new weapons.
 - **Example**:
   - You have 50 Krabby Patties and enter the Weapon Shop.
   - **Available Weapons**:
-    - Spatula: 5 Krabby Patties
-    - Karen: 10 Krabby Patties
-    - Golden Spatula: 20 Krabby Patties
-  - Choose to buy the Golden Spatula to increase your attack power!
+    1. Spatula: 5 Krabby Patties
+    2. Karen: 10 Krabby Patties
+    3. Golden Spatula: 20 Krabby Patties
+  - Choose to buy the Golden Spatula to increase your attack power! Type (1-3)
 
 ### Fight Bosses
 Battle Sandy Cheeks and ultimately, Mr. Krabs. Make strategic decisions to win!
 - **Example**:
   - In the boss battle against Mr. Krabs, you can choose to attack:
-    - Torso
-    - Arms
-    - Legs
-  - Select wisely to maximize damage and win the battle!
+    1. Torso
+    2. Arms
+    3. Legs
+  - Select wisely to maximize damage and win the battle! Type (1-3)
 
 ### Secret Formula
 Win the game to obtain the secret Krabby Patty formula and learn its hidden ingredients.
@@ -49,3 +49,8 @@ Win the game to obtain the secret Krabby Patty formula and learn its hidden ingr
 1. Clone the repository:
    ```bash
    git clone https://github.com/your-username/spongebob-adventure-game.git
+
+### How to Play
+1. Copy and Paste into Terminal:
+    ```bash
+    python project_code/src/main.py
