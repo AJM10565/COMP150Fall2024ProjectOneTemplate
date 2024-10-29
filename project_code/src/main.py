@@ -447,6 +447,8 @@ class Game:
             self.talk_to_mr_krabs()  # Call the dialogue with Mr. Krabs
 
         print("\n🦀 FINAL BOSS BATTLE: Mr. Krabs 🦀")
+
+        
     
     # Call the dialogue with Mr. Krabs
 
