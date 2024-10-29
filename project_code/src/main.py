@@ -165,6 +165,9 @@ class Location:
         return random.choice(self.events)
     
 
+class SandyCheeks(Character):
+    def __init__(self):
+        super().__init__(name="Sandy Cheeks", health=120, strength=15)
 
 
 class Game:
@@ -210,8 +213,58 @@ class Game:
                 "riddle_question": "What has cities, but no houses; forests, but no trees; and rivers, but no water?",
                 "riddle_options": ["1. A map", "2. A globe", "3. A picture"],
                 "correct_answer": 0
+            },
+            {     "riddle_question": "What has words, but never speaks?",
+                "riddle_options": ["1. A book", "2. A clock", "3. A mirror"],
+                "correct_answer": 0
+            },
+            {
+                "riddle_question": "I speak without a mouth and hear without ears. I have no body, but I come alive with the wind. What am I?",
+                "riddle_options": ["1. An echo", "2. A shadow", "3. A wave"],
+                "correct_answer": 0
+            },
+            {
+                "riddle_question": "What is so fragile that saying its name breaks it?",
+                "riddle_options": ["1. Silence", "2. Glass", "3. Trust"],
+                "correct_answer": 0
+            },
+            {
+                "riddle_question": "What has many teeth but cannot bite?",
+                "riddle_options": ["1. A comb", "2. A zipper", "3. A saw"],
+                "correct_answer": 0
+            },
+            {
+                "riddle_question": "What begins with T, ends with T, and has T in it?",
+                "riddle_options": ["1. A teapot", "2. A tent", "3. A turtle"],
+                "correct_answer": 0
+            },
+            {
+                "riddle_question": "The more you take, the more you leave behind. What am I?",
+                "riddle_options": ["1. Footsteps", "2. Memories", "3. Time"],
+                "correct_answer": 0
+            },
+            {
+                "riddle_question": "What can you catch but not throw?",
+                "riddle_options": ["1. A cold", "2. A ball", "3. A fish"],
+                "correct_answer": 0
+            },
+            {
+                "riddle_question": "I can fly without wings. I can cry without eyes. Wherever I go, darkness flies. What am I?",
+                "riddle_options": ["1. A cloud", "2. A bat", "3. A comet"],
+                "correct_answer": 0
+            },
+            {
+                "riddle_question": "What runs around the yard without moving?",
+                "riddle_options": ["1. A fence", "2. A garden", "3. A sprinkler"],
+                "correct_answer": 0
+            },
+            {
+                "riddle_question": "What can fill a room but takes up no space?",
+                "riddle_options": ["1. Light", "2. Air", "3. Sound"],
+                "correct_answer": 0
             }
-        ]
+                
+                ]
 
     def get_unused_riddle(self):
         available_riddles = [riddle for i, riddle in enumerate(self.all_riddles) 
@@ -321,41 +374,82 @@ class Game:
 
     
     def talk_to_mr_krabs(self):
-        print("\nYou approach Mr. Krabs, who is guarding the secret Krabby Patty formula.")
-        print("Mr. Krabs: 'What do ye want, ye sneaky sponge? Ye ain't here for friendly chit-chat!'")
-        
+        print("\nMr. Krabs: 'So, ye think ye can just waltz in here and take me secret formula, eh?'")
+        print("Mr. Krabs: 'Why should I let ye? What's yer plan?'")
+
         while True:
-            print("\nChoose your response:")
-            print("1. 'I want the secret formula, Krabs!'")
-            print("2. 'You should share the formula with me!'")
-            print("3. 'What if I told you I was going to betray you?'")
-            print("4. 'Just wanted to say hi!'")
+            print("1. I want to betray you and take the formula!")
+            print("2. I just wanted to see the formula for myself.")
+            print("3. I think you should share it with me!")
+            print("4. I was just kidding, I love the Krabby Patty!")
 
-            choice = input("Enter your choice (1-4): ")
+            response = input("Choose your response (1-4): ")
 
-            if choice == "1":
-                print("Mr. Krabs: 'Ye'll have to pry it from me cold, dead claws!'")
+            if response == "1":
+                print("Mr. Krabs: 'Betray me? Ye scallywag! I'll make sure ye regret that!'")
                 break
-            elif choice == "2":
-                print("Mr. Krabs: 'Ain't no way I'm sharing me formula! It's me life!'")
+            elif response == "2":
+                print("Mr. Krabs: 'Curiosity killed the cat, ya know! What makes ye think I'm gonna show ye?'")
                 break
-            elif choice == "3":
-                print("Mr. Krabs: 'Betray me? Ye're a fool to think I'd let that happen! I trust no one!'")
+            elif response == "3":
+                print("Mr. Krabs: 'Share it? Over me dead body!'")
                 break
-            elif choice == "4":
-                print("Mr. Krabs: 'Well, ain't ye a friendly little sponge. But enough of that! What do ye really want?'")
-                continue
+            elif response == "4":
+                print("Mr. Krabs: 'Aye, that's what I like to hear! But ye still can't have it!'")
+                break
             else:
-                print("Invalid choice. Please choose a valid response.")
+                print("Invalid choice. Please select a valid option.")
 
-        print("\nMr. Krabs readies himself for battle, knowing you are up to something.")
+
+
 
     def final_encounter(self):
+        print("\n🦊 BOSS BATTLE: Sandy Cheeks 🦊")
+        sandy = SandyCheeks()
+        
+        player = self.party[0]
+        sandy_health = sandy.health
+        sandy_health = 75
+
+        while sandy_health > 0 and player.health > 0:
+            print(f"\nSandy Cheeks has {sandy_health} health. You have {player.health} health.")
+            print("Where would you like to attack Sandy?")
+            print("1. Head")
+            print("2. Tail")
+            print("3. Paws")
+            
+            attack_choice = input("Enter your choice (1-3): ")
+            
+            if attack_choice == "1":
+                damage = random.randint(10, 20) + player.strength.value
+                sandy_health -= damage
+                print(f"You dealt {damage} damage to Sandy Cheeks!")
+            elif attack_choice in ["2", "3"]:
+                damage = random.randint(5, 15) + player.strength.value
+                sandy_health -= damage
+                print(f"You dealt {damage} damage to Sandy Cheeks!")
+            else:
+                print("Invalid attack choice.")
+                continue
+
+            if sandy_health > 0:
+                sandy_damage = random.randint(2, 5) + sandy.strength.value  # Reduced Sandy's attack strength
+                player.health -= sandy_damage
+                print(f"Sandy hit you for {sandy_damage} damage!")
+
+        if player.health <= 0:
+            print(f"\n💔 {player.name} has been defeated by Sandy Cheeks!")
+            print("Game Over! Better luck next time!")
+            return  # End the game completely
+        else:
+            print("\n🎉 You defeated Sandy Cheeks!")
+            print("You enter the secret formula room, but Mr. Krabs catches you!")
+            self.talk_to_mr_krabs()  # Call the dialogue with Mr. Krabs
+
         print("\n🦀 FINAL BOSS BATTLE: Mr. Krabs 🦀")
-        
-        # Call the dialogue with Mr. Krabs
-        self.talk_to_mr_krabs()
-        
+    
+    # Call the dialogue with Mr. Krabs
+
         print("Now it's time to battle Mr. Krabs!")
         player = self.party[0]
 
@@ -369,7 +463,7 @@ class Game:
             print("1. Torso")
             print("2. Arms")
             print("3. Legs")
-            
+                
             attack_choice = input("Enter your choice (1-3): ")
             
             if attack_choice == "1":
