@@ -1,18 +1,51 @@
 # SpongeBob Adventure Game
 
 ## Overview
-Welcome to **Bikini Bottom**! In this text-based adventure, you’ll help characters like SpongeBob and Sandy Cheeks collect Krabby Patties, solve riddles, upgrade stats, and eventually face the final boss, Mr. Krabs. Collect enough Krabby Patties to buy upgrades and weapons, solve riddles to gain rewards, and ultimately uncover the secret Krabby Patty formula!
+Welcome to Bikini Bottom! In this text-based adventure, you’ll join characters like SpongeBob and Sandy Cheeks to collect Krabby Patties, solve riddles, upgrade stats, and face the final boss, Mr. Krabs. Gather enough Krabby Patties to buy upgrades and weapons, solve riddles to earn rewards, and ultimately uncover the secret Krabby Patty formula!
 
 ## Features
 - **Engaging Characters**: Play as SpongeBob and encounter Sandy Cheeks and Mr. Krabs.
-- **Challenging Riddles**: Answer riddles to earn Krabby Patties and test your wits.
-- **Upgrade Shops**: Spend Krabby Patties on weaponry and character upgrades.
+- **Challenging Riddles**: Answer riddles to collect Krabby Patties and test your wits.
+- **Upgrade Shops**: Spend Krabby Patties on weapons and character upgrades.
 - **Boss Battles**: Face off against Sandy Cheeks and Mr. Krabs in epic turn-based combat.
 
 ## Gameplay
-1. **Solve Riddles**: Answer riddles to collect Krabby Patties.
-2. **Visit Shops**: Spend Krabby Patties on upgrades like health and strength or on new weapons.
-3. **Fight Bosses**: Battle Sandy Cheeks and ultimately, Mr. Krabs. Make strategic decisions to win!
-4. **Secret Formula**: Win the game to obtain the secret Krabby Patty formula and learn its hidden ingredients.
 
+### Solve Riddles
+Answer riddles to collect Krabby Patties.
+- **Example**:
+  - **Riddle**: "What has to be broken before you can use it?"
+  - **Options**:
+    - Egg
+    - Window
+    - Lock
+  - **Correct Answer**: Egg (Solve it to earn random Krabby Patties!)
 
+### Visit Shops
+Spend Krabby Patties on upgrades like health and strength or on new weapons.
+- **Example**:
+  - You have 50 Krabby Patties and enter the Weapon Shop.
+  - **Available Weapons**:
+    - Spatula: 5 Krabby Patties
+    - Karen: 10 Krabby Patties
+    - Golden Spatula: 20 Krabby Patties
+  - Choose to buy the Golden Spatula to increase your attack power!
+
+### Fight Bosses
+Battle Sandy Cheeks and ultimately, Mr. Krabs. Make strategic decisions to win!
+- **Example**:
+  - In the boss battle against Mr. Krabs, you can choose to attack:
+    - Torso
+    - Arms
+    - Legs
+  - Select wisely to maximize damage and win the battle!
+
+### Secret Formula
+Win the game to obtain the secret Krabby Patty formula and learn its hidden ingredients.
+
+## Getting Started
+
+### Installation
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/your-username/spongebob-adventure-game.git

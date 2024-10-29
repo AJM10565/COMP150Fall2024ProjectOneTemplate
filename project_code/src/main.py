@@ -455,7 +455,7 @@ class Game:
         print("Now it's time to battle Mr. Krabs!")
         player = self.party[0]
 
-        krabs_health = 100
+        krabs_health = 150
         krabs_base_damage = 10
         krabs_damage_range = 15
 
