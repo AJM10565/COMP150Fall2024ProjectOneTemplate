@@ -110,7 +110,7 @@
 {
         "prompt_text": "You arrive at Reactor Core Alpha. Security is tight here. Do you attempt to sneak past the guards or create a distraction?",
         "passing_attributes": {
-        "Stealth": "You successfully sneak past the guards and reach the reactor core.",
+        "Dexterity": "You successfully sneak past the guards and reach the reactor core.",
         "Hacking": "You create a distraction by triggering false alarms in another section of the ship."
         },
         "partial_pass_attributes": {
@@ -129,7 +129,7 @@
         "prompt_text": "You’ve reached Reactor Core Beta. The area is full of maintenance droids. Do you disable the droids or try to blend in?",
         "passing_attributes": {
         "Hacking": "You disable the maintenance droids, clearing the way to the reactor.",
-        "Disguise": "You manage to blend in with maintenance personnel and walk undetected to the reactor core."
+        "Dexterity": "You manage to blend in with maintenance personnel and walk undetected to the reactor core."
         },
         "partial_pass_attributes": {
         "Strength": "You destroy a few of the droids, but the noise attracts attention from nearby stormtroopers."
@@ -166,7 +166,8 @@
         "prompt_text": "You’ve planted the third bomb! Now, you must escape the Star Destroyer. Do you head for the hangar to steal a ship or find an escape pod?",
         "passing_attributes": {
         "Piloting": "You successfully steal a TIE fighter and make your getaway.",
-        "Dexterity": "You find an escape pod and launch it just as the bombs go off."
+        "Dexterity": "You find an escape pod and launch it just as the bombs go off.",
+        "Force Sensitivity": "You use the force to find the escape pods, and launch it right as the bombs go off."
         },
         "partial_pass_attributes": {
         "Blaster Proficiency": "You take out a few stormtroopers but need to fight your way to the escape pod."
