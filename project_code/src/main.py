@@ -156,6 +156,7 @@ class Game:
         self.max_failures = max_failures
         self.is_game_over = False
         self.completed_docked_inside = False
+        self.party = parser.select_characters(self.all_characters, 3)
 
     def start(self):
         event = self.current_location.get_event("")
@@ -285,7 +286,6 @@ from opening_crawl import display_opening_crawl
 
 def start_game():
     display_opening_crawl()
-
     parser = UserInputParser()
 
     #Creating a character list 
@@ -301,7 +301,7 @@ def start_game():
         Droid("R2-D2"),
         ]
     
-    selected_characters = parser.select_characters(all_characters)
+    all_characters = parser.select_characters(all_characters)
 
 
 
@@ -314,7 +314,7 @@ def start_game():
     ]
 
 
-    game = Game(parser, selected_characters, locations, max_failures = 3)
+    game = Game(parser, [], all_characters, locations, max_failures = 3)
     game.start()
 
 
