@@ -156,17 +156,32 @@ class Game:
         self.max_failures = max_failures
         self.is_game_over = False
         self.completed_docked_inside = False
-    
 
+        self.current_event = self.current_location.get_event("Beginning")
+    
     def start(self):
-        event = self.current_location.get_event("")
         while not self.is_game_over:
-            event_result = event.execute(self.party, self.parser)
-            self.resolve_event(event_result, event)
-            # Check if location is cleared and transition if needed
-            if self.check_location_cleared() and not self.is_game_over:
+            event_result = self.current_event.execute(self.party, self.parser)
+            self.resolve_event(event_result, self.current_event)
+
+            # Check if location is cleared and transition if needed            
+            if self.check_location_cleared() and not self.is_game_over:                
                 self.transition_to_star_destroyer()
-            event: Event = self.current_location.get_event(event_result)
+
+            # Get the next event based on the outcome of the current event            
+            next_event_name = self.current_event.get_next_location()            
+            self.current_event = self.current_location.get_event(next_event_name)
+
+
+    # def start(self):
+    #     event = self.current_location.get_event("")
+    #     while not self.is_game_over:
+    #         event_result = event.execute(self.party, self.parser)
+    #         self.resolve_event(event_result, event)
+    #         # Check if location is cleared and transition if needed
+    #         if self.check_location_cleared() and not self.is_game_over:
+    #             self.transition_to_star_destroyer()
+    #         event: Event = self.current_location.get_event(event_result)
 
     def transition_to_star_destroyer(self):
         print("You've cleared all events on Jedha. You can now board the Star Destroyer.")
