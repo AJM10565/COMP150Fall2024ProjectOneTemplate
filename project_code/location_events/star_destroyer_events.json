@@ -162,6 +162,7 @@
         }
     },
     {
+        "id": "escape_star_destroyer",
         "prompt_text": "You’ve planted the third bomb! Now, you must escape the Star Destroyer. Do you head for the hangar to steal a ship or find an escape pod?",
         "passing_attributes": {
         "Piloting": "You successfully steal a TIE fighter and make your getaway.",
@@ -178,17 +179,5 @@
         "partial_pass": ["combat", "game_end_success"],
         "fail": ["game_end_failure"]
         }
-    },
-    {
-        "prompt_text": "You successfully set the bombs, and as you make your escape, the Star Destroyer explodes behind you. You've completed the mission!",
-        "passing_attributes": {},
-        "partial_pass_attributes": {},
-        "fail": {
-        "message": ""
-        },
-        "outcomes": {
-            "success": ["The mission is complete. The Rebel Alliance is safe, and the Empire has lost one of its key warships."],
-            "failure": ["You were caught before escaping, and the mission failed. The Empire's grip tightens..."]
-                    }
-                }
+    }
 ]
