@@ -1,14 +1,14 @@
-from .character import Character  # Relative import from the same directory
-# vampire.py
+from character import Character  # Relative import from the same directory
 import random  # Import Python's random module
+
+from character import Character
+
 class Witch(Character):
     def __init__(self, name, level=1):
-        super().__init__(name, level)
-        self.health = 100
-        self.attack = 11
-        self.defense = 6
+        # Initialize the base Character with name, level, and initial health
+        super().__init__(name, level, health=100, attack=11, defense=6)
         self.mana = 0  # mana (her source of magic) starts at 0 and charges up
-        self.max_mana = 60  # max mana required to trigger Power Surge(special trait where attacks are more pwerful for 3 turns)
+        self.max_mana = 60  # max mana required to trigger Power Surge
         self.power_surge_active = False  # whether Power Surge is active
         self.power_surge_turns = 0  # number of turns Power Surge is active
         self.power_surge_attack_boost = 10  # attack boost during Power Surge
@@ -27,7 +27,7 @@ class Witch(Character):
 
         self.charge_mana(6)  # Gain 6 mana with each basic attack
 
-    def curse_of_weakness(self, enemy): # special attack
+    def curse_of_weakness(self, enemy):  # special attack
         """Perform a special attack that reduces the enemy's attack and defense, and charge 12 mana."""
         debuff_amount = 3  # Reduces both attack and defense by 3
         enemy.attack -= debuff_amount
@@ -60,5 +60,5 @@ class Witch(Character):
     
     def take_damage(self, amount):
         """Handle taking damage."""
-        self.health -= amount
+        super().take_damage(amount)  # Use the base method to handle health reduction
         print(f"{self.name} takes {amount} damage. Health is now {self.health}.")

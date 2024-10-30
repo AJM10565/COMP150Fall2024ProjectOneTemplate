@@ -1,14 +1,12 @@
-from .character import Character  # Relative import from the same directory
+from character import Character  # Relative import from the same directory
 import random  # Import Python's random module
 
 class Werewolf(Character):
     def __init__(self, name, level=1):
-        super().__init__(name, level)
-        self.health = 145  # werewolves will have the highest base health
-        self.attack = 12
-        self.defense = 8
+        # Initialize the base Character with name, level, and initial health
+        super().__init__(name, level, health=145, attack=12, defense=8)
         self.bloodlust_active = False  # Special trait flag
-        self.bloodlust_attack_boost = 0  # this will store the extra stacks from the bloodlust trait
+        self.bloodlust_attack_boost = 0  # Extra stacks from the Bloodlust trait
 
     def basic_attack(self, enemy):
         """Perform a basic attack."""
@@ -22,10 +20,10 @@ class Werewolf(Character):
     def feral_swipe(self, enemy):
         """Perform a special offensive attack with a chance for a critical hit."""
         critical_hit_chance = 0.2  # 20% chance to land a critical hit
-        damage = self.attack * 1.5  # this attack is stronger than the basic attack
+        damage = self.attack * 1.5  # This attack is stronger than the basic attack
 
         if random.random() <= critical_hit_chance:
-            damage *= 2  # a critical hit will hit for double the damage
+            damage *= 2  # A critical hit will hit for double the damage
             print(f"A CRITICAL HIT!!! {self.name} swipes ferociously!")
         
         damage -= enemy.defense
@@ -56,5 +54,5 @@ class Werewolf(Character):
 
     def take_damage(self, amount):
         """Handle taking damage, reducing health accordingly."""
-        super().take_damage(amount)
+        super().take_damage(amount)  # Call the base class method to manage health
         print(f"{self.name} takes {amount} damage. Health is now {self.health}.")

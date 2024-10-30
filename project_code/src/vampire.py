@@ -1,15 +1,12 @@
-# vampire.py
-from .character import Character  # Relative import from the same directory
-# vampire.py
+
+from character import Character  # Relative import from the same directory
 import random  # Import Python's random module
 
-# vampire
+
 class Vampire(Character):
     def __init__(self, name, level=1):
-        super().__init__(name, level)
-        self.health = 120  # vampires have moderate health
-        self.attack = 10
-        self.defense = 9
+        # Initialize the base Character with name, level, and initial health
+        super().__init__(name, level, health=120, attack=10, defense=9)
         self.dodge_chance = 0.2  # SPECIAL TRAIT (Vampiric Reflexes): 20% chance to dodge attacks
 
     def basic_attack(self, enemy):
@@ -45,10 +42,10 @@ class Vampire(Character):
         if self.vampiric_reflexes():
             print(f"{self.name} dodges the attack with Vampiric Reflexes!")
         else:
-            super().take_damage(amount)
+            super().take_damage(amount)  # Call the base class method to handle health reduction
             print(f"{self.name} takes {amount} damage. Health is now {self.health}.")
 
     def heal(self, amount):
         """Restore health when Life Drain is used."""
-        self.health += amount
+        self.health = min(self.max_health, self.health + amount)  # Ensure health doesn't exceed max_health
         print(f"{self.name} heals for {amount}. Health is now {self.health}.")

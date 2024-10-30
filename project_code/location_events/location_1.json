@@ -1,122 +1,142 @@
 [
   {
-    "primary_attribute": "Intelligence",
-    "secondary_attribute": "Strength",
-    "prompt_text": "A mysterious door blocks your path, with a riddle inscribed. What will you do?",
-    "context": [
-      "The air is damp and cold. You feel a strange presence around the door.",
-      "The riddle on the door glows faintly as you approach it, whispering secrets.",
-      "A soft hum resonates from behind the door, growing louder with each step you take."
-    ],
-    "requirements": {
-      "min_level": 3,
-      "required_items": ["Ancient Key"],
-      "alternate_items": ["Magic Amulet"]
-    },
-    "unexpected_obstacles": [
-      {
-        "description": "A hidden trap is triggered, sending darts flying at you!",
-        "hp_change": -15,
-        "status_effects": ["Poisoned"]
+      "prompt_text": "A wild goblin jumps out from behind a tree, ready to attack!",
+      "outcomes": {
+          "win": {
+              "message": "You bravely defeat the goblin and celebrate your victory!",
+              "health_change": 0  
+          },
+          "loss": {
+              "message": "The goblin overpowers you! You are knocked down!",
+              "health_change": -20 
+          },
+          "injury": {
+              "message": "You manage to defeat the goblin, but not without injury.",
+              "health_change": -10 
+          }
       },
-      {
-        "description": "The door releases a cloud of gas that makes it hard to see.",
-        "status_effects": ["Blinded"],
-        "hp_change": -5
-      }
-    ],
-    "outcomes": {
-      "pass": {
-        "message": "You solved the riddle and pushed the door open. You may proceed.",
-        "hp_change": 0,
-        "xp_gain": 50,
-        "item_reward": "Mystic Scroll",
-        "gold_gain": 20
-      },
-      "fail": {
-        "message": "You failed to solve the riddle and push the door open. You must find another way.",
-        "hp_change": -10,
-        "xp_gain": 0,
-        "hidden_paths": ["Side passage leading to an underground tunnel"]
-      },
-      "partial_pass": {
-        "message": "You managed to solve the riddle or push the door, but not both. You made some progress, but the door remains closed.",
-        "hp_change": -5,
-        "xp_gain": 10,
-        "status_effects": ["Confusion"]
-      }
-    },
-    "choices": [
-      {
-        "text": "Try to solve the riddle",
-        "required_attribute": "Intelligence",
-        "success_rate": 0.7
-      },
-      {
-        "text": "Force the door open with strength",
-        "required_attribute": "Strength",
-        "success_rate": 0.4
-      }
-    ]
+      "event_type": "battle"
   },
   {
-    "primary_attribute": "Agility",
-    "secondary_attribute": "Strength",
-    "prompt_text": "A ferocious monster stands before you, growling menacingly. Will you try to dodge its attacks or fight back?",
-    "context": [
-      "The monster's growl echoes through the forest, sending chills down your spine.",
-      "You hear the crunch of its claws on the ground as it approaches.",
-      "The monster's eyes glow in the darkness, unblinking as it sizes you up."
-    ],
-    "requirements": {
-      "min_level": 2,
-      "required_items": ["Iron Sword"],
-      "alternate_items": ["Enchanted Dagger"]
-    },
-    "unexpected_obstacles": [
-      {
-        "description": "As you prepare to fight, the ground beneath you begins to shake, throwing you off balance!",
-        "hp_change": -10,
-        "status_effects": ["Disoriented"]
+      "prompt_text": "A ferocious wolf appears out of the bushes, baring its teeth!",
+      "outcomes": {
+          "win": {
+              "message": "You skillfully outmaneuver the wolf and bring it down!",
+              "health_change": 0  
+          },
+          "loss": {
+              "message": "The wolf attacks fiercely and you are left helpless.",
+              "health_change": -25  
+          },
+          "injury": {
+              "message": "You manage to scare off the wolf, but you get scratched in the process.",
+              "health_change": -15  
+          }
       },
-      {
-        "description": "The monster summons a swarm of biting insects, making it hard to focus.",
-        "status_effects": ["Distracted"],
-        "hp_change": -5
-      }
-    ],
-    "outcomes": {
-      "pass": {
-        "message": "You closely dodge the monster's attacks and escape unscathed, or you fought bravely and defeated the creature.",
-        "hp_change": 0,
-        "xp_gain": 75,
-        "item_reward": "Beast Fang",
-        "gold_gain": 30
+      "event_type": "battle"
+  },
+  {
+      "prompt_text": "You encounter a deep chasm blocking your path.",
+      "options": {
+          "jump": {
+              "success": {
+                  "message": "You make a daring leap and land safely on the other side!",
+                  "health_change": 0 
+              },
+              "failure": {
+                  "message": "You miscalculate your jump and hurt yourself in the fall.",
+                  "health_change": -10  
+              }
+          },
+          "find a bridge": {
+              "success": {
+                  "message": "You find a sturdy bridge and cross safely.",
+                  "health_change": 0  
+              },
+              "failure": {
+                  "message": "The bridge is unstable and you fall while crossing.",
+                  "health_change": -15  
+              }
+          }
       },
-      "fail": {
-        "message": "The monster lands a heavy blow on you. You suffer damage and must retreat or find another strategy.",
-        "hp_change": -20,
-        "xp_gain": 0,
-        "status_effects": ["Bleeding"]
+      "event_type": "obstacle"
+  },
+  {
+      "prompt_text": "A large boulder blocks your path completely.",
+      "options": {
+          "push the boulder": {
+              "success": {
+                  "message": "You muster all your strength and push the boulder aside!",
+                  "health_change": 0 
+              },
+              "failure": {
+                  "message": "You strain yourself trying to push the boulder and feel pain.",
+                  "health_change": -10  
+              }
+          },
+          "go around it": {
+              "success": {
+                  "message": "You cleverly find a way around the boulder and continue your journey.",
+                  "health_change": 0  
+              },
+              "failure": {
+                  "message": "While navigating around, you trip and hurt yourself.",
+                  "health_change": -15  
+              }
+          }
       },
-      "partial_pass": {
-        "message": "You managed to dodge some of the monster's attacks but took a hit. You're still in the fight, but injured.",
-        "hp_change": -10,
-        "xp_gain": 30,
-        "hidden_paths": ["A small cave entrance nearby"]
-      }
-    },
-    "choices": [
-      {
-        "text": "Attempt to dodge",
-        "required_attribute": "Agility",
-        "success_rate": 0.6
+      "event_type": "obstacle"
+  },
+  {
+      "prompt_text": "You meet a mysterious old woman who offers you something.",
+      "options": {
+          "ask for help": {
+              "success": {
+                  "message": "The old woman gifts you a health potion!",
+                  "health_change": 20 
+              },
+              "failure": {
+                  "message": "The woman turns away, leaving you empty-handed.",
+                  "health_change": 0  
+              }
+          },
+          "ignore her": {
+              "success": {
+                  "message": "You wisely choose to leave her be.",
+                  "health_change": 0 
+              },
+              "failure": {
+                  "message": "The woman curses you for ignoring her!",
+                  "health_change": -10  
+              }
+          }
       },
-      {
-        "text": "Fight back with all your might",
-        "required_attribute": "Strength",
-        "success_rate": 0.5
-      }
-    ]
+      "event_type": "mysterious"
+  },
+  {
+      "prompt_text": "A cloaked figure appears, offering you a mysterious deal.",
+      "options": {
+          "accept the offer": {
+              "success": {
+                  "message": "The figure gives you a health potion!",
+                  "health_change": 20 
+              },
+              "failure": {
+                  "message": "The deal turns out to be a scam; you get nothing.",
+                  "health_change": 0 
+              }
+          },
+          "refuse the offer": {
+              "success": {
+                  "message": "You wisely refuse and continue on your journey.",
+                  "health_change": 0 
+              },
+              "failure": {
+                  "message": "The figure gets angry and curses you!",
+                  "health_change": -15 
+              }
+          }
+      },
+      "event_type": "mysterious"
   }
 ]

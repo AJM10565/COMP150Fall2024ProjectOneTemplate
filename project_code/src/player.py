@@ -1,7 +1,7 @@
-from src.character.witch import Witch
-from src.character.vampire import Vampire
-from src.character.werewolf import Werewolf
-from src.character import Character
+from src.witch import Witch
+from src.vampire import Vampire
+from src.werewolf import Werewolf
+from project_code.src import Character
 
 # This file will contain the Player class and the progression system logic (XP, leveling up, etc.)
 class Player:

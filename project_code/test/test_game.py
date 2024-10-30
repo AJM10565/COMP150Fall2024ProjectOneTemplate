@@ -1,63 +1,60 @@
-import sys
-import os
-
-# Add the root directory of the project to the Python path
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../../')))
-
-from project_code.src.main import Statistic, Character, Event
 import unittest
+from unittest.mock import patch, MagicMock
+from src.main import start_game, Game, UserInputParser, Location
+from src.witch import Witch
+from src.werewolf import Werewolf
+from src.vampire import Vampire
+from src.event import GameEvent
+from src.character import Character
 
-class TestStatistic(unittest.TestCase):
 
-    def setUp(self):
-        self.strength = Statistic("Strength", value=10)
-
-    def test_statistic_initialization(self):
-        self.assertEqual(self.strength.name, "Strength")
-        self.assertEqual(self.strength.value, 10)
-
-    def test_statistic_modify(self):
-        self.strength.modify(5)
-        self.assertEqual(self.strength.value, 15)
-        self.strength.modify(-10)
-        self.assertEqual(self.strength.value, 5)
-
-    def test_statistic_min_max_bounds(self):
-        self.strength.modify(1000)
-        self.assertEqual(self.strength.value, self.strength.max_value)
-        self.strength.modify(-1000)
-        self.assertEqual(self.strength.value, self.strength.min_value)
-
-class TestCharacter(unittest.TestCase):
+class TestGame(unittest.TestCase):
 
     def setUp(self):
-        self.character = Character(name="Hero")
+        """Set up a test game environment before each test."""
+        self.parser = UserInputParser()
+        self.witch = Witch("Test Witch")
+        self.werewolf = Werewolf("Test Werewolf")
+        self.vampire = Vampire("Test Vampire")
+        self.event_data = {
+            'primary_attribute': 'Strength',
+            'secondary_attribute': 'Intelligence',
+            'prompt_text': 'You encounter a challenge.',
+            'pass': {'message': 'You passed!'},
+            'fail': {'message': 'You failed!'},
+            'partial_pass': {'message': 'Partial success.'}
+        }
+        self.event = GameEvent(self.event_data)
+        self.location = Location([self.event])
+        self.game = Game(self.parser, [self.witch, self.werewolf, self.vampire], [self.location])
 
     def test_character_initialization(self):
-        self.assertEqual(self.character.name, "Hero")
-        self.assertEqual(self.character.strength.name, "Strength")
-        self.assertEqual(self.character.intelligence.name, "Intelligence")
+        """Test that characters are initialized correctly."""
+        self.assertEqual(self.witch.health, 100)
+        self.assertEqual(self.werewolf.health, 100)
+        self.assertEqual(self.vampire.health, 120)
 
-class TestEvent(unittest.TestCase):
+    def test_perform_quest(self):
+        """Test that the quest performs correctly."""
+        self.game.perform_quest()  # This will invoke the event
+        self.assertIn(self.event.status, ['pass', 'partial_pass', 'fail'])
 
-    def setUp(self):
-        self.event_data = {
-            "primary_attribute": "Intelligence",
-            "secondary_attribute": "Strength",
-            "prompt_text": "A mysterious door blocks your path, with a riddle inscribed. What will you do?",
-            "pass": {"message": "You solved the riddle and pushed the door open. You may proceed."},
-            "fail": {"message": "You failed to solve the riddle and push the door open. You must find another way."},
-            "partial_pass": {"message": "You managed to solve the riddle or push the door, but not both."}
-        }
-        self.event = Event(self.event_data)
+    def test_check_game_over(self):
+        """Test game over logic when all characters are dead."""
+        self.witch.take_damage(100)  # Simulate damage
+        self.werewolf.take_damage(100)
+        self.vampire.take_damage(120)
+        self.assertTrue(self.game.check_game_over())
 
-    def test_event_initialization(self):
-        self.assertEqual(self.event.primary_attribute, "Intelligence")
-        self.assertEqual(self.event.secondary_attribute, "Strength")
-        self.assertEqual(self.event.prompt_text, self.event_data["prompt_text"])
-        self.assertEqual(self.event.pass_message, self.event_data["pass"]["message"])
-        self.assertEqual(self.event.fail_message, self.event_data["fail"]["message"])
-        self.assertEqual(self.event.partial_pass_message, self.event_data["partial_pass"]["message"])
+    @patch('builtins.input', side_effect=['1'])  # Mock input to select the first character
+    def test_start_game(self, mock_input):
+        """Test starting the game with character selection."""
+        with patch('src.main.print') as mock_print:
+            start_game()
+            mock_print.assert_any_call("Choose your character:")
+            mock_print.assert_any_call("1. Witch")
+            mock_print.assert_any_call("You encounter a challenge.")
 
 if __name__ == '__main__':
     unittest.main()
+
