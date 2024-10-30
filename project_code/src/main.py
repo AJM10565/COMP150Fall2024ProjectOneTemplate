@@ -130,14 +130,14 @@ class Location:
         self.events = events
         self.used_events = []   # Keep track of used events
     
-    def get_event(self, event_name="") -> Event:
+    def get_event(self, event_name) -> Event:
         if len(self.events) == 0:
             # Reset used events if all have been used
             self.events, self.used_events = self.used_events, []
-        if event_name:
-            for event in self.events:
-                if event.name == event_name:
-                    return event
+
+        for event in self.events:
+            if event.name == event_name:
+                return event
         else:
             event = random.choice(self.events)  # Randomly choose an event
             self.events.remove(event)  # Remove it from the available events
@@ -158,14 +158,14 @@ class Game:
         self.completed_docked_inside = False
 
     def start(self):
-        event = self.current_location.get_event()
+        event = self.current_location.get_event("")
         while not self.is_game_over:
             event_result = event.execute(self.party, self.parser)
             self.resolve_event(event_result, event)
             # Check if location is cleared and transition if needed
             if self.check_location_cleared() and not self.is_game_over:
                 self.transition_to_star_destroyer()
-            event = self.current_location.get_event(event_result)
+            event: Event = self.current_location.get_event(event_result)
 
     def transition_to_star_destroyer(self):
         print("You've cleared all events on Jedha. You can now board the Star Destroyer.")
