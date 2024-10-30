@@ -156,7 +156,7 @@ class Game:
         self.max_failures = max_failures
         self.is_game_over = False
         self.completed_docked_inside = False
-        self.party = parser.select_characters(self.all_characters, 3)
+    
 
     def start(self):
         event = self.current_location.get_event("")
@@ -198,12 +198,12 @@ class Game:
         self.is_game_over = True
         print("Game Over: You've failed too many events.")
     
-
 class UserInputParser:
     def parse(self, prompt: str) -> str:
         return input(prompt)
 
     def select_characters(self, available_characters: List[Character], num_choices: int = 3) -> List[Character]:
+        """Allows the player to select a specific number of characters from the list to form the party."""
         if len(available_characters) < num_choices:
             raise ValueError(f"Not enough available characters to select {num_choices}.")
 
@@ -229,28 +229,23 @@ class UserInputParser:
 
         return chosen_characters
 
-    # def select_party_member(self,party: List[Character], num_options: int = 3) -> Character:
-    #     #selects a random subset of the party to display as options 
-    #     if len(party) <= num_options: 
-    #         displayed_party = party 
-    #     else: 
-    #         displayed_party = random.sample(party, num_options)
+    def select_party_member(self, party: List[Character], num_options: int = 3) -> Character:
+        """Allows the player to choose a party member from a list of up to num_options members."""
+        displayed_party = party if len(party) <= num_options else random.sample(party, num_options)
 
-    #     #Displays options
-    #     print("Choose a party member:")
-    #     for idx, member in enumerate(displayed_party):
-    #         print(f"{idx + 1}. {member.name}")
+        print("Choose a party member:")
+        for idx, member in enumerate(displayed_party):
+            print(f"{idx + 1}. {member.name}")
 
-    #     while True:
-    #         try:
-    #             choice = int(self.parse("Enter the number of the chosen party member: ")) - 1
-    #             if 0 <= choice < len(displayed_party):
-    #                 return displayed_party[choice]
-    #             else:
-    #                 print("Invalid selection. Please choose again.")
-    #         except ValueError:
-    #             print("Please enter a valid number.")
-        
+        while True:
+            try:
+                choice = int(self.parse("Enter the number of the chosen party member: ")) - 1
+                if 0 <= choice < len(displayed_party):
+                    return displayed_party[choice]
+                else:
+                    print("Invalid selection. Please choose again.")
+            except ValueError:
+                print("Please enter a valid number.")
 
 
 
@@ -299,9 +294,9 @@ def start_game():
         Character("Poe Dameron"),
         Droid("C-3PO"),
         Droid("R2-D2"),
-        ]
+    ]
     
-    all_characters = parser.select_characters(all_characters)
+    selected_characters = parser.select_characters(all_characters)
 
 
 
@@ -314,7 +309,7 @@ def start_game():
     ]
 
 
-    game = Game(parser, [], all_characters, locations, max_failures = 3)
+    game = Game(parser, selected_characters, locations, max_failures=3)
     game.start()
 
 
