@@ -201,28 +201,54 @@ class Game:
 class UserInputParser:
     def parse(self, prompt: str) -> str:
         return input(prompt)
-    
-    def select_party_member(self,party: List[Character], num_options: int = 3) -> Character:
-        #selects a random subset of the party to display as options 
-        if len(party) <= num_options: 
-            displayed_party = party 
-        else: 
-            displayed_party = random.sample(party, num_options)
 
-        #Displays options
-        print("Choose a party member:")
-        for idx, member in enumerate(displayed_party):
-            print(f"{idx + 1}. {member.name}")
+    def select_characters(self, available_characters: List[Character], num_choices: int = 3) -> List[Character]:
+        if len(available_characters) < num_choices:
+            raise ValueError(f"Not enough available characters to select {num_choices}.")
 
-        while True:
+        chosen_characters = []
+        print("Select 3 characters to form your party:")
+
+        for idx, character in enumerate(available_characters):
+            print(f"{idx + 1}. {character.name} - {type(character).__name__}")
+
+        while len(chosen_characters) < num_choices:
             try:
-                choice = int(self.parse("Enter the number of the chosen party member: ")) - 1
-                if 0 <= choice < len(displayed_party):
-                    return displayed_party[choice]
+                choice = int(self.parse("Enter the number of the character to select: ")) - 1
+                if 0 <= choice < len(available_characters):
+                    if available_characters[choice] not in chosen_characters:
+                        chosen_characters.append(available_characters[choice])
+                        print(f"{available_characters[choice].name} has been added to your party.")
+                    else:
+                        print("You have already selected that character. Please choose another.")
                 else:
-                    print("Invalid selection. Please choose again.")
+                    print("Invalid selection. Please choose a number from the list.")
             except ValueError:
-                print("Please enter a valid number.")
+                print("Invalid input. Please enter a valid number.")
+
+        return chosen_characters
+
+    # def select_party_member(self,party: List[Character], num_options: int = 3) -> Character:
+    #     #selects a random subset of the party to display as options 
+    #     if len(party) <= num_options: 
+    #         displayed_party = party 
+    #     else: 
+    #         displayed_party = random.sample(party, num_options)
+
+    #     #Displays options
+    #     print("Choose a party member:")
+    #     for idx, member in enumerate(displayed_party):
+    #         print(f"{idx + 1}. {member.name}")
+
+    #     while True:
+    #         try:
+    #             choice = int(self.parse("Enter the number of the chosen party member: ")) - 1
+    #             if 0 <= choice < len(displayed_party):
+    #                 return displayed_party[choice]
+    #             else:
+    #                 print("Invalid selection. Please choose again.")
+    #         except ValueError:
+    #             print("Please enter a valid number.")
         
 
 
@@ -255,23 +281,28 @@ def load_events_from_json(file_path: str) -> List[Event]:
         return []
 
 
+from opening_crawl import display_opening_crawl
 
 def start_game():
+    display_opening_crawl()
+
     parser = UserInputParser()
 
     #Creating a character list 
-    characters = [
+    all_characters = [
         Jedi("Luke"),
         Jedi("Obi-wan"),
         BountyHunter("Han Solo"),
         BountyHunter("Chewbacca"),
         BountyHunter("Lando Calrissian"),
         Character("Princess Leia"),
-        Droid("C3PO"),
+        Character("Poe Dameron"),
+        Droid("C-3PO"),
         Droid("R2-D2"),
         ]
     
-    selected_characters = random.sample(characters, 3)
+    selected_characters = parser.select_characters(all_characters)
+
 
 
     jedha_events = load_events_from_json('project_code/location_events/jedha_events.json')
