@@ -170,7 +170,8 @@
         "Force Sensitivity": "You use the force to find the escape pods, and launch it right as the bombs go off."
         },
         "partial_pass_attributes": {
-        "Blaster Proficiency": "You take out a few stormtroopers but need to fight your way to the escape pod."
+        "Blaster Proficiency": "You take out a few stormtroopers but need to fight your way to the escape pod.",
+        "Intelligence": "You find the escape pods and launch right as the bombs go off."
         },
         "fail": {
         "message": "You're trapped by guards and running out of time. The Star Destroyer is seconds from blowing up!"
