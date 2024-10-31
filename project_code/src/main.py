@@ -194,33 +194,32 @@ class Enemy:
         print(f"{self.name} attacks {target.name} for {self.strength.value} damage!")
         target.take_damage(self.strength.value)
 
-    def basic_combat_test(): # rushi 10/14
-        print("Starting the fabulous face-off! \n")
+    # def basic_combat_test(): # rushi 10/14
+    #     print("Starting the fabulous face-off! \n")
 
-        barbie = Character(name="Barbie")
-        glamazon = Enemy(name="Glamazon", health=80, strength=15)
+    #     barbie = Character(name="Barbie")
 
-        print(barbie)
-        print(glamazon)
+    #     print(barbie)
+    #     print(glamazon)
 
-        print("\n--- Round 1: Enemy takes the first move! 💥 ---")
-        glamazon.attack(barbie)
-        barbie.check_stats()
+    #     print("\n--- Round 1: Enemy takes the first move! 💥 ---")
+    #     glamazon.attack(barbie)
+    #     barbie.check_stats()
 
-        print("\n--- Round 2: Barbie uses her glamour attack! ---")
-        barbie.gain_glamour(20) 
-        glamazon.take_damage(20)
-        print(glamazon)
+    #     print("\n--- Round 2: Barbie uses her glamour attack! ---")
+    #     barbie.gain_glamour(20) 
+    #     glamazon.take_damage(20)
+    #     print(glamazon)
 
-        if glamazon.health.value > 0:
-            print("\n--- Round 3: Enemy fights back! ⚔️ ---")
-            glamazon.attack(barbie)
+    #     if glamazon.health.value > 0:
+    #         print("\n--- Round 3: Enemy fights back! ⚔️ ---")
+    #         glamazon.attack(barbie)
 
-        print("\n--- Final Stats: Who wore the crown best? 👑 ---")
-        barbie.check_stats()
-        print(glamazon)
+    #     print("\n--- Final Stats: Who wore the crown best? 👑 ---")
+    #     barbie.check_stats()
+    #     print(glamazon)
 
-    basic_combat_test()
+    # basic_combat_test()
 
 class Raquelle(Enemy): # rushi 10/21
     def __init__(self):
