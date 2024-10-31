@@ -1,6 +1,6 @@
-# COMP150 Fall 2024 Project One Template
+# COMP150 Fall 2024 Barbie Project
 
-This is a template for the first project in the COMP150 Fall 2024 course. The goal of this project is to create a simplified Dungeons & Dragons text-based game in Python.
+Our Barbie RPG is a role-playing adventure where you complete quests and have interactive dialogue with NPCs. Players have an inventory system, and various challenges that test players' strategy and decision-making skills. We incorporated humor and tactical gameplay to bring a fashion world.
 
 ## How to Run the Project
 
