@@ -214,10 +214,10 @@
     "prompt_text": "+----------------------------------------------------+\n|                Onboard Shuttle                     |\n+----------------------------------------------------+\n| You are on the shuttle, but the launch sequence     |\n| requires a code. Do you hack the terminal or bluff  |\n| your way past the guards?                           |\n+----------------------------------------------------+",
     "passing_attributes": {
       "Hacking": "You successfully bypass the terminal's security and launch the shuttle.",
-      "Deception": "You convince the guards that you’re authorized personnel."
+      "Mind Tricks": "You convince the guards that you’re authorized personnel."
     },
     "partial_pass_attributes": {
-      "Mind Tricks": "You attempt a mind trick, but it only partially works."
+      "Intelligence": "You attempt to trick the guards, but it only partially works, they begin a pursuit!"
     },
     "fail": {
       "message": "The terminal locks down, and alarms start blaring as guards rush in."

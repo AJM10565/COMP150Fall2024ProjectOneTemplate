@@ -161,6 +161,7 @@ class Game:
             # Check if location is cleared and transition if needed            
             if self.check_location_cleared() and not self.is_game_over:                
                 self.transition_to_star_destroyer()
+                self.current_event = self.current_location.get_event("hanger")
 
             # Get the next event based on the outcome of the current event            
             next_event_name = self.current_event.get_next_location()            
@@ -171,7 +172,7 @@ class Game:
         print("You've cleared all events on Jedha. You can now board the Star Destroyer.")
         display_star_destroyer_prompt()
         self.current_location = self.locations[1]  # Move to the Star Destroyer
-        
+
 
     def resolve_event(self, event_result: str, event: Event):
         """Increment failure count if the event fails and end the game if max failures are reached."""
