@@ -182,10 +182,15 @@ class Game:
             if self.fail_count >= self.max_failures:    # Check if the failure threshold is reached
                 self.end_game()
 
-        if event.name == "escape_star_destroyer" and event_result == "pass":
+        if event.name == "escape_star_destroyer" and event_result == "pass" or event.name == "escape_star_destroyer" and event_result == "partial_pass":
             """End game when won"""
             self.is_game_over = True
             print("Congratulations! You've successfully escaped. You win!")
+
+        if event.name == "escape_star_destroyer" and event_result == "fail":
+            """End game when won"""
+            self.is_game_over = True
+            print("You fail to escape, and the bombs go off with you inside the Star Destroyer. GAME OVER")        
 
 
         if event.name == "docked_inside" and event_result == "pass":
