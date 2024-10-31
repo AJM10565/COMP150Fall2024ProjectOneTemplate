@@ -171,6 +171,7 @@ class Game:
         print("You've cleared all events on Jedha. You can now board the Star Destroyer.")
         display_star_destroyer_prompt()
         self.current_location = self.locations[1]  # Move to the Star Destroyer
+        
 
     def resolve_event(self, event_result: str, event: Event):
         """Increment failure count if the event fails and end the game if max failures are reached."""
@@ -194,9 +195,13 @@ class Game:
         return self.completed_docked_inside and self.current_location.name == "Jedha"
 
     def end_game(self):
-        """End the game if the failure threshold is met."""
+        """End the game if the failure threshold is met or if the player wins."""
         self.is_game_over = True
-        print("Game Over: You've failed too many events.")
+        if self.fail_count >= self.max_failures:
+            print("Game Over: You've failed too many events.")
+        else:
+            display_winning_crawl()  # Call the winning crawl when the game is won
+
     
 class UserInputParser:
     def parse(self, prompt: str) -> str:
@@ -279,6 +284,7 @@ def load_events_from_json(file_path: str) -> List[Event]:
 
 from opening_crawl import display_opening_crawl
 from star_destroyer_prompt import display_star_destroyer_prompt
+from display_winning_crawl import display_winning_crawl
 
 def start_game():
     display_opening_crawl()
