@@ -11,66 +11,60 @@ class EventStatus(Enum):
     FAIL = "fail"
     PARTIAL_PASS = "partial_pass"
 
-
 class Statistic:
-    def __init__(self, name: str, value: int = 0, description: str = "", min_value: int = 0, max_value: int = 100):
+    def __init__(self, name: str, value: int = 0, description: str = ""):
         self.name = name
-        self.value = value
+        self.value = value  # Retain this for use in other parts of the game
         self.description = description
-        self.min_value = min_value
-        self.max_value = max_value
-
+        # Removed value, min_value, and max_value for displaying only names
 
     def __str__(self):
-        return f"{self.name}: {self.value}"  # Display the correct value here
-
-    def modify(self, amount: int):
-        self.value = max(self.min_value, min(self.max_value, self.value + amount))
+        return self.name  # Display only the name here
 
 
 class Character:
-    def __init__(self, name: str = "Bob", strength_value: int = 10, intelligence_value: int = 10):
+    def __init__(self, name: str = "Bob"):
         self.name = name
         self.stats = []
-        self.strength = Statistic("Strength", 10, description="Strength is a measure of physical power.")
-        self.intelligence = Statistic("Intelligence", 10, description="Intelligence is a measure of cognitive ability.")
+        # Initialize only statistic names without values
+        self.strength = Statistic("Strength", description="Strength is a measure of physical power.")
+        self.intelligence = Statistic("Intelligence", description="Intelligence is a measure of cognitive ability.")
         self.stats.extend([self.strength, self.intelligence])
-        # Add more stats as needed
-        #we added a new subclass and talked about our plan for the future in the ic
 
     def get_stats(self):
         return self.stats
 
-#jedi subclass
+    def __str__(self):
+        return ', '.join(str(stat) for stat in self.stats)  # Display only the names of the stats
+
+
+# Jedi subclass
 class Jedi(Character):
     def __init__(self, name: str):
-        super().__init__(name, strength_value=60, intelligence_value=80)
-        self.force_sensitivity = Statistic("Force Sensitivity", 60, description="Force Sensitivity is a measure of proficiency in force strength.")
-        self.mind_tricks = Statistic("Mind Tricks", 60, description="Mind tricks is a measure of jedi mind control.")
-        self.lightsaber_proficiency = Statistic("Lightsaber Proficiency", 80, description="Lightsaber proficiency is a measure of skill with a lightsaber.")
+        super().__init__(name)
+        self.force_sensitivity = Statistic("Force Sensitivity", description="Force Sensitivity is a measure of proficiency in force strength.")
+        self.mind_tricks = Statistic("Mind Tricks", description="Mind tricks is a measure of Jedi mind control.")
+        self.lightsaber_proficiency = Statistic("Lightsaber Proficiency", description="Lightsaber proficiency is a measure of skill with a lightsaber.")
         self.stats.extend([self.force_sensitivity, self.mind_tricks, self.lightsaber_proficiency])
 
-#added a bounty hunter subclass
+
+# Bounty Hunter subclass
 class BountyHunter(Character):
     def __init__(self, name: str):
-        super().__init__(name, strength_value=50, intelligence_value=50)
-        self.dexterity = Statistic("Dexterity", 65, description="Agility and precision.")
-        self.blaster_proficiency = Statistic("Blaster Proficiency", 70, description="Skill with ranged blaster weapons.")
-        self.piloting = Statistic("Piloting", 60, description="Skill in piloting ships and vehicles.")
+        super().__init__(name)
+        self.dexterity = Statistic("Dexterity", description="Agility and precision.")
+        self.blaster_proficiency = Statistic("Blaster Proficiency", description="Skill with ranged blaster weapons.")
+        self.piloting = Statistic("Piloting", description="Skill in piloting ships and vehicles.")
         self.stats.extend([self.dexterity, self.blaster_proficiency, self.piloting])
 
-#droid subclass
+
+# Droid subclass
 class Droid(Character):
     def __init__(self, name: str = "Bob"):
-        super().__init__(name, strength_value=30, intelligence_value=80)
-        self.processing = Statistic("Processing", 85, description="Ability to processess information effectively.")
-        self.hacking = Statistic("Hacking", 70, description="Ability to hack gateways and doors.")
+        super().__init__(name)
+        self.processing = Statistic("Processing", description="Ability to process information effectively.")
+        self.hacking = Statistic("Hacking", description="Ability to hack gateways and doors.")
         self.stats.extend([self.processing, self.hacking])
-
-
-# Example of how to create and print these characters
-# jedi_character = Jedi(name="Obi-Wan Kenobi")
-# bounty_hunter_character = BountyHunter(name="Boba Fett")
 
 
 class Event:
@@ -173,16 +167,6 @@ class Game:
             self.current_event = self.current_location.get_event(next_event_name)
 
 
-    # def start(self):
-    #     event = self.current_location.get_event("")
-    #     while not self.is_game_over:
-    #         event_result = event.execute(self.party, self.parser)
-    #         self.resolve_event(event_result, event)
-    #         # Check if location is cleared and transition if needed
-    #         if self.check_location_cleared() and not self.is_game_over:
-    #             self.transition_to_star_destroyer()
-    #         event: Event = self.current_location.get_event(event_result)
-
     def transition_to_star_destroyer(self):
         print("You've cleared all events on Jedha. You can now board the Star Destroyer.")
         self.current_location = self.locations[1]  # Move to the Star Destroyer
@@ -268,7 +252,7 @@ class UserInputParser:
         print(f"Choose a stat for {character.name}:")
         stats = character.get_stats()
         for idx, stat in enumerate(stats):
-            print(f"{idx + 1}. {stat.name} ({stat.value})")
+            print(f"{idx + 1}. {stat.name}")
         # Loop until a valid input is entered
         while True:
             try:
@@ -324,7 +308,7 @@ def start_game():
     ]
 
 
-    game = Game(parser, selected_characters, locations, max_failures=3)
+    game = Game(parser, selected_characters, locations, max_failures=5)
     game.start()
 
 

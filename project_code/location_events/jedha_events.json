@@ -1,7 +1,7 @@
 [
   {
     "id": "Beginning",
-    "prompt_text": "You find yourself in the Temple of the Kyber, but Imperial forces are searching the area. Do you try to outwit them or hide?",
+    "prompt_text": "+----------------------------------------------------+\n|                    Beginning                       |\n+----------------------------------------------------+\n| You find yourself in the Temple of the Kyber,      |\n| but Imperial forces are searching the area.        |\n| Do you try to outwit them or hide?                 |\n+----------------------------------------------------+",
     "passing_attributes": {
       "Mind Tricks": "You use a mind trick to make the Imperials forget they saw you.",
       "Dexterity": "You skillfully hide behind debris, avoiding the search."
@@ -20,7 +20,7 @@
   },
   {
     "id": "hidden_knowledge",
-    "prompt_text": "An ancient artifact lies buried in the sands of Jedha. Do you attempt to unearth it using your knowledge or brute strength?",
+    "prompt_text": "+----------------------------------------------------+\n|                 Hidden Knowledge                   |\n+----------------------------------------------------+\n| An ancient artifact lies buried in the sands of    |\n| Jedha. Do you attempt to unearth it using your     |\n| knowledge or brute strength?                       |\n+----------------------------------------------------+",
     "passing_attributes": {
       "Intelligence": "You cleverly analyze the surroundings and recover the artifact without damage.",
       "Strength": "You use your physical power to pull the artifact from the ground.",
@@ -40,7 +40,7 @@
   },
   {
     "id": "ancient_insight",
-    "prompt_text": "A group of scavengers on Jedha offers to trade supplies, but they seem untrustworthy. Do you negotiate or prepare for a possible attack?",
+    "prompt_text": "+----------------------------------------------------+\n|                 Ancient Insight                    |\n+----------------------------------------------------+\n| A group of scavengers on Jedha offers to trade     |\n| supplies, but they seem untrustworthy. Do you      |\n| negotiate or prepare for a possible attack?        |\n+----------------------------------------------------+",
     "passing_attributes": {
       "Intelligence": "You outsmart the scavengers and secure a good deal.",
       "Blaster Proficiency": "You stay prepared and dissuade them from any hostile action."
@@ -49,7 +49,7 @@
       "Force Sensitivity": "You sense their intent but aren't quick enough to act."
     },
     "fail": {
-      "message": "The scavengers deceive you, and you lose valuable supplies and return to the entrence of the temple."
+      "message": "The scavengers deceive you, and you lose valuable supplies and return to the entrance of the temple."
     },
     "outcomes": {
       "pass": ["secured_supplies"],
@@ -59,7 +59,7 @@
   },
   {
     "id": "secured_supplies",
-    "prompt_text": "You've discovered a hidden chamber within the Temple of the Kyber. It contains powerful relics, but the energy is unstable. Do you attempt to stabilize the energy field or take a relic quickly?",
+    "prompt_text": "+----------------------------------------------------+\n|                 Secured Supplies                   |\n+----------------------------------------------------+\n| You've discovered a hidden chamber within the      |\n| Temple of the Kyber. It contains powerful relics,  |\n| but the energy is unstable. Do you attempt to      |\n| stabilize the energy field or take a relic quickly?|\n+----------------------------------------------------+",
     "passing_attributes": {
       "Force Sensitivity": "You stabilize the energy field, allowing you to safely take a relic.",
       "Hacking": "You override the energy systems to stabilize them temporarily."
@@ -68,17 +68,17 @@
       "Intelligence": "You manage to take a relic, but the energy field fluctuates dangerously."
     },
     "fail": {
-      "message": "The energy field destabilizes, and you are knocked back by a surge but the scavengers come back while you are unconscious."
+      "message": "The energy field destabilizes, and you are knocked back by a surge, but the scavengers come back while you are unconscious."
     },
     "outcomes": {
       "pass": ["relic_gain"],
       "partial_pass": ["gathering_info"],
-      "fail": ["anciet_insight"]
+      "fail": ["ancient_insight"]
     }
   },
   {
     "id": "relic_gain",
-    "prompt_text": "The Temple's defenses activate as you explore deeper. Do you try to disable them or find a way around?",
+    "prompt_text": "+----------------------------------------------------+\n|                  Relic Gain                        |\n+----------------------------------------------------+\n| The Temple's defenses activate as you explore      |\n| deeper. Do you try to disable them or find a way  |\n| around?                                           |\n+----------------------------------------------------+",
     "passing_attributes": {
       "Hacking": "You successfully disable the temple's defenses and enter a hidden dock within the temple.",
       "Dexterity": "You manage to navigate through the defenses without triggering them and end up at a hidden empire dock within the temple."
@@ -97,16 +97,16 @@
   },
   {
     "id": "deeper_access",
-    "prompt_text": "You venture deeper into the Temple of the Kyber and discover a hidden archive. Do you study the ancient texts or search for hidden compartments?",
+    "prompt_text": "+----------------------------------------------------+\n|                 Deeper Access                      |\n+----------------------------------------------------+\n| You venture deeper into the Temple of the Kyber    |\n| and discover a hidden archive. Do you study the    |\n| ancient texts or search for hidden compartments?   |\n+----------------------------------------------------+",
     "passing_attributes": {
-      "Intelligence": "You decipher the ancient texts, gaining invaluable knowledge about the Force and the plans of the star destoryer.",
+      "Intelligence": "You decipher the ancient texts, gaining invaluable knowledge about the Force and the plans of the star destroyer.",
       "Dexterity": "You skillfully find hidden compartments containing lost artifacts and plans of the star destroyer."
     },
     "partial_pass_attributes": {
-      "Force Sensitivity": "You sense the presence of the Force but can't pinpoint its source however, you end up finding a room with relics."
+      "Force Sensitivity": "You sense the presence of the Force but can't pinpoint its source; however, you end up finding a room with relics."
     },
     "fail": {
-      "message": "You end up failing to decipher the texts and can't find any hidden compartments so you move on into another room."
+      "message": "You fail to decipher the texts and can't find any hidden compartments, so you move on into another room."
     },
     "outcomes": {
       "pass": ["gathering_info"],
@@ -116,16 +116,16 @@
   },
   {
     "id": "interrogation",
-    "prompt_text": "You are captured by the empire and are interrogated for rebel secrets",
+    "prompt_text": "+----------------------------------------------------+\n|                   Interrogation                    |\n+----------------------------------------------------+\n| You are captured by the Empire and are interrogated |\n| for rebel secrets.                                  |\n|                                                    |\n+----------------------------------------------------+",
     "passing_attributes": {
-      "Mind Tricks": "You tick the gurads into freeing you and make your escape into a strange room in the temple.",
-      "Hacking": "You override the locking mechanism on your cell and make your escape, as you turn a corner you find yourself deeper into the temple."
+      "Mind Tricks": "You trick the guards into freeing you and make your escape into a strange room in the temple.",
+      "Hacking": "You override the locking mechanism on your cell and make your escape; as you turn a corner, you find yourself deeper into the temple."
     },
     "partial_pass_attributes": {
-      "Blaster Proficiency": "While the guards are distracted you take out the blaster you have hidden and shoot the guards but they injure you run away into the compound."
+      "Blaster Proficiency": "While the guards are distracted, you take out the blaster you have hidden and shoot the guards, but they injure you; you run away into the compound."
     },
     "fail": {
-      "message": "You are interrogated ruthlessly and give up rebel secrets but your friends come to save you. However, you lose ground and end up back where you started."
+      "message": "You are interrogated ruthlessly and give up rebel secrets, but your friends come to save you. However, you lose ground and end up back where you started."
     },
     "outcomes": {
       "pass": ["deeper_access"],
@@ -135,7 +135,7 @@
   },
   {
     "id": "gathering_info",
-    "prompt_text": "Before making your move, you need more information about the Star Destroyer's patrols. Do you eavesdrop on Imperial officers or analyze security feeds?",
+    "prompt_text": "+----------------------------------------------------+\n|                 Gathering Info                     |\n+----------------------------------------------------+\n| Before making your move, you need more information  |\n| about the Star Destroyer's patrols. Do you eavesdrop|\n| on Imperial officers or analyze security feeds?    |\n+----------------------------------------------------+",
     "passing_attributes": {
       "Intelligence": "You cleverly analyze the feeds to gather valuable information.",
       "Mind Tricks": "You use a mind trick to get an officer to reveal the patrol schedule."
@@ -154,45 +154,64 @@
   },
   {
     "id": "intel_gathered",
-    "prompt_text": "With the patrol schedule in hand, you plan your entry. Do you choose a stealthy approach through the back alleys or create a diversion?",
+    "prompt_text": "+----------------------------------------------------+\n|                 Intel Gathered                     |\n+----------------------------------------------------+\n| With the patrol schedule in hand, you plan your    |\n| entry. Do you choose a stealthy approach through the|\n| back alleys or create a diversion?                 |\n+----------------------------------------------------+",
     "passing_attributes": {
       "Dexterity": "You navigate the back alleys and reach the docking area undetected where you find your shuttle.",
-      "Blaster Proficiency": "You create a diversion by firing at nearby equipment, drawing the guards away this gives you time to get onboard the shuttle."
+      "Blaster Proficiency": "You create a diversion by firing at nearby equipment, drawing the guards away; this gives you time to get onboard the shuttle."
     },
     "partial_pass_attributes": {
-      "Strength": "You attempt to push past some guards but attract their attention. However, you end up at another dock that is unguarded."
+      "Hacking": "You manage to set off a distraction, but it draws more attention than you anticipated."
     },
     "fail": {
-      "message": "The guards see through your plan and alert the rest of the troops you run away into a strange part of the temple."
+      "message": "Your plan fails, and you're surrounded by guards."
     },
     "outcomes": {
-      "pass": ["successful_launch"],
-      "partial_pass": ["docking_area"],
-      "fail": ["secured_supplies"]
+      "pass": ["docking_area"],
+      "partial_pass": ["gathering_info"],
+      "fail": ["interrogation"]
     }
   },
   {
     "id": "docking_area",
-    "prompt_text": "You've reached the docking area. Do you attempt to board an unguarded shuttle or look for a maintenance hatch?",
+    "prompt_text": "+----------------------------------------------------+\n|                 Docking Area                       |\n+----------------------------------------------------+\n| You've reached the hidden docking bay. Do you      |\n| prepare your ship for a quick getaway or try to    |\n| sabotage the Imperial crafts?                      |\n+----------------------------------------------------+",
     "passing_attributes": {
-      "Dexterity": "You quickly board the unguarded shuttle and prepare it for takeoff.",
-      "Hacking": "You find a maintenance hatch and access the Star Destroyer through the service tunnels."
+      "Hacking": "You successfully hack into the Imperial systems to sabotage their ships.",
+      "Blaster Proficiency": "You secure your ship and prepare to leave just as the alarms go off."
     },
     "partial_pass_attributes": {
-      "Strength": "You manage to pry open the hatch, but it makes a loud noise as you make your escape you hear some plans."
+      "Dexterity": "You manage to prepare your ship, but the guards are alerted."
     },
     "fail": {
-      "message": "A patrol finds you trying to board, and you must fight your way out. You end up defeating you enemys but they push you deeper into the temple"
+      "message": "You are captured as you try to escape; however, you are not alone, and a hidden rebel team rescues you."
     },
     "outcomes": {
-      "pass": ["onboard_shuttle"],
-      "partial_pass": ["intel_gathered"],
-      "fail": ["deeper_access"]
+      "pass": ["victory"],
+      "partial_pass": ["stormtrooper_chase"],
+      "fail": ["interrogation"]
+    }
+  },
+  {
+    "id": "stormtrooper_chase",
+    "prompt_text": "+----------------------------------------------------+\n|               Stormtrooper Chase                  |\n+----------------------------------------------------+\n| You are pursued by stormtroopers! Do you run for    |\n| cover or make a stand and fight?                   |\n+----------------------------------------------------+",
+    "passing_attributes": {
+      "Dexterity": "You skillfully evade their shots and find a hiding spot.",
+      "Blaster Proficiency": "You take cover and return fire, taking out a few troopers."
+    },
+    "partial_pass_attributes": {
+      "Mind Tricks": "You attempt to confuse them but only buy yourself a moment."
+    },
+    "fail": {
+      "message": "You are overwhelmed and captured by the stormtroopers."
+    },
+    "outcomes": {
+      "pass": ["victory"],
+      "partial_pass": ["interrogation"],
+      "fail": ["interrogation"]
     }
   },
   {
     "id": "onboard_shuttle",
-    "prompt_text": "You are on the shuttle, but the launch sequence requires a code. Do you hack the terminal or bluff your way past the guards?",
+    "prompt_text": "+----------------------------------------------------+\n|                Onboard Shuttle                     |\n+----------------------------------------------------+\n| You are on the shuttle, but the launch sequence     |\n| requires a code. Do you hack the terminal or bluff  |\n| your way past the guards?                           |\n+----------------------------------------------------+",
     "passing_attributes": {
       "Hacking": "You successfully bypass the terminal's security and launch the shuttle.",
       "Deception": "You convince the guards that you’re authorized personnel."
@@ -211,7 +230,7 @@
   },
   {
     "id": "successful_launch",
-    "prompt_text": "The shuttle launches successfully, and you find yourself heading towards the Star Destroyer. Do you take a direct approach or attempt to sneak in through a lesser-known docking bay?",
+    "prompt_text": "+----------------------------------------------------+\n|                 Successful Launch                   |\n+----------------------------------------------------+\n| The shuttle launches successfully, and you find     |\n| yourself heading towards the Star Destroyer. Do you |\n| take a direct approach or attempt to sneak in through|\n| a lesser-known docking bay?                         |\n+----------------------------------------------------+",
     "passing_attributes": {
       "Piloting": "You expertly maneuver the shuttle, evading detection.",
       "Dexterity": "You identify and approach a lesser-known docking bay that is less guarded."
@@ -230,7 +249,7 @@
   },
   {
     "id": "docked_inside",
-    "prompt_text": "You have docked inside the Star Destroyer. Your mission begins. Do you head for the control room or look for a way to sabotage the ship?",
+    "prompt_text": "+----------------------------------------------------+\n|                 Docked Inside                      |\n+----------------------------------------------------+\n| You have docked inside the Star Destroyer. Your    |\n| mission begins. Do you head for the control room or |\n| look for a way to sabotage the ship?               |\n+----------------------------------------------------+",
     "passing_attributes": {
       "Intelligence": "You quickly formulate a plan and lead your team to the control room.",
       "Hacking": "You find systems to sabotage to weaken the Star Destroyer."
@@ -241,7 +260,7 @@
     "fail": {
       "message": "You are spotted immediately, and alarms begin to sound."
     },
-     "outcomes": {
+    "outcomes": {
       "pass": ["successful_launch"],
       "partial_pass": ["gathering_info"],
       "fail": ["stormtrooper_chase"]
@@ -249,14 +268,14 @@
   },
   {
     "id": "captured_on_shuttle",
-    "prompt_text": "You have been captured on the shuttle and they plan to take you to the main cell on the star destroyer!",
+    "prompt_text": "+----------------------------------------------------+\n|               Captured on Shuttle                  |\n+----------------------------------------------------+\n| You have been captured on the shuttle, and they     |\n| plan to take you to the main cell on the Star      |\n| Destroyer!                                         |\n+----------------------------------------------------+",
     "passing_attributes": {
-      "lightsaber_proficiency": "You use your lightsaber to defeat the guards and take their suits to blend in on the star destroyer.",
+      "lightsaber_proficiency": "You use your lightsaber to defeat the guards and take their suits to blend in on the Star Destroyer.",
       "Hacking": "You hack the ship and lock out the guards before they reach you.",
-      "Blaster Proficiency": "You shoot the guards and end up leaving to the star destroyer before more guards are alerted."
+      "Blaster Proficiency": "You shoot the guards and end up leaving to the Star Destroyer before more guards are alerted."
     },
     "partial_pass_attributes": {
-      "Mind Tricks": "You use a mind trick to manipulate a guard, but they see past the tick and incapacitate to bring to their superior on the star destroyer."
+      "Mind Tricks": "You use a mind trick to manipulate a guard, but they see past the trick and incapacitate you to bring you to their superior on the Star Destroyer."
     },
     "fail": {
       "message": "You are spotted immediately and stormed off the ship as stormtroopers chase you!"
@@ -266,27 +285,16 @@
       "partial_pass": ["gathering_info"],
       "fail": ["stormtrooper_chase"]
     }
-  },
-  {
-    "id": "stormtrooper_chase",
-    "prompt_text": "You are being chased by a group of stormtroopers what will you do!?",
-    "passing_attributes": {
-      "lightsaber_proficiency": "You fight off the guards with your lightsaber skills and enter the docking area ",
-      "Strength": "You use your strength to overwhelm the stoormtroopers and enter the docking area.",
-      "Blaster Proficiency": "You shoot the stormtroopers and enter a new docking area."
-    },
-    "partial_pass_attributes": {
-      "Mind Tricks": "You use a mind trick to manipulate a guard, but they see past the tick and incapacitate to bring to their superior on the star destroyer.",
-      "processing": "You process the surrounding area quickly and find a new route to reach an empty empirial shuttle"
-    },
-    "fail": {
-      "message": "You are spotted immediately and stormed off the ship as stormtroopers chase you!"
-    },
-    "outcomes": {
-      "pass": ["successful_launch"],
-      "partial_pass": ["onboard_shuttle"],
-      "fail": ["captured_on_shuttle"]
-    }
   }
 ]
-    
+  
+
+
+
+  
+  
+  
+  
+  
+  
+  
