@@ -71,19 +71,11 @@ def display_winning_crawl(speed=0.05):
         "be with you always.\n"
         "--------------------------------------------------------------------"
     )
-
     print("\n" + "=" * 70 + "\n")  # Adding a line to separate the ASCII art and the description
 
     for line in winning_crawl_ascii.splitlines():
         print(line)
         time.sleep(speed)  # Use the customizable speed
 
-    for line in description.splitlines():
-        print(line)
-        time.sleep(speed)  # Use the same customizable speed
-
-    print("\n")  # Additional newline for spacing
-
-# Example of calling the function
-display_winning_crawl(speed=0.05)
-
+    print("\n" + description + "\n")
+    
