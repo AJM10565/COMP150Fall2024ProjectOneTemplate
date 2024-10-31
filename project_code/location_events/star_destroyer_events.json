@@ -1,0 +1,214 @@
+[
+  {
+      "id": "reactor_core",
+      "prompt_text": "+----------------------------------------------------+\n|                 Reactor Core                       |\n+----------------------------------------------------+\n| You arrive in the Star Destroyer's engineering bay, |\n| where a reactor is overheating. If you don't fix it,|\n| an alarm will go off, bringing troopers to your     |\n| position. What do you do?                          |\n+----------------------------------------------------+",
+      "passing_attributes": {
+          "Hacking": "You successfully stabilize the reactor, which opens access to the control room.",
+          "Processing": "You fix the issue with droid-like precision, opening access to the reactor core."
+      },
+      "partial_pass_attributes": {
+          "Intelligence": "You slow down the overheating, but it's only temporary. You can either leave the area or rush to the control room for more permanent repairs."
+      },
+      "fail": {
+          "message": "You fail to fix the reactor, causing an alarm that blocks access to other parts of the ship. Guards are headed your way!"
+      },
+      "outcomes": {
+          "pass": ["beta"],
+          "partial_pass": ["control_room"],
+          "fail": ["bridge"]
+      }
+  },
+  {
+      "id": "control_room",
+      "prompt_text": "+----------------------------------------------------+\n|                 Control Room                       |\n+----------------------------------------------------+\n| You've entered the control room. You can access    |\n| important systems here. Do you disable ship        |\n| communications or attempt to scramble navigation    |\n| systems?                                           |\n+----------------------------------------------------+",
+      "passing_attributes": {
+          "Hacking": "You scramble the navigation systems, causing the Star Destroyer to drift off course.",
+          "Force Sensitivity": "You sense the right moment to disrupt communications, preventing them from sending distress signals."
+      },
+      "partial_pass_attributes": {
+          "Blaster Proficiency": "You disable a few key systems with blaster fire, but you've made a lot of noise!"
+      },
+      "fail": {
+          "message": "Your attempt fails, and a squad of stormtroopers rushes in. You need to fight or flee!"
+      },
+      "outcomes": {
+          "pass": ["beta"],
+          "partial_pass": ["beta"],
+          "fail": ["reactor_core"]
+      }
+  },
+  {
+      "id": "armory",
+      "prompt_text": "+----------------------------------------------------+\n|                   Armory                           |\n+----------------------------------------------------+\n| You find yourself near the armory. Rows of weapons |\n| line the walls. Do you take weapons or set         |\n| explosives?                                       |\n+----------------------------------------------------+",
+      "passing_attributes": {
+          "Blaster Proficiency": "You arm yourself with a powerful blaster, ready for combat ahead.",
+          "Hacking": "You set explosives on a delay, hoping to destroy this section of the ship later.",
+          "Intelligence": "You set explosives on a delay, hoping to destroy this section of the ship later."
+      },
+      "partial_pass_attributes": {
+          "Strength": "You manage to grab some weapons, but leave as you hear guards coming from down the hall."
+      },
+      "fail": {
+          "message": "You fail to arm yourself or set explosives, you leave hearing guards come down the hall."
+      },
+      "outcomes": {
+          "pass": ["gamma"],
+          "partial_pass": ["gamma"],
+          "fail": ["gamma"]
+      }
+  },
+  {
+      "id": "detention_block",
+      "prompt_text": "+----------------------------------------------------+\n|                Detention Block                     |\n+----------------------------------------------------+\n| You've reached the detention block, a prisoner is  |\n| making noise right behind the door. What do you    |\n| do?                                               |\n+----------------------------------------------------+",
+      "passing_attributes": {
+          "Mind Tricks": "You use a Jedi mind trick to free the prisoner without alerting the guards.",
+          "Dexterity": "You sneak past the guards and unlock the prisoner's cell."
+      },
+      "partial_pass_attributes": {
+          "Strength": "You overpower a few guards but raise an alarm in the process."
+      },
+      "fail": {
+          "message": "Stormtroopers see you and fire, forcing you to run away."
+      },
+      "outcomes": {
+          "pass": ["alpha"],
+          "partial_pass": ["alpha"],
+          "fail": ["storm_troopers"]
+      }
+  },
+  {
+      "id": "hanger",
+      "prompt_text": "+----------------------------------------------------+\n|                   Hangar                            |\n+----------------------------------------------------+\n| You enter the hangar. There are stormtroopers      |\n| everywhere and need to find a way out. What will   |\n| you do?                                           |\n+----------------------------------------------------+",
+      "passing_attributes": {
+          "Dexterity": "You successfully leave the hangar and make your way through the Star Destroyer.",
+          "Force Sensitivity": "You sense the right moment to slip into the cargo hold, hiding from the stormtroopers."
+      },
+      "partial_pass_attributes": {
+          "Intelligence": "You manage to avoid detection, but you can't find a clear way out yet."
+      },
+      "fail": {
+          "message": "You are spotted trying to leave the ship you came on, and stormtroopers open fire. TRY AGAIN."
+      },
+      "outcomes": {
+          "pass": ["alpha"],
+          "partial_pass": ["storm_troopers"],
+          "fail": ["hanger"]
+      }
+  },
+  {
+      "id": "bridge",
+      "prompt_text": "+----------------------------------------------------+\n|                   Bridge                            |\n+----------------------------------------------------+\n| You find yourself at the bridge. You have a chance |\n| to disable the Star Destroyer entirely or take     |\n| control of its systems. Do you attempt either?     |\n+----------------------------------------------------+",
+      "passing_attributes": {
+          "Hacking": "You shut down all systems, rendering the Star Destroyer helpless in space.",
+          "Piloting": "You seize control of the ship and set a new course for a Rebel base."
+      },
+      "partial_pass_attributes": {
+          "Blaster Proficiency": "You take out some of the key officers but fail to gain full control and are forced to run away."
+      },
+      "fail": {
+          "message": "You fail to take control, and alarms blare across the ship. Reinforcements are on the way!"
+      },
+      "outcomes": {
+          "pass": ["beta"],
+          "partial_pass": ["reactor_core"],
+          "fail": ["reactor_core"]
+      }
+  },
+  {
+      "id": "alpha",
+      "prompt_text": "+----------------------------------------------------+\n|                   Reactor Core Alpha                |\n+----------------------------------------------------+\n| You arrive at Reactor Core Alpha. Security is tight |\n| here. Do you attempt to sneak past the guards or    |\n| create a distraction?                              |\n+----------------------------------------------------+",
+      "passing_attributes": {
+          "Dexterity": "You successfully sneak past the guards and reach the reactor core. You arm a bomb and continue through the Star Destroyer.",
+          "Hacking": "You create a distraction by triggering false alarms in another section of the ship, allowing you to arm the first bomb in the reactor."
+      },
+      "partial_pass_attributes": {
+          "Blaster Proficiency": "You engage in a quick firefight and manage to take out the guards, but reinforcements are on the way."
+      },
+      "fail": {
+          "message": "You are spotted by guards and forced into a heavy firefight. Alarms go off across the ship! You're sent back to the hangar."
+      },
+      "outcomes": {
+          "pass": ["bridge"],
+          "partial_pass": ["detention_block"],
+          "fail": ["hanger"]
+      }
+  },
+  {
+      "id": "beta",
+      "prompt_text": "+----------------------------------------------------+\n|                   Reactor Core Beta                 |\n+----------------------------------------------------+\n| You’ve reached Reactor Core Beta. The area is full  |\n| of maintenance droids. Do you disable the droids or  |\n| try to blend in?                                   |\n+----------------------------------------------------+",
+      "passing_attributes": {
+          "Hacking": "You disable the maintenance droids, clearing the way to the reactor. The second bomb is armed.",
+          "Dexterity": "You manage to blend in with maintenance personnel and walk undetected to the reactor core, planting the second bomb."
+      },
+      "partial_pass_attributes": {
+          "Strength": "You destroy a few of the droids, but the noise attracts attention from nearby stormtroopers."
+      },
+      "fail": {
+          "message": "The droids detect your presence and alert the guards. A squad of stormtroopers is en route!"
+      },
+      "outcomes": {
+          "pass": ["armory"],
+          "partial_pass": ["control_room"],
+          "fail": ["bridge"]
+      }
+  },
+  {
+      "id": "gamma",
+      "prompt_text": "+----------------------------------------------------+\n|                   Reactor Core Gamma                |\n+----------------------------------------------------+\n| You arrive at Reactor Core Gamma, the most secure   |\n| core on the ship. The area is heavily patrolled. Do |\n| you hack the security systems or fight your way     |\n| through?                                          |\n+----------------------------------------------------+",
+      "passing_attributes": {
+          "Hacking": "You hack the security systems, shutting down surveillance and alarms in the area. You arm the final bomb, and the ship's self-destruct is set.",
+          "Force Sensitivity": "You sense the guards’ movements and slip past them to plant the final bomb without alerting anyone."
+      },
+      "partial_pass_attributes": {
+          "Blaster Proficiency": "You take out a few guards, but the commotion alerts others."
+      },
+      "fail": {
+          "message": "You fail to get through undetected and are swarmed by guards. You're sent back to the hangar!"
+      },
+      "outcomes": {
+          "pass": ["escape_star_destroyer"],
+          "partial_pass": ["escape_star_destroyer"],
+          "fail": ["armory"]
+      }
+  },
+  {
+    "id": "escape_star_destroyer",
+    "prompt_text": "+----------------------------------------------------+\n|               Escape the Star Destroyer            |\n+----------------------------------------------------+\n| Now, you must escape the Star Destroyer. Do you    |\n| head for the hangar to steal a ship or find an      |\n| escape pod?                                        |\n+----------------------------------------------------+",
+    "passing_attributes": {
+        "Piloting": "You successfully steal a TIE fighter and make your getaway.",
+        "Dexterity": "You find an escape pod and launch it just as the bombs go off.",
+        "Force Sensitivity": "You use the Force to find the escape pods and launch it right as the bombs go off."
+    },
+    "partial_pass_attributes": {
+        "Blaster Proficiency": "You take out a few stormtroopers but need to fight your way to the escape pod.",
+        "Intelligence": "You find the escape pods and launch right as the bombs go off."
+    },
+    "fail": {
+        "message": "You're trapped by guards and running out of time. The Star Destroyer is seconds from blowing up!"
+    },
+    "outcomes": {
+        "pass": ["game_end_success"],
+        "partial_pass": ["game_end_success"],
+        "fail": ["game_end_failure"]
+    }
+  },
+  {
+      "id": "storm_troopers",
+      "prompt_text": "+----------------------------------------------------+\n|                 Stormtrooper Encounter              |\n+----------------------------------------------------+\n| You encounter a squad of stormtroopers. You must   |\n| decide whether to fight or flee. What do you do?   |\n+----------------------------------------------------+",
+      "passing_attributes": {
+          "Blaster Proficiency": "You take out the squad with skillful shots.",
+          "Strength": "You overpower the squad with brute strength."
+      },
+      "partial_pass_attributes": {
+          "Dexterity": "You evade some shots but take a hit yourself."
+      },
+      "fail": {
+          "message": "You are overwhelmed by the stormtroopers and taken captive."
+      },
+      "outcomes": {
+          "pass": ["alpha"],
+          "partial_pass": ["detention_block"],
+          "fail": ["hanger"]
+      }
+  }
+]
