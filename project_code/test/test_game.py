@@ -1,62 +1,107 @@
 import unittest
-from unittest.mock import patch, MagicMock
-from ..src.main import start_game, Game, UserInputParser, Location, EventStatus
+from unittest.mock import MagicMock, patch
+import sys
+import os
 
-from src.witch import Witch
-from src.werewolf import Werewolf
-from src.vampire import Vampire
-from src.event import GameEvent
-from src.character import Character
+# Ensure `src` directory inside `project_code` is added to the system path
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../src')))
+path = os.path.abspath('src')
+sys.path.append(path)
+import main.py
+
+from .subdir import Game, UserInputParser, Location, EventStatus
+from character import Character
+from event import GameEvent
 
 
 class TestGame(unittest.TestCase):
 
     def setUp(self):
-        """Set up a test game environment before each test."""
-        self.parser = UserInputParser()
-        self.witch = Witch("Test Witch")
-        self.werewolf = Werewolf("Test Werewolf")
-        self.vampire = Vampire("Test Vampire")
+        # Mock parser to simulate user input
+        self.parser = MagicMock()
+        # Sample characters for testing
+        self.character1 = Character("Witch", health=100)
+        self.character2 = Character("Werewolf", health=100)
+        self.party = [self.character1, self.character2]
         
-        # Create a sample event for testing
-        self.event_data = {
-            'primary_attribute': 'Strength',
-            'secondary_attribute': 'Intelligence',
-            'prompt_text': 'You encounter a challenge.',
-            'pass': {'message': 'You passed!'},
-            'fail': {'message': 'You failed!'},
-            'partial_pass': {'message': 'Partial success.'}
+        # Sample events
+        event_data_1 = {
+            "prompt_text": "A goblin appears!",
+            "outcomes": {"win": {"message": "You defeated the goblin!", "health_change": 0}}
         }
-        self.event = GameEvent(self.event_data)
-        self.location = Location([self.event])
-        self.game = Game(self.parser, [self.witch, self.werewolf, self.vampire], [self.location])
+        event_data_2 = {
+            "prompt_text": "You encounter a riddle.",
+            "options": {
+                "solve": {"success": {"message": "You solved the riddle!", "health_change": 0}},
+                "fail": {"message": "You failed the riddle.", "health_change": -10}
+            }
+        }
+        self.events = [GameEvent(event_data_1), GameEvent(event_data_2)]
+        self.locations = [Location(self.events)]
+        
+        # Instantiate game instance
+        self.game = Game(self.parser, self.party, self.locations)
 
-    def test_character_initialization(self):
-        """Test that characters are initialized correctly."""
-        self.assertEqual(self.witch.health, 100)
-        self.assertEqual(self.werewolf.health, 100)
-        self.assertEqual(self.vampire.health, 120)
+    def test_start_game(self):
+        # Simulate `parser.parse` to control user choices
+        self.parser.parse.side_effect = ["1", "2", "1", "1", "2", "1", "2"]
+        with patch("builtins.print") as mocked_print:
+            self.game.start()
+            # Ensure the final choice prompt is shown in the last quest
+            mocked_print.assert_any_call("You find a glowing ruby resting on a stone pedestal in the woods. Do you destroy it or take it?")
 
-    def test_perform_quest(self):
-        """Test that the quest performs correctly."""
-        self.game.perform_quest()  # This will invoke the event
-        self.assertIn(self.event.status, [EventStatus.PASS, EventStatus.PARTIAL_PASS, EventStatus.FAIL])
+    def test_final_choice_destroy_ruby(self):
+        # Simulate choice for "destroy ruby" in the final quest
+        self.parser.parse.return_value = "1"
+        with patch("builtins.print") as mocked_print:
+            self.game.final_choice()
+            # Check for correct final message
+            mocked_print.assert_any_call("You see the fog clearing up! You have saved Halloween Night. Congratulations!")
+            self.assertFalse(self.game.continue_playing)
+
+    def test_final_choice_take_ruby(self):
+        # Simulate choice for "take ruby" in the final quest
+        self.parser.parse.return_value = "2"
+        with patch("builtins.print") as mocked_print:
+            self.game.final_choice()
+            # Check for the warning message and the loop reset
+            mocked_print.assert_any_call("The ruby sears your hand and a powerful beast summons and knocks you out cold! Greed is never the answer...")
+            self.assertEqual(self.game.current_quest, 0)
+
+    def test_trigger_random_event_fight_win(self):
+        # Test a win in a random fight event
+        self.parser.parse.return_value = "1"  # Choose to attack directly
+        with patch("builtins.print") as mocked_print:
+            with patch("random.choice", side_effect=["fight", "win"]):
+                self.game.trigger_random_event()
+                mocked_print.assert_any_call("You bravely fought and defeated the enemy! You continue your journey.")
+
+    def test_trigger_random_event_obstacle_hurt(self):
+        # Test getting hurt in an obstacle event
+        self.parser.parse.return_value = "1"  # Choose option to bypass obstacle
+        with patch("builtins.print") as mocked_print:
+            with patch("random.choice", side_effect=["obstacle", "hurt"]):
+                self.game.trigger_random_event()
+                mocked_print.assert_any_call("You got hurt trying to bypass the obstacle.")
+                self.assertLess(self.character1.health, 100)
+                self.assertLess(self.character2.health, 100)
 
     def test_check_game_over(self):
-        """Test game over logic when all characters are dead."""
-        self.witch.take_damage(100)  # Simulate damage
-        self.werewolf.take_damage(100)
-        self.vampire.take_damage(120)
+        # Set all characters' health to 0 to simulate game over
+        self.character1.health = 0
+        self.character2.health = 0
         self.assertTrue(self.game.check_game_over())
 
-    @patch('builtins.input', side_effect=['1'])  # Mock input to select the first character
-    def test_start_game(self, mock_input):
-        """Test starting the game with character selection."""
-        with patch('src.main.print') as mock_print:
-            start_game()
-            mock_print.assert_any_call("Choose your character:")
-            mock_print.assert_any_call("1. Witch")
-            mock_print.assert_any_call("You encounter a challenge.")
+    def test_heal_party_member_in_mystery_event(self):
+        # Test finding a health potion in a mystery event
+        self.character1.health = 50  # Lower health to see the heal effect
+        self.parser.parse.return_value = "1"  # Choose option to search
+        with patch("builtins.print") as mocked_print:
+            with patch("random.choice", side_effect=["mystery", "health_potion"]):
+                self.game.trigger_random_event()
+                mocked_print.assert_any_call("You found a health potion!")
+                self.assertGreater(self.character1.health, 50)  # Verify healing occurred
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     unittest.main()
