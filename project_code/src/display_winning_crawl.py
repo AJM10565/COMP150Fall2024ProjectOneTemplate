@@ -78,4 +78,12 @@ def display_winning_crawl(speed=0.05):
         print(line)
         time.sleep(speed)  # Use the customizable speed
 
-    print("\n" + description + "\n")
+      for line in description.splitlines():
+        print(line)
+        time.sleep(speed)  # Use the same customizable speed
+
+    print("\n")  # Additional newline for spacing
+
+# Example of calling the function
+display_winning_crawl(speed=0.05)
+
