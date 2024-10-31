@@ -169,6 +169,7 @@ class Game:
 
     def transition_to_star_destroyer(self):
         print("You've cleared all events on Jedha. You can now board the Star Destroyer.")
+        display_star_destroyer_prompt()
         self.current_location = self.locations[1]  # Move to the Star Destroyer
 
     def resolve_event(self, event_result: str, event: Event):
@@ -277,6 +278,7 @@ def load_events_from_json(file_path: str) -> List[Event]:
 
 
 from opening_crawl import display_opening_crawl
+from star_destroyer_prompt import display_star_destroyer_prompt
 
 def start_game():
     display_opening_crawl()
