@@ -25,6 +25,9 @@ class Location:
         return random.choice(self.events)
 
 
+import random
+from typing import List
+
 class Game:
     def __init__(self, parser, characters: List[Character], locations: List[Location]):
         self.parser = parser
@@ -58,19 +61,34 @@ class Game:
     def trigger_random_event(self):
         """Trigger a random event with specified outcomes after a quest."""
         event_type = random.choice(["fight", "obstacle", "mystery"])
-        
+
         if event_type == "fight":
-            # Quick fight event
-            result = random.choice(["win", "lose", "lose_health"])
-            if result == "win":
-                print("You won the quick fight and continue your journey.")
-            elif result == "lose":
-                print("You lost the quick fight and suffer a setback.")
-                self.continue_playing = False  # Ends game if losing is game-ending
-            else:  # lose_health
-                for character in self.party:
-                    character.take_damage(10)  # Example health loss
-                print("You took damage in the quick fight.")
+            # Quick fight event with choices
+            print("A wild creature appears and attacks you!")
+            choice = self.parser.parse("Choose your action: 1. Attack directly  2. Attempt to dodge (Choose 1 or 2): ")
+
+            if choice == "1":
+                # Direct attack with a possible reward but higher risk
+                outcome = random.choice(["win", "lose_health", "lose"])
+                if outcome == "win":
+                    print("You bravely fought and defeated the enemy! You continue your journey.")
+                elif outcome == "lose_health":
+                    for character in self.party:
+                        character.take_damage(15)  # Example health loss for partial loss
+                    print("You fought bravely but took some damage.")
+                elif outcome == "lose":
+                    print("You lost the fight and suffered a heavy setback.")
+                    self.continue_playing = False  # Ends game if losing is game-ending
+
+            elif choice == "2":
+                # Dodging has a lower risk of major damage but with no chance to "win"
+                outcome = random.choice(["dodge_success", "dodge_fail"])
+                if outcome == "dodge_success":
+                    print("You successfully dodged the enemy's attacks and avoided damage!")
+                elif outcome == "dodge_fail":
+                    for character in self.party:
+                        character.take_damage(10)  # Example health loss for failed dodge
+                    print("You tried to dodge but got hit and took some damage.")
 
         elif event_type == "obstacle":
             # Obstacle event with 2 options
@@ -114,12 +132,38 @@ class Game:
                 else:
                     print("There was nothing there.")
 
+
     def check_game_over(self):
         return all(character.health <= 0 for character in self.party)
 
     def final_choice(self):
-        print("Final challenge! Make a defining choice.")
-        # Implement your final choice logic here (win/lose conditions)
+        # Scenario setup for the final event
+        final_event = {
+            "prompt_text": "You find a glowing ruby resting on a stone pedestal in the woods. Do you destroy it or take it?",
+            "choices": [
+                {"text": "Destroy the ruby and end Halloween night", "outcome": "destroy"},
+                {"text": "Take the ruby for yourself", "outcome": "take_ruby"}
+            ]
+        }
+
+        # Display the prompt
+        print(final_event["prompt_text"])
+        print("1: Destroy the ruby and end Halloween night")
+        print("2: Take the ruby for yourself")
+
+        # Get the choice
+        choice = self.parser.parse("Choose an option (1 or 2): ")
+
+        # Execute the code based on the selected choice
+        if choice == "1":
+            print("You see the fog clearing up! You have saved Halloween Night. Congratulations!")
+            self.continue_playing = False  # This option ends the game
+        elif choice == "2":
+            print("The ruby sears your hand and a powerful beast summons and knocks you out cold! Greed is never the answer...")
+            
+            # For simplicity's sake, we’ll loop back to the beginning
+            self.current_quest = 0
+            print("You feel a strange energy transporting you back to the beginning of your journey...")
 
 
 class UserInputParser:

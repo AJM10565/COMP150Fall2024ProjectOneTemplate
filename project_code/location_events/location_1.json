@@ -1,142 +1,142 @@
 [
-  {
-      "prompt_text": "A wild goblin jumps out from behind a tree, ready to attack!",
-      "outcomes": {
-          "win": {
-              "message": "You bravely defeat the goblin and celebrate your victory!",
-              "health_change": 0  
-          },
-          "loss": {
-              "message": "The goblin overpowers you! You are knocked down!",
-              "health_change": -20 
-          },
-          "injury": {
-              "message": "You manage to defeat the goblin, but not without injury.",
-              "health_change": -10 
-          }
-      },
-      "event_type": "battle"
-  },
-  {
-      "prompt_text": "A ferocious wolf appears out of the bushes, baring its teeth!",
-      "outcomes": {
-          "win": {
-              "message": "You skillfully outmaneuver the wolf and bring it down!",
-              "health_change": 0  
-          },
-          "loss": {
-              "message": "The wolf attacks fiercely and you are left helpless.",
-              "health_change": -25  
-          },
-          "injury": {
-              "message": "You manage to scare off the wolf, but you get scratched in the process.",
-              "health_change": -15  
-          }
-      },
-      "event_type": "battle"
-  },
-  {
-      "prompt_text": "You encounter a deep chasm blocking your path.",
-      "options": {
-          "jump": {
-              "success": {
-                  "message": "You make a daring leap and land safely on the other side!",
-                  "health_change": 0 
-              },
-              "failure": {
-                  "message": "You miscalculate your jump and hurt yourself in the fall.",
-                  "health_change": -10  
-              }
-          },
-          "find a bridge": {
-              "success": {
-                  "message": "You find a sturdy bridge and cross safely.",
-                  "health_change": 0  
-              },
-              "failure": {
-                  "message": "The bridge is unstable and you fall while crossing.",
-                  "health_change": -15  
-              }
-          }
-      },
-      "event_type": "obstacle"
-  },
-  {
-      "prompt_text": "A large boulder blocks your path completely.",
-      "options": {
-          "push the boulder": {
-              "success": {
-                  "message": "You muster all your strength and push the boulder aside!",
-                  "health_change": 0 
-              },
-              "failure": {
-                  "message": "You strain yourself trying to push the boulder and feel pain.",
-                  "health_change": -10  
-              }
-          },
-          "go around it": {
-              "success": {
-                  "message": "You cleverly find a way around the boulder and continue your journey.",
-                  "health_change": 0  
-              },
-              "failure": {
-                  "message": "While navigating around, you trip and hurt yourself.",
-                  "health_change": -15  
-              }
-          }
-      },
-      "event_type": "obstacle"
-  },
-  {
-      "prompt_text": "You meet a mysterious old woman who offers you something.",
-      "options": {
-          "ask for help": {
-              "success": {
-                  "message": "The old woman gifts you a health potion!",
-                  "health_change": 20 
-              },
-              "failure": {
-                  "message": "The woman turns away, leaving you empty-handed.",
-                  "health_change": 0  
-              }
-          },
-          "ignore her": {
-              "success": {
-                  "message": "You wisely choose to leave her be.",
-                  "health_change": 0 
-              },
-              "failure": {
-                  "message": "The woman curses you for ignoring her!",
-                  "health_change": -10  
-              }
-          }
-      },
-      "event_type": "mysterious"
-  },
-  {
-      "prompt_text": "A cloaked figure appears, offering you a mysterious deal.",
-      "options": {
-          "accept the offer": {
-              "success": {
-                  "message": "The figure gives you a health potion!",
-                  "health_change": 20 
-              },
-              "failure": {
-                  "message": "The deal turns out to be a scam; you get nothing.",
-                  "health_change": 0 
-              }
-          },
-          "refuse the offer": {
-              "success": {
-                  "message": "You wisely refuse and continue on your journey.",
-                  "health_change": 0 
-              },
-              "failure": {
-                  "message": "The figure gets angry and curses you!",
-                  "health_change": -15 
-              }
-          }
-      },
-      "event_type": "mysterious"
-  }
+    {
+        "prompt_text": "A wild goblin jumps out from behind a tree, ready to attack!",
+        "outcomes": {
+            "win": {
+                "message": "You bravely defeat the goblin and celebrate your victory!",
+                "health_change": 0
+            },
+            "loss": {
+                "message": "The goblin overpowers you! You are knocked down!",
+                "health_change": -20
+            },
+            "injury": {
+                "message": "You manage to defeat the goblin, but not without injury.",
+                "health_change": -10
+            }
+        },
+        "event_type": "battle"
+    },
+    {
+        "prompt_text": "A ferocious wolf appears out of the bushes, baring its teeth!",
+        "outcomes": {
+            "win": {
+                "message": "You skillfully outmaneuver the wolf and bring it down!",
+                "health_change": 0
+            },
+            "loss": {
+                "message": "The wolf attacks fiercely and you are left helpless.",
+                "health_change": -25
+            },
+            "injury": {
+                "message": "You manage to scare off the wolf, but you get scratched in the process.",
+                "health_change": -15
+            }
+        },
+        "event_type": "battle"
+    },
+    {
+        "prompt_text": "You encounter a deep chasm blocking your path.",
+        "options": {
+            "jump": {
+                "success": {
+                    "message": "You make a daring leap and land safely on the other side!",
+                    "health_change": 0
+                },
+                "failure": {
+                    "message": "You miscalculate your jump and hurt yourself in the fall.",
+                    "health_change": -10
+                }
+            },
+            "find a bridge": {
+                "success": {
+                    "message": "You find a sturdy bridge and cross safely.",
+                    "health_change": 0
+                },
+                "failure": {
+                    "message": "The bridge is unstable and you fall while crossing.",
+                    "health_change": -15
+                }
+            }
+        },
+        "event_type": "obstacle"
+    },
+    {
+        "prompt_text": "A large boulder blocks your path completely.",
+        "options": {
+            "push the boulder": {
+                "success": {
+                    "message": "You muster all your strength and push the boulder aside!",
+                    "health_change": 0
+                },
+                "failure": {
+                    "message": "You strain yourself trying to push the boulder and feel pain.",
+                    "health_change": -10
+                }
+            },
+            "go around it": {
+                "success": {
+                    "message": "You cleverly find a way around the boulder and continue your journey.",
+                    "health_change": 0
+                },
+                "failure": {
+                    "message": "While navigating around, you trip and hurt yourself.",
+                    "health_change": -15
+                }
+            }
+        },
+        "event_type": "obstacle"
+    },
+    {
+        "prompt_text": "You meet a mysterious old woman who offers you something.",
+        "options": {
+            "ask for help": {
+                "success": {
+                    "message": "The old woman gifts you a health potion!",
+                    "health_change": 20
+                },
+                "failure": {
+                    "message": "The woman turns away, leaving you empty-handed.",
+                    "health_change": 0
+                }
+            },
+            "ignore her": {
+                "success": {
+                    "message": "You wisely choose to leave her be.",
+                    "health_change": 0
+                },
+                "failure": {
+                    "message": "The woman curses you for ignoring her!",
+                    "health_change": -10
+                }
+            }
+        },
+        "event_type": "mysterious"
+    },
+    {
+        "prompt_text": "A cloaked figure appears, offering you a mysterious deal.",
+        "options": {
+            "accept the offer": {
+                "success": {
+                    "message": "The figure gives you a health potion!",
+                    "health_change": 20
+                },
+                "failure": {
+                    "message": "The deal turns out to be a scam; you get nothing.",
+                    "health_change": 0
+                }
+            },
+            "refuse the offer": {
+                "success": {
+                    "message": "You wisely refuse and continue on your journey.",
+                    "health_change": 0
+                },
+                "failure": {
+                    "message": "The figure gets angry and curses you!",
+                    "health_change": -15
+                }
+            }
+        },
+        "event_type": "mysterious"
+    }
 ]

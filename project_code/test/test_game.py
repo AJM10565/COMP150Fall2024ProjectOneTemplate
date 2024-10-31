@@ -1,6 +1,7 @@
 import unittest
 from unittest.mock import patch, MagicMock
-from src.main import start_game, Game, UserInputParser, Location
+from ..src.main import start_game, Game, UserInputParser, Location, EventStatus
+
 from src.witch import Witch
 from src.werewolf import Werewolf
 from src.vampire import Vampire
@@ -16,6 +17,8 @@ class TestGame(unittest.TestCase):
         self.witch = Witch("Test Witch")
         self.werewolf = Werewolf("Test Werewolf")
         self.vampire = Vampire("Test Vampire")
+        
+        # Create a sample event for testing
         self.event_data = {
             'primary_attribute': 'Strength',
             'secondary_attribute': 'Intelligence',
@@ -37,7 +40,7 @@ class TestGame(unittest.TestCase):
     def test_perform_quest(self):
         """Test that the quest performs correctly."""
         self.game.perform_quest()  # This will invoke the event
-        self.assertIn(self.event.status, ['pass', 'partial_pass', 'fail'])
+        self.assertIn(self.event.status, [EventStatus.PASS, EventStatus.PARTIAL_PASS, EventStatus.FAIL])
 
     def test_check_game_over(self):
         """Test game over logic when all characters are dead."""
@@ -57,4 +60,3 @@ class TestGame(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
-
