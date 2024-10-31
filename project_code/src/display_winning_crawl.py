@@ -78,7 +78,7 @@ def display_winning_crawl(speed=0.05):
         print(line)
         time.sleep(speed)  # Use the customizable speed
 
-      for line in description.splitlines():
+    for line in description.splitlines():
         print(line)
         time.sleep(speed)  # Use the same customizable speed
 
