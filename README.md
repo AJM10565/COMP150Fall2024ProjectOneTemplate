@@ -1,10 +1,10 @@
-# COMP150 Fall 2024 Project One Template
+# COMP150 Fall 2024 Project 
 
-This is a template for the first project in the COMP150 Fall 2024 course. The goal of this project is to create a simplified Dungeons & Dragons text-based game in Python.
+This is Kaelen Bober and Max Uribe's Comp150 Fall 2024 Poject. We have created a Star Wars adventure game, where you choose members of the Star Wars universe to join your party and take down an Imperial Star Destroyer, becoming honorable (digital) heros! 
 
 ## How to Run the Project
 
-To run the example project, follow the steps below:
+To run our fancy text based Star Wars adventure game, follow the steps below:
 
 ### Prerequisites
 - Python 3.12.6 installed on your machine.
@@ -27,25 +27,32 @@ To run the example project, follow the steps below:
 
 ### Game Flow
 
-- The game will prompt you to select a party member and choose a statistic (e.g., Strength or Intelligence) to resolve various in-game events.
+- The game will prompt you with an intro message, explaining the story of our game, your choice of heros, what to expect in each stage of the game. 
+Press enter and you're then prompted to choose three characters, then you're thrown into the first event of the game.
 - Follow the instructions displayed in the terminal to play through the game.
 
 ### Example
 
-After running the game, you will see a series of prompts like:
+After running the game, going through the intro and choosing your characters, you will see a series of prompts like:
 
 ```
-A mysterious door blocks your path, with a riddle inscribed. What will you do?
++----------------------------------------------------+
+|                 Docking Area                       |
++----------------------------------------------------+
+| You've reached the hidden docking bay. Do you      |
+| prepare your ship for a quick getaway or try to    |
+| sabotage the Imperial crafts?                      |
++----------------------------------------------------+
 
 Choose a party member:
-1. Character_0
-2. Character_1
-3. Character_2
+1. Obi-wan
+2. Han Solo
+3. R2-D2
 
 Enter the number of the chosen party member: 
 ```
 
-Simply follow the prompts to make your choices and see the outcomes.
+Simply follow the prompts to make your choices to see the outcomes.
 
 ### Running Unit Tests
 
@@ -92,10 +99,13 @@ Here is the project directory structure:
 └── project_code
     ├── __init__.py
     ├── location_events
-    │   └── location_1.json
+    │   ├── jedha_events.json
+    │   └── star_destroyer_events.json
     ├── src
-    │   ├── __init__.py
-    │   └── main.py
+    │   ├── display_winning_crawl.py
+    │   ├── main.py
+    │   ├── opening_crawl.py
+    │   └── star_destroyer_prompt.py
     └── test
         ├── __init__.py
         └── test_game.py
