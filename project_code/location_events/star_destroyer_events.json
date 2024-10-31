@@ -13,9 +13,9 @@
         "message": "You fail to fix the reactor, causing an alarm that blocks access to other parts of the ship. Guards are headed your way!"
       },
       "outcomes": {
-        "pass": ["control_room", "reactor_core"],
-        "partial_pass": ["control_room", "escape"],
-        "fail": ["combat", "escape"]
+        "pass": ["alpha"],
+        "partial_pass": ["control_room"],
+        "fail": ["hanger"]
       }
     },
     {
@@ -32,9 +32,9 @@
         "message": "Your attempt fails, and a squad of stormtroopers rushes in. You need to fight or flee!"
       },
       "outcomes": {
-        "pass": ["detention_block", "hangar"],
-        "partial_pass": ["detention_block", "combat"],
-        "fail": ["combat", "escape"]
+        "pass": ["alpha"],
+        "partial_pass": ["alpha"],
+        "fail": ["hanger"]
       }
     },
     {
@@ -51,9 +51,9 @@
         "message": "You fail to arm yourself or set explosives before a security droid spots you. Combat is inevitable!"
       },
       "outcomes": {
-        "pass": ["hangar", "bridge"],
-        "partial_pass": ["combat", "detention_block"],
-        "fail": ["combat", "escape"]
+        "pass": ["gamma"],
+        "partial_pass": ["gamma"],
+        "fail": ["storm_troopers"]
       }
     },
     {
@@ -70,9 +70,9 @@
         "message": "You are caught by guards, forcing you into a fight."
       },
       "outcomes": {
-        "pass": ["hangar", "escape_pod"],
-        "partial_pass": ["combat", "hangar"],
-        "fail": ["combat", "escape"]
+        "pass": ["beta"],
+        "partial_pass": ["beta"],
+        "fail": ["bridge"]
       }
     },
     {
@@ -89,9 +89,9 @@
         "message": "You are spotted trying to steal a ship, and stormtroopers open fire."
       },
       "outcomes": {
-        "pass": ["escape"],
-        "partial_pass": ["cargo_hold", "combat"],
-        "fail": ["combat", "escape"]
+        "pass": ["alpha"],
+        "partial_pass": ["reactor_core"],
+        "fail": ["hanger"]
       }
     },
     {
@@ -108,9 +108,9 @@
         "message": "You fail to take control, and alarms blare across the ship. Reinforcements are on the way!"
       },
       "outcomes": {
-        "pass": ["escape", "destroy_star_destroyer"],
-        "partial_pass": ["escape", "combat"],
-        "fail": ["combat", "escape"]
+        "pass": ["beta"],
+        "partial_pass": ["beta"],
+        "fail": ["detention_block"]
       }
     },
 {
@@ -127,9 +127,9 @@
         "message": "You are spotted by guards and forced into a heavy firefight. Alarms go off across the ship!"
         },
         "outcomes": {
-        "pass": ["plant_bomb_alpha"],
-        "partial_pass": ["combat", "plant_bomb_alpha"],
-        "fail": ["combat", "escape"]
+        "pass": ["beta"],
+        "partial_pass": ["detention_block"],
+        "fail": ["reactor_core"]
         }
     },
     {
@@ -146,9 +146,9 @@
         "message": "The droids detect your presence and alert the guards. A squad of stormtroopers is en route!"
         },
         "outcomes": {
-        "pass": ["plant_bomb_beta"],
-        "partial_pass": ["combat", "plant_bomb_beta"],
-        "fail": ["combat", "escape"]
+        "pass": ["gamma"],
+        "partial_pass": ["armory"],
+        "fail": ["bridge"]
         }
     },
     {
@@ -165,9 +165,9 @@
         "message": "You are overwhelmed by patrols and forced into combat. Backup is on the way!"
         },
         "outcomes": {
-        "pass": ["plant_bomb_gamma"],
-        "partial_pass": ["combat", "plant_bomb_gamma"],
-        "fail": ["combat", "escape"]
+        "pass": ["escape_star_destroyer"],
+        "partial_pass": ["escape_star_destroyer"],
+        "fail": ["armory"]
         }
     },
     {
@@ -190,5 +190,25 @@
         "partial_pass": ["game_end_success"],
         "fail": ["game_end_failure"]
         }
-    }
+    },
+    {
+      "id": "storm_troopers",
+      "prompt_text": "You find a large group of storm troopers who look at you and take aim, what will you do?",
+      "passing_attributes": {
+      "lightsaber_proficiency": "You hack the security systems, shutting down surveillance and alarms in the area.",
+      "Blaster Proficiency": "You take out the patrol guards swiftly, clearing your path to the reactor core.",
+      "Strength": "You overpower the troopers and get through!"
+      },
+      "partial_pass_attributes": {
+      "Force Sensitivity": "You use the force to push over the troopers, giving you time to run away"
+      },
+      "fail": {
+      "message": "You are overwhelmed and badly hurt, but you make it out alive"
+      },
+      "outcomes": {
+      "pass": ["armory"],
+      "partial_pass": ["armory"],
+      "fail": ["armory"]
+      }
+  }
 ]
