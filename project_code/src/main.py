@@ -185,7 +185,8 @@ class Game:
         if event.name == "escape_star_destroyer" and event_result == "pass" or event.name == "escape_star_destroyer" and event_result == "partial_pass":
             """End game when won"""
             self.is_game_over = True
-            print("Congratulations! You've successfully escaped. You win!")
+            display_winning_crawl()  # Call the winning crawl when the game is won
+
 
         if event.name == "escape_star_destroyer" and event_result == "fail":
             """End game when won"""
@@ -205,8 +206,6 @@ class Game:
         self.is_game_over = True
         if self.fail_count >= self.max_failures:
             print("Game Over: You've failed too many events.")
-        else:
-            display_winning_crawl()  # Call the winning crawl when the game is won
 
     
 class UserInputParser:
