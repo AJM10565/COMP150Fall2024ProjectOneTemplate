@@ -4,6 +4,10 @@ import random
 from typing import List, Optional
 from enum import Enum
 
+from project_code.src.display_winning_crawl import display_winning_crawl
+from project_code.src.opening_crawl import display_opening_crawl
+from project_code.src.star_destroyer_prompt import display_star_destroyer_prompt
+
 
 class EventStatus(Enum):
     UNKNOWN = "unknown"
@@ -287,9 +291,9 @@ def load_events_from_json(file_path: str) -> List[Event]:
         return []
 
 
-from opening_crawl import display_opening_crawl
-from star_destroyer_prompt import display_star_destroyer_prompt
-from display_winning_crawl import display_winning_crawl
+# from opening_crawl import display_opening_crawl
+# from star_destroyer_prompt import display_star_destroyer_prompt
+# from display_winning_crawl import display_winning_crawl
 
 def start_game():
     display_opening_crawl()
