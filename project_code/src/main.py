@@ -126,6 +126,19 @@ class Event:
         self.correct_answer = data.get('correct_answer', -1)
         self.status = EventStatus.UNKNOWN
 
+        # Randomize the riddle options and update the correct answer index
+        self.shuffle_riddle_options()
+
+    def shuffle_riddle_options(self):
+        # If there are no options or only one, we don't need to shuffle
+        if len(self.riddle_options) > 1:
+            # Randomly shuffle the riddle options
+            correct_option = self.riddle_options[self.correct_answer]  # Save the correct answer
+            random.shuffle(self.riddle_options)  # Shuffle all options
+            
+            # After shuffling, find the new index of the correct answer
+            self.correct_answer = self.riddle_options.index(correct_option)
+
     def execute(self, party: List[Character], parser):
         if self.riddle_question:
             self.ask_riddle(parser)
@@ -138,7 +151,7 @@ class Event:
     def ask_riddle(self, parser):
         print(self.riddle_question)
         user_choice = parser.select_riddle_option(self.riddle_options)
-        
+
         if user_choice.isdigit() and 0 <= int(user_choice)-1 < len(self.riddle_options) and int(user_choice)-1 == self.correct_answer:
             print("You solved the riddle and pushed the door open. You may proceed.")
             self.status = EventStatus.PASS
@@ -157,6 +170,58 @@ class Event:
             self.status = EventStatus.FAIL
             print("You failed to achieve your goal.")
 
+class Event:
+    def __init__(self, data: dict):
+        self.primary_attribute = data['primary_attribute']
+        self.secondary_attribute = data['secondary_attribute']
+        self.riddle_question = data.get('riddle_question', '')
+        self.riddle_options = data.get('riddle_options', [])
+        self.correct_answer = data.get('correct_answer', -1)
+        self.status = EventStatus.UNKNOWN
+
+        # Randomize the riddle options and update the correct answer index
+        self.shuffle_riddle_options()
+
+    def shuffle_riddle_options(self):
+        # If there are no options or only one, we don't need to shuffle
+        if len(self.riddle_options) > 1:
+            # Randomly shuffle the riddle options
+            correct_option = self.riddle_options[self.correct_answer]  # Save the correct answer
+            random.shuffle(self.riddle_options)  # Shuffle all options
+            
+            # After shuffling, find the new index of the correct answer
+            self.correct_answer = self.riddle_options.index(correct_option)
+
+    def execute(self, party: List[Character], parser):
+        if self.riddle_question:
+            self.ask_riddle(parser)
+            return
+
+        character = parser.select_party_member(party)
+        chosen_stat = parser.select_stat(character)
+        self.resolve_choice(character, chosen_stat)
+
+    def ask_riddle(self, parser):
+        print(self.riddle_question)
+        user_choice = parser.select_riddle_option(self.riddle_options)
+
+        if user_choice.isdigit() and 0 <= int(user_choice)-1 < len(self.riddle_options) and int(user_choice)-1 == self.correct_answer:
+            print("You solved the riddle and pushed the door open. You may proceed.")
+            self.status = EventStatus.PASS
+        else:
+            print("Wrong answer! The door remains closed.")
+            self.status = EventStatus.FAIL
+
+    def resolve_choice(self, character: Character, chosen_stat: Statistic):
+        if chosen_stat.name == self.primary_attribute:
+            self.status = EventStatus.PASS
+            print("You successfully used your strength!")
+        elif chosen_stat.name == self.secondary_attribute:
+            self.status = EventStatus.PARTIAL_PASS
+            print("You made some progress, but not enough!")
+        else:
+            self.status = EventStatus.FAIL
+            print("You failed to achieve your goal.")
 
 class Location:
     def __init__(self, events: List[Event]):
@@ -186,6 +251,12 @@ class Game:
         with open(data_path, 'r') as file:
             self.all_riddles = json.load(file)
 
+    def introduce_game(self):
+        print("\n🌟 Welcome to Bikini Bottom! 🌟")
+        print("Answer riddles to collect Krabby Patties and earn points to upgrade and choose your weapons.")
+        print("Defeat Sandy Cheeks and Mr. Krabs to steal the Krabby Patty secret formula and win the game!")
+        print("\nGood luck, and watch out for traps and tricky riddles along the way!\n")
+
     def get_unused_riddle(self):
         available_riddles = [riddle for i, riddle in enumerate(self.all_riddles) 
                            if i not in self.used_riddles]
@@ -197,6 +268,9 @@ class Game:
         return self.all_riddles[riddle_index]
 
     def start(self):
+        # Call the game introduction here
+        self.introduce_game()
+
         while self.continue_playing:
             riddle = self.get_unused_riddle()
             if not riddle:
@@ -259,7 +333,7 @@ class Game:
             else:
                 print("Invalid choice. Please select a valid option.")
 
-    # Adjusted `visit_shops` method (moved out of `choose_path`)
+    # Adjusted visit_shops method (moved out of choose_path)
     def visit_shops(self):
         print("\nWould you like to visit a shop?")
         print("1. Weapon Shop")
@@ -375,7 +449,7 @@ class Game:
         print("Now it's time to battle Mr. Krabs!")
         player = self.party[0]
 
-        krabs_health = 150
+        krabs_health = 75
         krabs_base_damage = 10
         krabs_damage_range = 15
 
