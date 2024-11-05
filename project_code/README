@@ -1,56 +1,85 @@
-# SpongeBob Adventure Game
+Krabby Patty Quest 
 
-## Overview
-Welcome to Bikini Bottom! In this text-based adventure, you’ll join characters like SpongeBob and Sandy Cheeks to collect Krabby Patties, solve riddles, upgrade stats, and face the final boss, Mr. Krabs. Gather enough Krabby Patties to buy upgrades and weapons, solve riddles to earn rewards, and ultimately uncover the secret Krabby Patty formula!
+Welcome to Krabby Patty Quest, an exciting, riddle-solving adventure where you play as SpongeBob SquarePants in the beloved world of Bikini Bottom. In this game, your goal is to collect Krabby Patties, solve riddles, upgrade your abilities, and defeat characters like Sandy Cheeks and Mr. Krabs to steal the Secret Krabby Patty Formula and win the game!
 
-## Features
-- **Engaging Characters**: Play as SpongeBob and encounter Sandy Cheeks and Mr. Krabs.
-- **Challenging Riddles**: Answer riddles to collect Krabby Patties and test your wits.
-- **Upgrade Shops**: Spend Krabby Patties on weapons and character upgrades.
-- **Boss Battles**: Face off against Sandy Cheeks and Mr. Krabs in epic turn-based combat.
+Installation
+Requirements
+Python 3.x
+A terminal or command prompt to run the game.
 
-## Gameplay
+Steps to Install
+Clone the repository to your local machine:
 
-### Solve Riddles
-Answer riddles to collect Krabby Patties.
-- **Example**:
-  - **Riddle**: "What has to be broken before you can use it?"
-  - **Options**:
-    1. Egg
-    2. Window
-    3. Lock
-  - **Correct Answer**: 1 (Solve it to earn random Krabby Patties!) Type (1-3)
+bash
+git clone https://github.com/yourusername/krabby-patty-quest.git
+Navigate to the project folder:
 
-### Visit Shops
-Spend Krabby Patties on upgrades like health and strength or on new weapons.
-- **Example**:
-  - You have 50 Krabby Patties and enter the Weapon Shop.
-  - **Available Weapons**:
-    1. Spatula: 5 Krabby Patties
-    2. Karen: 10 Krabby Patties
-    3. Golden Spatula: 20 Krabby Patties
-  - Choose to buy the Golden Spatula to increase your attack power! Type (1-3)
+bash
+cd krabby-patty-quest
+Install the required Python libraries:
+pip install -r requirements.txt
+Run the game:
 
-### Fight Bosses
-Battle Sandy Cheeks and ultimately, Mr. Krabs. Make strategic decisions to win!
-- **Example**:
-  - In the boss battle against Mr. Krabs, you can choose to attack:
-    1. Torso
-    2. Arms
-    3. Legs
-  - Select wisely to maximize damage and win the battle! Type (1-3)
+python main.py
 
-### Secret Formula
-Win the game to obtain the secret Krabby Patty formula and learn its hidden ingredients.
+Gameplay
+Objective
+Your main goal is to navigate through Bikini Bottom, solving riddles to collect Krabby Patties, purchase upgrades and weapons, and defeat powerful enemies to ultimately steal the Secret Krabby Patty Formula from Mr. Krabs.
 
-## Getting Started
+Key Actions
+- Solve Riddles: Earn Krabby Patties by answering riddles correctly. Each correct answer earns you Krabby Patties that you can use to buy upgrades or weapons.
 
-### Installation
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/your-username/spongebob-adventure-game.git
+- Fight Enemies: Face off against enemies like Sandy Cheeks and Mr. Krabs in tactical battles. Choose your attacks wisely!
 
-### How to Play
-1. Copy and Paste into Terminal:
-    ```bash
-    python project_code/src/main.py
+- Shop for Upgrades: Spend your Krabby Patties to upgrade your character’s strength and health, or buy new weapons to aid in your battles.
+- Defeat Mr. Krabs: Once you've collected enough Krabby Patties and upgraded your character, confront Mr. Krabs in a final battle to steal the secret Krabby Patty formula.
+
+
+Features
+- Randomized Riddles: Solve a variety of riddles throughout the game. Each riddle's correct answer is randomized, making every playthrough different.
+
+- Character Upgrades: Purchase upgrades to increase your strength or health, making you more powerful for the final battles.
+Weapon Shop: Choose from a range of weapons, including the Spatula, Karen, and Golden Spatula, to increase your battle effectiveness.
+
+- Multiple Paths to Victory: Choose between solving more riddles, upgrading your character, or fighting enemies—strategize your way to victory!
+
+- Boss Battles: Face off against powerful bosses like Sandy Cheeks and Mr. Krabs in intense, turn-based combat.
+Multiple Endings: Depending on your choices, you can either defeat Mr. Krabs and steal the formula, or get defeated by the villainous crab!
+
+
+Character Information
+- SpongeBob SquarePants: The main protagonist of the game. He starts with 100 health and moderate strength. Over the course of the game, you can upgrade his strength and health by purchasing upgrades or solving riddles.
+
+- Sandy Cheeks: The first boss you will face. Sandy starts with 120 health and a high strength rating. She can deal substantial damage, so be prepared for the fight!
+
+- Mr. Krabs: The final boss, with 150 health and the ability to inflict high damage. Defeat Mr. Krabs to steal the secret Krabby Patty formula and win the game.
+
+
+How to Play
+
+- Start the Game: Begin by solving riddles presented to you by the game. Each correct answer rewards you with Krabby Patties.
+Upgrade: Spend your Krabby Patties to upgrade your character’s health and strength. You can also visit the weapon shop to buy powerful weapons.
+
+- Choose Your Actions: As you progress through the game, you will have various options to fight, upgrade, or continue solving riddles. Choose wisely!
+
+- Boss Battles: When you’re ready, take on Sandy Cheeks and Mr. Krabs in combat. Choose where to attack each enemy (head, torso, etc.) and use your weapons and upgrades to defeat them.
+
+- Steal the Secret Formula: Once Mr. Krabs is defeated, steal the Secret Krabby Patty Formula to win the game!
+
+
+Shops
+There are two primary shops in the game where you can spend your Krabby Patties:
+
+1. Weapon Shop
+Buy new weapons to help you in battle:
+
+Spatula: 5 Krabby Patties
+Karen: 10 Krabby Patties
+Golden Spatula: 20 Krabby Patties
+2. Upgrade Shop
+Purchase upgrades to enhance your character's strength or health:
+
+Strength Upgrade: 5 Krabby Patties (Increases your strength by 5)
+Health Upgrade: 5 Krabby Patties (Increases your health by 10)
+
+Enjoy your Adventure!
