@@ -1,0 +1,17 @@
+[
+  {
+    "riddle_question": "What has to be broken before you can use it?",
+    "riddle_options": ["1. Egg", "2. Window", "3. Lock"],
+    "correct_answer": 0
+  },
+  {
+    "riddle_question": "What has no voice but can still speak to you?",
+    "riddle_options": ["1. Book", "2. Mirror", "3. Wind"],
+    "correct_answer": 1
+  },
+  {
+    "riddle_question": "What is always coming but never arrives?",
+    "riddle_options": ["1. Tomorrow", "2. The ocean", "3. A dream"],
+    "correct_answer": 0
+  }
+]

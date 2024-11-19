@@ -4,35 +4,36 @@ import os
 import random
 from typing import List
 from enum import Enum
-from flask import Flask, request, jsonify
+from flask import Flask, jsonify, send_from_directory
 import gunicorn  # Import gunicorn
 from flask import Flask, render_template 
 
 app = Flask(__name__)
 
+
+app = Flask(__name__, static_url_path='/static')
+
 @app.route('/')
 def index():
-    return render_template('index.html')  # Render your main HTML template
+    return send_from_directory('static', 'index.html')
 
-# ... rest of your Flask app routes ...
 app = Flask(__name__)
 
 # ... your Flask app routes and code ...
 # Ive changed nothing here you are
 @app.route('/start', methods=['POST'])
 def start():
-    # Your existing code
     return jsonify({"message": "Game started! Good luck in Bikini Bottom!"})
 
 @app.route('/next', methods=['POST'])
 def next_step():
-    # Your existing code
     return jsonify({"message": "Next step triggered! Check the console for progress."})
 
 @app.route('/choice', methods=['POST'])
 def make_choice():
-    # Your existing code
+    choice = request.json.get("choice", "No choice provided")
     return jsonify({"message": f"Choice {choice} registered!"})
+
 
 # ... rest of your code ...
 
