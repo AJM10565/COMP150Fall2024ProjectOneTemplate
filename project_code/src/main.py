@@ -18,7 +18,7 @@ def index():
 app = Flask(__name__)
 
 # ... your Flask app routes and code ...
-
+# Ive changed nothing
 @app.route('/start', methods=['POST'])
 def start():
     # Your existing code
