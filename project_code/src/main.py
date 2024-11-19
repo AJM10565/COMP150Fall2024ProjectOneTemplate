@@ -613,7 +613,51 @@ def index():
     return jsonify({"message": "Welcome to Bikini Bottom Game!"})
 
 @app.route('/get_character', methods=['GET'])
+def get_caracter():
+    return jsonify({
+        "name": player.name,
+        "health": player.health,
+        "strength": player.strength.value,
+        "krabby_patties": player.krabby_patties,
+        "weapon": player.weapon
+    })
 
+@app.route('/collect_krabby_patties', methods=['POST'])
+def collect_krabby_patties():
+    amount = random.randint(1, 5)
+    player.collect_krabby_patties(amount)
+    return jsonify({"message": f"Collected {amount} Krabby Patties!"})
+
+@app.route('/riddle', methods=['GET'])
+def get_riddle():
+    riddle = game.get_unused_riddle()
+    if not riddle:
+        return jsonify({"message": "No more riddles available!"}), 404
+    return jsonify(riddle)
+
+@app.route('/check_answer', methods=['POST'])
+def check_answer():
+    data = request.json
+    answer = data.get('answer')
+    riddle = game.all_riddles[game.correct_answers]
+
+    if answer.isdigit() and int(answer) - 1 == riddle['correct_answer']:
+        game.correct_answers += 1
+        return jsonify({"result": "correct"})
+    else:
+        return jsonify({"result": "wrong"})
+    
+@app.route('/attack', methods=['POST'])
+def attack():
+    data = request.json
+    target = data.get('target')
+    sandy = SandyCheeks()
+    damage = random.randint(10, 20) + player.strength.value
+    sandy.health -= damage
+    return jsonify({"damage": damage, "target": target})
+
+if __name__ == '__main__':
+    app.run(debug=True)
 
 # Create index.html
 
