@@ -1,10 +1,58 @@
+
 import json
 import os
 import random
 from typing import List
 from enum import Enum
+from flask import Flask, request, jsonify
+import gunicorn  # Import gunicorn
+from flask import Flask, render_template 
 
+app = Flask(__name__)
 
+@app.route('/')
+def index():
+    return render_template('index.html')  # Render your main HTML template
+
+# ... rest of your Flask app routes ...
+app = Flask(__name__)
+
+# ... your Flask app routes and code ...
+
+@app.route('/start', methods=['POST'])
+def start():
+    # Your existing code
+    return jsonify({"message": "Game started! Good luck in Bikini Bottom!"})
+
+@app.route('/next', methods=['POST'])
+def next_step():
+    # Your existing code
+    return jsonify({"message": "Next step triggered! Check the console for progress."})
+
+@app.route('/choice', methods=['POST'])
+def make_choice():
+    # Your existing code
+    return jsonify({"message": f"Choice {choice} registered!"})
+
+# ... rest of your code ...
+
+if __name__ == '__main__':
+    app.run(debug=True)  # Keep this for development
+
+# For production, use Gunicorn:
+
+    # Set the worker class, number of workers, and the Python module and app
+    gunicorn_opts = {
+        'workers': 3,  # Adjust the number of workers as needed
+        'bind': '0.0.0.0:5000',  # Listen on all interfaces
+        'worker_class':                 'uvicorn.workers.UvicornWorker', # Optionally use Uvicorn workers
+        'accesslog': '-',
+        'errorlog': '-'
+    }
+    gunicorn.run(
+        'main:app',
+        **gunicorn_opts
+    )
 class EventStatus(Enum):
     UNKNOWN = "unknown"
     PASS = "pass"
@@ -135,7 +183,7 @@ class Event:
             # Randomly shuffle the riddle options
             correct_option = self.riddle_options[self.correct_answer]  # Save the correct answer
             random.shuffle(self.riddle_options)  # Shuffle all options
-            
+
             # After shuffling, find the new index of the correct answer
             self.correct_answer = self.riddle_options.index(correct_option)
 
@@ -188,7 +236,7 @@ class Event:
             # Randomly shuffle the riddle options
             correct_option = self.riddle_options[self.correct_answer]  # Save the correct answer
             random.shuffle(self.riddle_options)  # Shuffle all options
-            
+
             # After shuffling, find the new index of the correct answer
             self.correct_answer = self.riddle_options.index(correct_option)
 
@@ -229,7 +277,7 @@ class Location:
 
     def get_event(self) -> Event:
         return random.choice(self.events)
-    
+
 
 class SandyCheeks(Character):
     def __init__(self):
@@ -262,7 +310,7 @@ class Game:
                            if i not in self.used_riddles]
         if not available_riddles:
             return None
-        
+
         riddle_index = self.all_riddles.index(random.choice(available_riddles))
         self.used_riddles.add(riddle_index)
         return self.all_riddles[riddle_index]
@@ -281,7 +329,7 @@ class Game:
             print("\n" + riddle['riddle_question'])
             for option in riddle['riddle_options']:
                 print(option)
-            
+
             user_choice = input("Enter the number of your answer (1-3): ")
             if user_choice.isdigit() and int(user_choice)-1 == riddle['correct_answer']:
                 print("Correct! You've earned more Krabby Patties!")
@@ -305,9 +353,9 @@ class Game:
             print("2. Continue solving riddles for more Krabby Patties")
             print("3. Visit shops")
             print("4. End game")
-        
+
             choice = input("Enter your choice (1-4): ")
-        
+
             if choice == "1":
                 self.visit_shops()  # Option to shop before final battle
                 self.final_encounter()
@@ -339,7 +387,7 @@ class Game:
         print("1. Weapon Shop")
         print("2. Upgrade Shop")
         print("3. Skip shopping")
-    
+
         shop_choice = input("Enter your choice (1-3): ")
         if shop_choice == "1":
             weapon_shop = WeaponShop()
@@ -366,7 +414,7 @@ class Game:
         print("Mr. Krabs: 'This formula is me life! No one shall take it from me, not even a sponge like ye!'")
         print("Mr. Krabs: 'Now get back to work, or I'll have ye scrubbing the floors!'")
 
-    
+
     def talk_to_mr_krabs(self):
         print("\nMr. Krabs: 'So, ye think ye can just waltz in here and take me secret formula, eh?'")
         print("Mr. Krabs: 'Why should I let ye? What's yer plan?'")
@@ -400,7 +448,7 @@ class Game:
     def final_encounter(self):
         print("\n🦊 BOSS BATTLE: Sandy Cheeks 🦊")
         sandy = SandyCheeks()
-        
+
         player = self.party[0]
         sandy_health = sandy.health
         sandy_health = 75
@@ -411,9 +459,9 @@ class Game:
             print("1. Head")
             print("2. Tail")
             print("3. Paws")
-            
+
             attack_choice = input("Enter your choice (1-3): ")
-            
+
             if attack_choice == "1":
                 damage = random.randint(10, 20) + player.strength.value
                 sandy_health -= damage
@@ -442,8 +490,8 @@ class Game:
 
         print("\n🦀 FINAL BOSS BATTLE: Mr. Krabs 🦀")
 
-        
-    
+
+
     # Call the dialogue with Mr. Krabs
 
         print("Now it's time to battle Mr. Krabs!")
@@ -459,9 +507,9 @@ class Game:
             print("1. Torso")
             print("2. Arms")
             print("3. Legs")
-                
+
             attack_choice = input("Enter your choice (1-3): ")
-            
+
             if attack_choice == "1":
                 damage = random.randint(15, 25) + player.strength.value
                 krabs_health -= damage
@@ -514,7 +562,7 @@ class Parser:
 def main():
     parser = Parser()
     spongebob = Character(name="SpongeBob", health=100, strength=10)
-    
+
     # Example event data with necessary keys
     event_data = {
         "primary_attribute": "Strength",
@@ -523,7 +571,7 @@ def main():
         "riddle_options": ["1. Egg", "2. Window", "3. Lock"],
         "correct_answer": 0
     }
-    
+
     # Create a location with this event
     location1 = Location(events=[Event(event_data)])
     game = Game(parser, [spongebob], [location1])
@@ -532,4 +580,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    main() 
