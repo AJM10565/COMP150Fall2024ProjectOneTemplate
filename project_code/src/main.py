@@ -6,7 +6,7 @@ from typing import List
 from enum import Enum
 from flask import Flask, jsonify, send_from_directory
 import gunicorn  # Import gunicorn
-from flask import Flask, render_template 
+from flask import Flask, render_template
 
 app = Flask(__name__)
 
@@ -581,4 +581,43 @@ def main():
 
 
 if __name__ == "__main__":
-    main() 
+    main()
+
+# Backend
+from flask import Flask, jsonify, request
+import json
+import os
+import random
+from typing import List
+
+# Import your existing classes
+from game_code import Character, WeaponShop, UpgradeShop, Event, Game, SandyCheeks
+
+app = Flask(__name__)
+
+# Initialize game objects
+player = Character(name="SpongeBob")
+game = None
+
+def initialize_game():
+    global game
+    characters = [player]
+    with open('data/riddles.json', 'r') as file:
+        riddles = json.load(file)
+    game = Game(None, characters, [])
+
+initialize_game()
+
+@app.route('/')
+def index():
+    return jsonify({"message": "Welcome to Bikini Bottom Game!"})
+
+@app.route('/get_character', methods=['GET'])
+
+
+# Create index.html
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset
