@@ -1,4 +1,3 @@
-from main import app
 import gunicorn
 
 gunicorn_opts = {

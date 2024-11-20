@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bikini Bottom Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f8ff;
+            text-align: center;
+            padding: 20px;
+        }
+        h1 {
+            color: #2c3e50;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 10px;
+            font-size: 16px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        #output {
+            margin-top: 20px;
+            padding: 20px;
+            background: #ecf0f1;
+            border-radius: 8px;
+            font-family: monospace;
+            text-align: left;
+            overflow-y: auto;
+            max-height: 400px;
+        }
+    </style>
+</head>
+<body>
+<h1>🌟 Welcome to Bikini Bottom Adventure! 🌟</h1>
+<div id="game-container">
+    <p>Start your adventure and make your choices!</p>
+    <button id="startButton">Start Game</button>
+    <button id="nextButton" style="display: none;">Next Step</button>
+    <button id="choiceButton" style="display: none;">Make a Choice</button>
+</div>
+<div id="output">Game output will appear here.</div>
+
+<script>
+    // Helper function to send POST requests
+    const postRequest = async (endpoint, data = {}) => {
+        const response = await fetch(endpoint, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data),
+        });
+        return response.json();
+    };
+
+    // Update output text
+    const updateOutput = (message) => {
+        const output = document.getElementById("output");
+        output.textContent = message;
+    };
+
+    // Game logic
+    const startGame = async () => {
+        updateOutput("Starting the game...");
+        try {
+            const response = await postRequest("/start");
+            updateOutput(response.message);
+            document.getElementById("nextButton").style.display = "inline-block";
+        } catch {
+            updateOutput("Error: Unable to start the game!");
+        }
+    };
+
+    const nextStep = async () => {
+        updateOutput("Proceeding to the next step...");
+        try {
+            const response = await postRequest("/next");
+            updateOutput(response.message);
+            document.getElementById("choiceButton").style.display = "inline-block";
+        } catch {
+            updateOutput("Error: Unable to proceed to the next step!");
+        }
+    };
+
+    const makeChoice = async () => {
+        const randomChoice = Math.floor(Math.random() * 3) + 1; // Random choice
+        updateOutput(`Making choice ${randomChoice}...`);
+        try {
+            const response = await postRequest("/choice", { choice: randomChoice });
+            updateOutput(response.message);
+        } catch {
+            updateOutput("Error: Unable to make a choice!");
+        }
+    };
+
+    // Attach event listeners
+    document.getElementById("startButton").addEventListener("click", startGame);
+    document.getElementById("nextButton").addEventListener("click", nextStep);
+    document.getElementById("choiceButton").addEventListener("click", makeChoice);
+</script>
+</body>
+</html>
