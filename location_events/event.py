@@ -1,9 +1,10 @@
-import json
+
 import random
 from typing import List
-from character import Character, EventStatus
-from location import Location
+import random
+from character import Character, EventStatus, Statistic
 from parser import Parser
+
 
 class Event:
     def __init__(self, data: dict):

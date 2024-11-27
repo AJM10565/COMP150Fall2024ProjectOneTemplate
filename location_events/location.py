@@ -1,7 +1,7 @@
 import json
 import random
 from typing import List
-from event import Event, EventStatus
+from location_events.event import Event
 
 class Location:
     def __init__(self, events: List[Event]):

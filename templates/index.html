@@ -45,6 +45,10 @@
     <button id="startButton">Start Game</button>
     <button id="nextButton" style="display: none;">Next Step</button>
     <button id="choiceButton" style="display: none;">Make a Choice</button>
+    <div id="riddle-container" style="display: none;">
+        <h2 id="riddle"></h2>
+        <div id="options"></div>
+    </div>
 </div>
 <div id="output">Game output will appear here.</div>
 
@@ -65,12 +69,31 @@
         output.textContent = message;
     };
 
+    // Display riddle and options
+    const displayRiddle = (riddleQuestion, riddleOptions) => {
+        const riddleContainer = document.getElementById("riddle-container");
+        const riddleElement = document.getElementById("riddle");
+        const optionsElement = document.getElementById("options");
+
+        riddleElement.textContent = riddleQuestion;
+        optionsElement.innerHTML = "";
+        riddleOptions.forEach((option, index) => {
+            const button = document.createElement("button");
+            button.textContent = option;
+            button.onclick = () => makeChoice(index);
+            optionsElement.appendChild(button);
+        });
+
+        riddleContainer.style.display = "block";
+    };
+
     // Game logic
     const startGame = async () => {
         updateOutput("Starting the game...");
         try {
             const response = await postRequest("/start");
             updateOutput(response.message);
+            displayRiddle(response.riddle_question, response.riddle_options);
             document.getElementById("nextButton").style.display = "inline-block";
         } catch {
             updateOutput("Error: Unable to start the game!");
@@ -88,12 +111,16 @@
         }
     };
 
-    const makeChoice = async () => {
-        const randomChoice = Math.floor(Math.random() * 3) + 1; // Random choice
-        updateOutput(`Making choice ${randomChoice}...`);
+    const makeChoice = async (choice) => {
+        updateOutput(`Making choice ${choice + 1}...`);
         try {
-            const response = await postRequest("/choice", { choice: randomChoice });
+            const response = await postRequest("/choice", { choice: choice });
             updateOutput(response.message);
+            if (response.riddle_question !== "No more riddles left!") {
+                displayRiddle(response.riddle_question, response.riddle_options);
+            } else {
+                document.getElementById("riddle-container").style.display = "none";
+            }
         } catch {
             updateOutput("Error: Unable to make a choice!");
         }
@@ -102,7 +129,6 @@
     // Attach event listeners
     document.getElementById("startButton").addEventListener("click", startGame);
     document.getElementById("nextButton").addEventListener("click", nextStep);
-    document.getElementById("choiceButton").addEventListener("click", makeChoice);
 </script>
 </body>
 </html>

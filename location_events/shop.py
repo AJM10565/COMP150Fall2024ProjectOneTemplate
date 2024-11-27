@@ -1,3 +1,7 @@
+from location_events.character import Character
+
+
+
 class WeaponShop:
     def __init__(self):
         self.weapons = {

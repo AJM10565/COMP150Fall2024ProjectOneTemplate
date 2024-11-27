@@ -2,10 +2,10 @@ import json
 import os
 import random
 from typing import List
-from character import Character
-from event import Event
-from location import Location
-from parser import Parser
+from location_events.character import Character
+from location_events.location import Location
+from location_events.parser import Parser
+from location_events.shop import WeaponShop, UpgradeShop
 
 class SandyCheeks(Character):
     def __init__(self):
@@ -269,19 +269,3 @@ class Game:
             print(f"Weapon Used: {player.weapon}")
             print(f"Total Riddles Solved: {len(self.used_riddles)}")
             print("\nThanks for playing! The End! 🎮")
-
-
-
-
-
-class Parser:
-    def select_party_member(self, party: List[Character]) -> Character:
-        return party[0]
-
-    def select_stat(self, character: Character) -> Statistic:
-        return character.strength
-
-    def select_riddle_option(self, options: List[str]) -> str:
-        for i, option in enumerate(options, 1):
-            print(option)
-        return input("Enter the number of your answer (1-3): ")
