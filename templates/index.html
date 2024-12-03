@@ -3,132 +3,187 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bikini Bottom Game</title>
+    <title>SpongeBob Adventure Game</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f0f8ff;
+            font-family: 'Press Start 2P', cursive;
+            background-color: #f0e68c;
+            color: #333;
             text-align: center;
-            padding: 20px;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
+
         h1 {
-            color: #2c3e50;
-        }
-        button {
-            padding: 10px 20px;
-            margin: 10px;
-            font-size: 16px;
-            background-color: #3498db;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #2980b9;
-        }
-        #output {
+            font-size: 3rem;
             margin-top: 20px;
+            color: #0f4b5c;
+        }
+
+        #game-container {
+            margin-top: 30px;
             padding: 20px;
-            background: #ecf0f1;
-            border-radius: 8px;
-            font-family: monospace;
-            text-align: left;
-            overflow-y: auto;
-            max-height: 400px;
+            background-color: #fff;
+            border-radius: 15px;
+            width: 80%;
+            max-width: 800px;
+            margin: 0 auto;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        #krabby-patties, #weapon {
+            font-size: 1.5rem;
+            margin: 15px 0;
+            color: #f1c40f;
+        }
+
+        button {
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            border: none;
+            border-radius: 10px;
+            background-color: #0f4b5c;
+            color: #fff;
+            margin-top: 15px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #f39c12;
+        }
+
+        #riddle-container {
+            display: none;
+            margin-top: 20px;
+        }
+
+        #riddle {
+            font-size: 1.5rem;
+            color: #0f4b5c;
+            margin-bottom: 20px;
+        }
+
+        .riddle-option {
+            display: block;
+            margin: 10px 0;
+            font-size: 1.2rem;
+        }
+
+        .riddle-option button {
+            width: 100%;
+            padding: 10px;
+            font-size: 1.2rem;
+        }
+
+        #startButton, #nextButton, #choiceButton {
+            display: inline-block;
         }
     </style>
 </head>
 <body>
-<h1>🌟 Welcome to Bikini Bottom Adventure! 🌟</h1>
-<div id="game-container">
-    <p>Start your adventure and make your choices!</p>
-    <button id="startButton">Start Game</button>
-    <button id="nextButton" style="display: none;">Next Step</button>
-    <button id="choiceButton" style="display: none;">Make a Choice</button>
-    <div id="riddle-container" style="display: none;">
-        <h2 id="riddle"></h2>
-        <div id="options"></div>
+    <h1>Welcome to SpongeBob's Adventure!</h1>
+    
+    <div id="game-container">
+        <h2 id="game-message">Press Start to begin your adventure.</h2>
+        <p id="krabby-patties">Your Krabby Patties: 0</p>
+        <p id="weapon">Your Weapon: None</p>
+
+        <!-- Game action buttons -->
+        <button id="startButton" onclick="startGame()">Start Game</button>
+        <button id="nextButton" onclick="nextStep()" style="display:none;">Next Step</button>
+        <button id="choiceButton" onclick="makeChoice()" style="display:none;">Make Your Choice</button>
+
+        <!-- Riddle Display -->
+        <div id="riddle-container">
+            <h2 id="riddle"></h2>
+            <div id="options"></div>
+        </div>
     </div>
-</div>
-<div id="output">Game output will appear here.</div>
 
-<script>
-    // Helper function to send POST requests
-    const postRequest = async (endpoint, data = {}) => {
-        const response = await fetch(endpoint, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(data),
-        });
-        return response.json();
-    };
+    <script>
+        // Function to perform a POST request to the Flask server
+        const postRequest = async (endpoint, data = {}) => {
+            const response = await fetch(`http://127.0.0.1:5000${endpoint}`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(data),
+            });
+            return response.json();
+        };
 
-    // Update output text
-    const updateOutput = (message) => {
-        const output = document.getElementById("output");
-        output.textContent = message;
-    };
+        // Update the game message
+        const updateOutput = (message) => {
+            document.getElementById('game-message').textContent = message;
+        };
 
-    // Display riddle and options
-    const displayRiddle = (riddleQuestion, riddleOptions) => {
-        const riddleContainer = document.getElementById("riddle-container");
-        const riddleElement = document.getElementById("riddle");
-        const optionsElement = document.getElementById("options");
+        // Function to display the riddle and options
+        const displayRiddle = (riddleQuestion, riddleOptions) => {
+            const riddleElement = document.getElementById("riddle");
+            const optionsElement = document.getElementById("options");
 
-        riddleElement.textContent = riddleQuestion;
-        optionsElement.innerHTML = "";
-        riddleOptions.forEach((option, index) => {
-            const button = document.createElement("button");
-            button.textContent = option;
-            button.onclick = () => makeChoice(index);
-            optionsElement.appendChild(button);
-        });
+            riddleElement.textContent = riddleQuestion;
+            optionsElement.innerHTML = "";
+            riddleOptions.forEach((option, index) => {
+                const button = document.createElement("button");
+                button.textContent = option;
+                button.classList.add("riddle-option");
+                button.onclick = () => makeChoice(index);
+                optionsElement.appendChild(button);
+            });
 
-        riddleContainer.style.display = "block";
-    };
+            document.getElementById("riddle-container").style.display = "block";
+        };
 
-    // Game logic
-    const startGame = async () => {
-        updateOutput("Starting the game...");
-        try {
-            const response = await postRequest("/start");
-            updateOutput(response.message);
-            displayRiddle(response.riddle_question, response.riddle_options);
-            document.getElementById("nextButton").style.display = "inline-block";
-        } catch {
-            updateOutput("Error: Unable to start the game!");
-        }
-    };
-
-    const nextStep = async () => {
-        updateOutput("Proceeding to the next step...");
-        try {
-            const response = await postRequest("/next");
-            updateOutput(response.message);
-            document.getElementById("choiceButton").style.display = "inline-block";
-        } catch {
-            updateOutput("Error: Unable to proceed to the next step!");
-        }
-    };
-
-    const makeChoice = async (choice) => {
-        updateOutput(`Making choice ${choice + 1}...`);
-        try {
-            const response = await postRequest("/choice", { choice: choice });
-            updateOutput(response.message);
-            if (response.riddle_question !== "No more riddles left!") {
+        // Function to start the game
+        const startGame = async () => {
+            updateOutput("Starting the game...");
+            try {
+                const response = await postRequest("/start");
+                updateOutput(response.message);
                 displayRiddle(response.riddle_question, response.riddle_options);
-            } else {
-                document.getElementById("riddle-container").style.display = "none";
+                document.getElementById("nextButton").style.display = "inline-block";
+                document.getElementById("startButton").style.display = "none";
+            } catch (error) {
+                console.error("Error starting game:", error);
+                updateOutput("Error: Unable to start the game!");
             }
-        } catch {
-            updateOutput("Error: Unable to make a choice!");
-        }
-    };
+        };
 
-    // Attach event listeners
-    document.getElementById("startButton").addEventListener("click", startGame);
-    document.getElementById("nextButton").addEventListener("click", nextStep);
-</script>
+        // Function to proceed to the next step of the game
+        const nextStep = async () => {
+            updateOutput("Proceeding to the next step...");
+            try {
+                const response = await postRequest("/next");
+                updateOutput(response.message);
+                document.getElementById("choiceButton").style.display = "inline-block";
+            } catch (error) {
+                console.error("Error proceeding to next step:", error);
+                updateOutput("Error: Unable to proceed to the next step!");
+            }
+        };
+
+        // Function to make a choice during the riddle
+        const makeChoice = async (choice) => {
+            updateOutput(`Making choice ${choice + 1}...`);
+            try {
+                const response = await postRequest("/choice", { choice: choice });
+                updateOutput(response.message);
+                document.getElementById("krabby-patties").textContent = `Your Krabby Patties: ${response.krabbyPatties}`;
+                document.getElementById("weapon").textContent = `Your Weapon: ${response.weapon}`;
+                if (response.riddle_question !== "No more riddles left!") {
+                    displayRiddle(response.riddle_question, response.riddle_options);
+                } else {
+                    document.getElementById("riddle-container").style.display = "none";
+                    document.getElementById("choiceButton").style.display = "none";
+                }
+            } catch (error) {
+                console.error("Error making choice:", error);
+                updateOutput("Error: Unable to make a choice!");
+            }
+        };
+    </script>
 </body>
 </html>

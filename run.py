@@ -1,4 +1,4 @@
-import gunicorn
+
 
 gunicorn_opts = {
     'workers': 3,

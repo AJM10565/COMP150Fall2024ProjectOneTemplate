@@ -1,161 +1,245 @@
 import json
 import os
-import random
-from enum import Enum
 from typing import List
 from flask import Flask, render_template, jsonify, request
+import sys
+import random
 
+# Add the location_events directory to the Python path
+sys.path.append(os.path.join(os.path.dirname(__file__), 'location_events'))
 
-# Flask App Initialization
+from location_events.character import Character
+from location_events.game import Game
+from location_events.location import Location
+from location_events.parser import Parser
+from location_events.shop import WeaponShop
+
 app = Flask(__name__, static_folder="static", template_folder="templates")
 
-# Enums and Core Classes
-class EventStatus(Enum):
-    UNKNOWN = "unknown"
-    PASS = "pass"
-    FAIL = "fail"
-    PARTIAL_PASS = "partial_pass"
+# Corrected path to riddles.json
+data_path = os.path.join(os.path.dirname(__file__), "location_events", "data", "riddles.json")
 
-class Statistic:
-    def __init__(self, name: str, value: int = 0, description: str = "", min_value: int = 0, max_value: int = 100):
-        self.name = name
-        self.value = value
-        self.description = description
-        self.min_value = min_value
-        self.max_value = max_value
+# Check if the file exists
+if not os.path.exists(data_path):
+    print(f"Error: The file {data_path} does not exist!")
+else:
+    print(f"Found riddles.json at: {data_path}")
 
-    def modify(self, amount: int):
-        self.value = max(self.min_value, min(self.max_value, self.value + amount))
+# Function to get the file path
+def get_project_file_path(*path_parts):
+    return os.path.join(os.path.dirname(__file__), *path_parts)
 
-    def __str__(self):
-        return f"{self.name}: {self.value}"
+locations_path = get_project_file_path("locations.json")
 
-class Character:
-    def __init__(self, name: str, health: int = 100, strength: int = 10):
-        self.name = name
-        self.health = health
-        self.strength = Statistic("Strength", value=strength, description="Physical power.")
-        self.krabby_patties = 0
-        self.weapon = "None"
+# Initialize game variables
+game = None  # Initialize the game object
+player = None  # Initialize the player character
+parser = Parser()  # Initialize the parser
 
-    def collect_krabby_patties(self, amount: int):
-        self.krabby_patties += amount
+# Initialize riddle variables
+player_riddle_count = 0
+player_krabby_patties = 0
+player_weapon = "None"
 
-    def spend_krabby_patties(self, amount: int) -> bool:
-        if self.krabby_patties >= amount:
-            self.krabby_patties -= amount
-            return True
-        return False
+riddles = [
+    {"question": "What has to be broken before you can use it?", "options": ["Egg", "Window", "Lock"], "answer": 0},
+    {"question": "What is yellow and dangerous?", "options": ["Banana", "Electric Eel", "SpongeBob"], "answer": 1},
+    {"question": "What can travel around the world while staying in the corner?", "options": ["Stamp", "Clock", "SpongeBob"], "answer": 0},
+    {"question": "I’m tall when I’m young and short when I’m old. What am I?", "options": ["Candle", "Tree", "SpongeBob"], "answer": 0},
+    {"question": "What has keys but can’t open locks?", "options": ["Piano", "Lock", "SpongeBob"], "answer": 0},
+]
 
+# Battle stats for Sandy Cheeks
+sandy_health = 100
+player_health = 100
+
+def battle():
+    global sandy_health
+    damage = random.randint(10, 30)  # Player attacks Sandy
+    sandy_health -= damage
+    return sandy_health
+
+def load_locations():
+    """Load locations from a JSON file."""
+    try:
+        with open(locations_path, 'r') as file:
+            location_data = json.load(file)
+            locations = []
+            for location_info in location_data['locations']:
+                if isinstance(location_info, dict):
+                    events = [Event(event_data) for event_data in location_info.get('events', [])]
+                    locations.append(Location(location_info, events))
+                else:
+                    print(f"Invalid data structure in location: {location_info}")
+            return locations
+    except Exception as e:
+        print(f"Error loading locations: {e}")
+        return []
+
+# Event class definition (added back)
+class Event:
+    def __init__(self, event_type):
+        self.event_type = event_type
+        if event_type == "riddle":
+            self.riddle_question = "What has to be broken before you can use it?"
+            self.riddle_options = ["Egg", "Window", "Lock"]
+            self.correct_answer = 0  # Let's say "Egg" is correct
+        elif event_type == "battle":
+            self.riddle_question = "Time to battle!"
+            self.riddle_options = []
+            self.correct_answer = None  # No question for battle
+        elif event_type == "shop":
+            self.riddle_question = "Would you like to buy a weapon?"
+            self.riddle_options = ["Yes", "No"]
+            self.correct_answer = 0  # Assume Yes is the correct answer
+        else:
+            self.riddle_question = None
+            self.riddle_options = []
+            self.correct_answer = None
+
+# Game class
 class Game:
-    def __init__(self, characters: List[Character], riddles: List[dict]):
+    def __init__(self, parser: Parser, characters: List[Character], locations: List[Location]):
+        self.parser = parser
         self.characters = characters
-        self.riddles = riddles  # List of riddles
-        self.used_riddles = set()
-        self.correct_answers = 0
-        self.current_riddle_index = 0  # Track the current riddle being asked
-
-    def get_unused_riddle(self):
-        # Get the next riddle in line (ignoring used riddles)
-        if self.current_riddle_index < len(self.riddles):
-            riddle = self.riddles[self.current_riddle_index]
-            self.current_riddle_index += 1  # Move to the next riddle after this one
-            return riddle
-        return None  # No more riddles left
-
-    def check_answer(self, choice_index: int, riddle: dict):
-        # Check if the player's choice is correct
-        return choice_index == riddle["correct_answer"]
-def start(self):
-     self.introduce_game()
-
-     while self.continue_playing:
-         riddle = self.get_unused_riddle()
-         if not riddle:
-             print("\nYou've solved all available riddles!")
-             self.choose_path()
-             break
-
-         # Start the event (which might be a riddle or other action)
-         event = Event(riddle)  # assuming riddle is structured for Event
-         event.execute(self.party, self.parser)
-         if self.correct_answers >= 3:
-             self.choose_path()
-
-
-# Flask Routes
-player = Character(name="SpongeBob")
-game = None
-
-def initialize_game():
-    global game
-    data_path = os.path.join("data", "riddles.json")
-    if not os.path.exists(data_path):
-        print(f"Error: '{data_path}' not found.")
-        game = None
-    else:
-        with open(data_path, "r") as file:
-            riddles = json.load(file)
-        game = Game([player], riddles)
-
-initialize_game()
-
-@app.route("/")
-def index():
-    return render_template("index.html")
-
-@app.route("/start", methods=["POST"])
-def start():
-    if game is None:
-        return jsonify({"message": "Game not initialized!"}), 500
+        self.locations = locations or self.load_locations()  # Default to loading locations if none are provided
     
-    riddle = game.get_unused_riddle()  # Get a riddle
-    if riddle:
-        return jsonify({
-            "message": "Game started! Good luck in Bikini Bottom!",
-            "riddle_question": riddle["riddle_question"],
-            "riddle_options": riddle["riddle_options"]
-        })
-    else:
-        return jsonify({"message": "No riddles left!"}), 500
+    def load_locations(self):
+        """Load locations from the locations.json file."""
+        try:
+            with open(locations_path, 'r') as file:
+                location_data = json.load(file)
+                locations = []
+                for location_info in location_data:
+                    if isinstance(location_info, dict):  # Ensure location_info is a dictionary
+                        events = [Event(event_data) for event_data in location_info.get('events', [])]
+                        locations.append(Location(location_info, events))
+                    else:
+                        print(f"Invalid data structure in location: {location_info}")  # Debug log
+                return locations
+        except Exception as e:
+            print(f"Error loading locations: {e}")
+            return []
+
+# Set up routes
+@app.route('/')
+def index():
+    global game, player, player_riddle_count, player_krabby_patties, player_weapon, sandy_health, player_health
+    
+    # Reset game state variables for a fresh start
+    player_riddle_count = 0
+    player_krabby_patties = 0
+    player_weapon = "None"
+    sandy_health = 100
+    player_health = 100
+    
+    if game is None:
+        print("Initializing game...")  # Debug message
+        player = Character("SpongeBob")
+        game = Game(parser, [player], load_locations())  # Initialize game with locations
+        print("Game initialized.")  # Debug message
+    
+    # Confirm the template is being rendered
+    print("Rendering index page...")  # Debug message
+    return render_template('index.html', krabbyPatties=player_krabby_patties, weapon=player_weapon)
 
 
+# Routes for game logic
+@app.route("/start", methods=["POST"])
+def start_game():
+    global player_riddle_count
+    # Provide a riddle from the list
+    riddle = riddles[player_riddle_count]
+    return jsonify({
+        "message": "Welcome to the game! Solve riddles to earn Krabby Patties and defeat Mr. Krabs and Sandy Cheeks!",
+        "riddle_question": riddle["question"],
+        "riddle_options": riddle["options"]
+    })
 
 @app.route("/next", methods=["POST"])
 def next_step():
-    if game is None:
-        return jsonify({"message": "Game not initialized!"}), 500
-    return jsonify({"message": "Next step triggered! Check the console for progress."})
-
+    global player_riddle_count
+    if player_riddle_count < 3:
+        player_riddle_count += 1
+        riddle = riddles[player_riddle_count]
+        return jsonify({
+            "message": f"Correct! You have earned Krabby Patties. Your current Krabby Patties: {player_krabby_patties}",
+            "riddle_question": riddle["question"],
+            "riddle_options": riddle["options"]
+        })
+    else:
+        # After 3 riddles, offer a choice
+        return jsonify({
+            "message": "You've solved 3 riddles! What do you want to do next?",
+            "riddle_question": "Choose your action:",
+            "riddle_options": ["Fight Sandy Cheeks", "Upgrade Weapon", "Keep Solving Riddles"]
+        })
 
 @app.route("/choice", methods=["POST"])
 def make_choice():
-    if game is None:
-        return jsonify({"message": "Game not initialized!"}), 500
-    
-    data = request.json
-    choice = data.get("choice", -1)  # The player's answer (index of the option)
-    riddle = game.get_unused_riddle()
-    
-    if riddle:
-        correct_answer = riddle["correct_answer"]
-        if choice == correct_answer:
-            message = "Correct! Well done."
-        else:
-            message = f"Incorrect! Your answer: '{riddle['riddle_options'][choice]}' Try again."
-        
-        # Get next riddle
-        next_riddle = game.get_unused_riddle()
-        if next_riddle:
-            return jsonify({
-                "message": message,
-                "riddle_question": next_riddle["riddle_question"],
-                "riddle_options": next_riddle["riddle_options"]
-            })
-        else:
-            return jsonify({"message": message, "riddle_question": "No more riddles left!"})
+    choice = request.json.get("choice")
+    global player_krabby_patties, player_weapon, sandy_health, player_health
 
-    return jsonify({"message": "Error processing your choice!"}), 500
+    if choice == 0:  # Fight Sandy Cheeks
+        # Battle with Sandy Cheeks
+        battle_message = f"Sandy Cheeks has {sandy_health} health left."
+        while sandy_health > 0 and player_health > 0:
+            sandy_health = battle()  # Player attacks Sandy
+            player_health -= random.randint(5, 20)  # Sandy attacks player
+            battle_message += f" You attack and deal damage! Your health: {player_health}, Sandy's health: {sandy_health}."
+            if sandy_health <= 0:
+                return jsonify({
+                    "message": f"You defeated Sandy Cheeks! Your remaining health: {player_health}.",
+                    "krabby_patties": player_krabby_patties,
+                    "weapon": player_weapon
+                })
+            if player_health <= 0:
+                return jsonify({
+                    "message": "You were defeated by Sandy Cheeks. Try again!",
+                    "krabby_patties": player_krabby_patties,
+                    "weapon": player_weapon
+                })
+        return jsonify({
+            "message": battle_message,
+            "krabby_patties": player_krabby_patties,
+            "weapon": player_weapon
+        })
+    elif choice == 1:  # Upgrade Weapon
+        # Weapon upgrade logic
+        player_weapon = "Laser Gun"  # For example
+        return jsonify({
+            "message": f"You upgraded your weapon to {player_weapon}!",
+            "krabby_patties": player_krabby_patties,
+            "weapon": player_weapon
+        })
+    elif choice == 2:  # Keep solving riddles
+        # Solve another riddle
+        riddle = riddles[player_riddle_count]
+        return jsonify({
+            "message": "Solving more riddles...",
+            "riddle_question": riddle["question"],
+            "riddle_options": riddle["options"]
+        })
 
-if __name__ == "__main__":
+@app.route("/solve_riddle", methods=["POST"])
+def solve_riddle():
+    global player_krabby_patties
+    answer = request.json.get("answer")
+    riddle = riddles[player_riddle_count]
+
+    if answer == riddle["answer"]:
+        player_krabby_patties += 10  # Earn Krabby Patties
+        return jsonify({
+            "message": f"Correct! You earned 10 Krabby Patties. Your total: {player_krabby_patties}",
+            "riddle_question": riddle["question"],
+            "riddle_options": riddle["options"]
+        })
+    else:
+        return jsonify({
+            "message": "Incorrect! Try again.",
+            "riddle_question": riddle["question"],
+            "riddle_options": riddle["options"]
+        })
+
+if __name__ == '__main__':
     app.run(debug=True)
