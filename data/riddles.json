@@ -1,0 +1,87 @@
+[
+  {
+    "riddle_question": "What has to be broken before you can use it?",
+    "riddle_options": ["1. Egg", "2. Window", "3. Lock"],
+    "correct_answer": 0
+  },
+  {
+    "riddle_question": "What has keys, but no locks; space, but no room; and you can enter, but not go in?",
+    "riddle_options": ["1. A keyboard", "2. A map", "3. A phone"],
+    "correct_answer": 0
+  },
+  {
+    "riddle_question": "What gets wetter and wetter the more it dries?",
+    "riddle_options": ["1. A towel", "2. A sponge", "3. A cloth"],
+    "correct_answer": 0
+  },
+  {
+    "riddle_question": "What has a head and a tail but no body?",
+    "riddle_options": ["1. A coin", "2. A snake", "3. A worm"],
+    "correct_answer": 0
+  },
+  {
+    "riddle_question": "What is full of holes but still holds water?",
+    "riddle_options": ["1. A sponge", "2. A bucket", "3. A bottle"],
+    "correct_answer": 0
+  },
+  {
+    "riddle_question": "What can travel around the world while staying in a corner?",
+    "riddle_options": ["1. A stamp", "2. A globe", "3. A map"],
+    "correct_answer": 0
+  },
+  {
+    "riddle_question": "What has cities, but no houses; forests, but no trees; and rivers, but no water?",
+    "riddle_options": ["1. A map", "2. A globe", "3. A picture"],
+    "correct_answer": 0
+  },
+  {     "riddle_question": "What has words, but never speaks?",
+    "riddle_options": ["1. A book", "2. A clock", "3. A mirror"],
+    "correct_answer": 0
+  },
+  {
+    "riddle_question": "I speak without a mouth and hear without ears. I have no body, but I come alive with the wind. What am I?",
+    "riddle_options": ["1. An echo", "2. A shadow", "3. A wave"],
+    "correct_answer": 0
+  },
+  {
+    "riddle_question": "What is so fragile that saying its name breaks it?",
+    "riddle_options": ["1. Silence", "2. Glass", "3. Trust"],
+    "correct_answer": 0
+  },
+  {
+    "riddle_question": "What has many teeth but cannot bite?",
+    "riddle_options": ["1. A comb", "2. A zipper", "3. A saw"],
+    "correct_answer": 0
+  },
+  {
+    "riddle_question": "What begins with T, ends with T, and has T in it?",
+    "riddle_options": ["1. A teapot", "2. A tent", "3. A turtle"],
+    "correct_answer": 0
+  },
+  {
+    "riddle_question": "The more you take, the more you leave behind. What am I?",
+    "riddle_options": ["1. Footsteps", "2. Memories", "3. Time"],
+    "correct_answer": 0
+  },
+  {
+    "riddle_question": "What can you catch but not throw?",
+    "riddle_options": ["1. A cold", "2. A ball", "3. A fish"],
+    "correct_answer": 0
+  },
+  {
+    "riddle_question": "I can fly without wings. I can cry without eyes. Wherever I go, darkness flies. What am I?",
+    "riddle_options": ["1. A cloud", "2. A bat", "3. A comet"],
+    "correct_answer": 0
+  },
+  {
+    "riddle_question": "What runs around the yard without moving?",
+    "riddle_options": ["1. A fence", "2. A garden", "3. A sprinkler"],
+    "correct_answer": 0
+  },
+  {
+    "riddle_question": "What can fill a room but takes up no space?",
+    "riddle_options": ["1. Light", "2. Air", "3. Sound"],
+    "correct_answer": 0
+  }
+
+]

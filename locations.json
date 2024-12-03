@@ -1,0 +1,45 @@
+
+{
+    "locations": [
+      {
+        "name": "Krusty Krab",
+        "description": "The most popular fast-food joint in Bikini Bottom. Mr. Krabs guards the secret formula here.",
+        "events": [
+          "shop",
+          "battle"  
+        ],
+        "connections": [
+          "Jellyfish Fields",
+          "Sandy's Treedome"
+        ],
+        "image": "https://eatatthekrustykrab.wordpress.com/wp-content/uploads/2018/04/interior-2.jpg"  
+      },
+      {
+        "name": "Jellyfish Fields",
+        "description": "A vast field teeming with jellyfish.",
+        "events": [
+          "riddle",
+          "battle"  
+          
+        ],
+        "connections": [
+          "Krusty Krab",
+          "Bikini Bottom"
+        ],
+        "image": "https://static.wikia.nocookie.net/spongebob/images/a/a6/Squirrel_Jelly_058.png/revision/latest?cb=20181118154030"
+      },
+      {
+        "name": "Sandy's Treedome",
+        "description": "A futuristic dome where Sandy Cheeks lives. She's a tough opponent!",
+        "events": [
+          "riddle",
+          "battle" 
+        ],
+        "connections": [
+          "Krusty Krab",
+          "Bikini Bottom"
+        ],
+        "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTVQxio6C8b3Fb7ifMAtK-iN7uuHbP5EpV01Q&s"
+      }
+    ]
+  }

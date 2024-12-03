@@ -27,18 +27,62 @@ class Statistic:
         self.value = max(self.min_value, min(self.max_value, self.value + amount))
 
 
+class Inventory:
+    def __init__(self):
+        self.items = {}
+
+    def add_item(self, item: str, quantity: int = 1):
+        if item in self.items:
+            self.items[item] += quantity
+        else:
+            self.items[item] = quantity
+
+    def use_item(self, item: str):
+        if item in self.items and self.items[item] > 0:
+            self.items[item] -= 1
+            return True
+        return False
+
+
 class Character:
-    def __init__(self, name: str = "Bob"):
+    def __init__(self, name: str, character_class: str):
         self.name = name
-        self.strength = Statistic("Strength", description="Strength is a measure of physical power.")
-        self.intelligence = Statistic("Intelligence", description="Intelligence is a measure of cognitive ability.")
-        # Add more stats as needed
+        self.character_class = character_class
+        self.strength = 0
+        self.inventory = Inventory()
+
+    def collect_krabby_patties(self, count: int):
+        self.strength += count
+        self.inventory.add_item('Krabby Patty', count)
 
     def __str__(self):
-        return f"Character: {self.name}, Strength: {self.strength}, Intelligence: {self.intelligence}"
+        return f"{self.character_class}: {self.name}, Strength: {self.strength}, Inventory: {self.inventory.items}"
 
-    def get_stats(self):
-        return [self.strength, self.intelligence]  # Extend this list if there are more stats
+
+class Cook(Character):
+    def __init__(self, name: str):
+        super().__init__(name, "Cook")
+
+
+class Cashier(Character):
+    def __init__(self, name: str):
+        super().__init__(name, "Cashier")
+
+
+class Manager(Character):
+    def __init__(self, name: str):
+        super().__init__(name, "Manager")
+
+
+class Customer(Character):
+    def __init__(self, name: str):
+        super().__init__(name, "Customer")
+
+
+class Weapon:
+    def __init__(self, name: str, damage: int):
+        self.name = name
+        self.damage = damage
 
 
 class Event:
@@ -77,24 +121,33 @@ class Location:
         return random.choice(self.events)
 
 
-class Game:
-    def __init__(self, parser, characters: List[Character], locations: List[Location]):
-        self.parser = parser
-        self.party = characters
-        self.locations = locations
-        self.continue_playing = True
+class Combat:
+    def __init__(self, player: Character, enemy: Character):
+        self.player = player
+        self.enemy = enemy
 
-    def start(self):
-        while self.continue_playing:
-            location = random.choice(self.locations)
-            event = location.get_event()
-            event.execute(self.party, self.parser)
-            if self.check_game_over():
-                self.continue_playing = False
-        print("Game Over.")
+    def start_battle(self):
+        while self.player.strength > 0 and self.enemy.strength > 0:
+            # For simplicity, let's assume both deal random damage
+            player_damage = random.randint(1, 5)
+            enemy_damage = random.randint(1, 5)
+            self.enemy.strength -= player_damage
+            self.player.strength -= enemy_damage
 
-    def check_game_over(self):
-        return len(self.party) == 0
+            print(f"{self.player.name} attacks {self.enemy.name} for {player_damage} damage!")
+            print(f"{self.enemy.name} attacks {self.player.name} for {enemy_damage} damage!")
+            print(f"{self.player.name}'s strength: {self.player.strength}, {self.enemy.name}'s strength: {self.enemy.strength}")
+
+        if self.player.strength > 0:
+            print(f"{self.player.name} has defeated {self.enemy.name}!")
+            reward_krabby_patties(self.player, 5)  # Reward after defeating the enemy
+        else:
+            print(f"{self.player.name} has been defeated!")
+
+
+def reward_krabby_patties(character: Character, count: int):
+    character.collect_krabby_patties(count)
+    print(f"{character.name} gained {count} Krabby Patties!")
 
 
 class UserInputParser:
@@ -125,7 +178,7 @@ def load_events_from_json(file_path: str) -> List[Event]:
 
 def start_game():
     parser = UserInputParser()
-    characters = [Character(f"Character_{i}") for i in range(3)]
+    characters = [Cook("SpongeBob"), Cashier("Squidward"), Manager("Mr. Krabs")]
 
     # Load events from the JSON file
     events = load_events_from_json('project_code/location_events/location_1.json')
@@ -133,6 +186,28 @@ def start_game():
     locations = [Location(events)]
     game = Game(parser, characters, locations)
     game.start()
+
+
+class Game:
+    def __init__(self, parser, characters: List[Character], locations: List[Location]):
+        self.parser = parser
+        self.party = characters
+        self.locations = locations
+        self.continue_playing = True
+
+    def start(self):
+        while self.continue_playing:
+            location = random.choice(self.locations)
+            event = location.get_event()
+            event.execute(self.party, self.parser)
+
+            if self.check_game_over():
+                self.continue_playing = False
+
+        print("Game Over.")
+
+    def check_game_over(self):
+        return len(self.party) == 0
 
 
 if __name__ == '__main__':
